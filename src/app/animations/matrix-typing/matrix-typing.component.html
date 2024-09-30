@@ -1,0 +1,13 @@
+<div class="overlay">
+  <p id="wake-up" [class.fade-out]="showMatrixText || fadeAllText">
+    {{ wakeUpText }}
+  </p>
+  <br />
+  <p
+    id="the-matrix"
+    [class.fade-in]="showMatrixText"
+    [class.fade-out]="fadeAllText"
+  >
+    {{ matrixText }}
+  </p>
+</div>

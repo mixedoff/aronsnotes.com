@@ -1,0 +1,18 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #080a19;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+  transition: opacity 500ms ease-out 500ms;
+}
+
+/* Class to trigger the dissolve animation */
+.dissolve-active {
+  opacity: 1;
+  pointer-events: auto;
+}

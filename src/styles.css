@@ -1,1 +1,192 @@
-/* You can add global styles to this file, and also import other style files */
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  /* height: 100%;
+  width: 100%; */
+  box-sizing: border-box;
+  background: var(
+    --bg,
+    url(./assets/img/circle-blues.png) lightgray 0% 0% / 300px 300px repeat
+  );
+}
+
+img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* Center images by default */
+  border: 8px solid #6f7a83;
+  padding: 20px;
+  box-shadow: 4px 4px 0px 0px #000;
+  background: white;
+}
+
+img.noPadding {
+  padding: 0px;
+}
+
+/* Fonts */
+h1 {
+  font-family: "IBM Plex Mono";
+  font-size: 6rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 6rem; /* 100% */
+  letter-spacing: -0.18rem;
+  color: #080a19;
+  background: none;
+  margin-top: 1.5rem;
+}
+
+h2 {
+  font-family: "IBM Plex Mono";
+  font-size: 3.5rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 4rem;
+  letter-spacing: -0.1rem;
+  color: #080a19;
+  background: none;
+}
+
+h3 {
+  font-family: "IBM Plex Mono";
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 3rem;
+  letter-spacing: -0.05rem;
+  color: #080a19;
+  background: none;
+}
+
+p {
+  font-family: "IBM Plex Mono";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem; /* 140% */
+  letter-spacing: -0.0125rem;
+  color: #080a19;
+  background: none;
+}
+
+small {
+  font-family: "IBM Plex Mono";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem; /* 142.857% */
+  letter-spacing: -0.00875rem;
+  color: #080a19;
+  background: none;
+}
+
+a {
+  background: none;
+  color: #010689;
+}
+
+blockquote {
+  font-family: "IBM Plex Mono";
+  font-size: 1.25rem;
+  /* font-style: italic; */
+  font-weight: 500;
+  line-height: 2rem; /* 133% */
+  letter-spacing: -0.0125rem;
+  color: #080a19;
+  /* background: #6f7a83; */
+  background: none;
+  border-left: 2.5px solid #080a19;
+  padding-left: 1rem;
+}
+
+code {
+  font-family: "IBM Plex Mono";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem; /* 150% */
+  letter-spacing: 0.02rem;
+  color: #e83e8c; /* Adjust color as needed */
+  background: #f8f9fa; /* Light background for readability */
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+ul,
+ol {
+  font-family: "IBM Plex Mono";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem; /* 140% */
+  letter-spacing: -0.0125rem;
+  color: #080a19;
+  background: none;
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+li {
+  background: none;
+  margin-bottom: 0.5rem;
+}
+
+strong {
+  background: none;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 3rem;
+    line-height: 3rem;
+  }
+  h2 {
+    font-size: 2rem;
+    line-height: 2rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+  }
+  p {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    letter-spacing: -0.0125rem;
+  }
+  blockquote {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    letter-spacing: -0.0125rem;
+  }
+
+  ul,
+  ol,
+  li {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    letter-spacing: -0.0125rem;
+  }
+}
+
+/* Containers */
+
+/* .small-container {
+  max-width: 600px;
+  margin: 40px auto;
+  overflow: hidden;
+  padding: 20px;
+  background: #6f7a83;
+  box-shadow: 10px 10px 0px 0px #000;
+} */
+/* 
+.small-container p {
+  color: white;
+}
+
+.small-container small {
+  color: white;
+} */

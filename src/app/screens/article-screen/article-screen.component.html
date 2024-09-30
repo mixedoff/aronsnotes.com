@@ -1,0 +1,11 @@
+<div class="heroDiv">
+  <app-article-container class="article"></app-article-container>
+  <!-- <app-article-container
+  (ArticleClickedFromGrandchild)="onArticleClickedFromParent()"
+  ></app-article-container> -->
+  <app-article-top-nav
+    (clickConnect)="clickConnectOnChild()"
+    (clickMenu)="clickMenuOnChild()"
+  ></app-article-top-nav>
+  <app-bottom-nav (menuClicked)="clickMenuOnChild()"></app-bottom-nav>
+</div>

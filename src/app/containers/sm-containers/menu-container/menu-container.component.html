@@ -1,0 +1,41 @@
+<div class="outer-container">
+  <div class="small-div">
+    <small>explore</small>
+  </div>
+  <div class="inner-container">
+    <p (click)="openSubmenuOverlay('code')">Code</p>
+    <p (click)="openSubmenuOverlay('UX')">UX</p>
+    <p (click)="openSubmenuOverlay('UI')">UI</p>
+    <p (click)="openSubmenuOverlay('marketing')" class="disabled">Marketing</p>
+    <p (click)="openSubmenuOverlay('business')" class="disabled">Business</p>
+    <br />
+    <p (click)="onConnect()">About</p>
+    <p (click)="onQuit()">Quit the game</p>
+  </div>
+</div>
+
+@if (showSubmenu) {
+<div class="second-outer-container">
+  <div class="small-div">
+    <small>{{ currentLabel }}</small>
+  </div>
+  <div class="second-inner-container">
+    @for (article of articles; track article.id) { @if (article.folder ===
+    currentLabel) {
+    <p (click)="openArticle(article)">{{ article.title }}</p>
+    }}
+    <br />
+    <p (click)="closeSubmenu()">Back</p>
+  </div>
+</div>
+}
+<!-- @if (showArticleContent) {
+<app-article-top-nav></app-article-top-nav>
+<app-article-container
+  [folder]="selectedArticle?.folder"
+  [date]="selectedArticle?.date"
+  [title]="selectedArticle?.title"
+  [subtitle]="selectedArticle?.subtitle"
+  [content]="selectedArticle?.content"
+></app-article-container>
+} -->

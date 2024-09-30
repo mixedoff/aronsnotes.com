@@ -1,0 +1,33 @@
+<div class="outer-container">
+  <div class="small-div">
+    <!-- <small>{{ selectedArticle?.folder }}</small> -->
+    <small>{{ selectedArticle?.title }}</small>
+    <small>&#64;</small>
+    <small>{{ selectedArticle?.date }}</small>
+  </div>
+  <div class="inner-container">
+    <div class="title">
+      <h1>{{ selectedArticle?.title }}</h1>
+    </div>
+    <div class="title">
+      <p>{{ selectedArticle?.subtitle }}</p>
+    </div>
+    <div class="horizontal-rule"></div>
+    <div class="article-body" [innerHtml]="selectedArticle?.content"></div>
+  </div>
+  <div class="small-div">
+    <small id="upvotes">upvotes: 2</small>
+    <div class="tag-holder">
+      @for (tag of selectedArticle?.tags ?? []; track tag) {
+      <small>#{{ tag }}</small>
+      } @empty {
+      <small>N/A</small>
+      }
+      <!-- <small>{{
+        selectedArticle?.tags && selectedArticle!.tags.length > 0
+          ? "#" + selectedArticle!.tags[0]
+          : ""
+      }}</small> -->
+    </div>
+  </div>
+</div>

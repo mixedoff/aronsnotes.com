@@ -1,0 +1,11 @@
+<app-top-nav></app-top-nav>
+
+<div class="heroDiv">
+  <!-- <p class="question">What makes a world-class App?</p> -->
+  <app-menu-container
+    (selectedArticle)="onChildClickArticle($event)"
+    (clickConnect)="clickConnectOnChild()"
+    (clickQuit)="clickQuitOnChild()"
+  ></app-menu-container>
+</div>
+<app-bottom-nav></app-bottom-nav>
