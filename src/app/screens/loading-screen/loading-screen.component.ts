@@ -1,13 +1,6 @@
 import { Component, Output, HostBinding } from '@angular/core';
 import { InfoContainerComponent } from '../../containers/sm-containers/info-container/info-container.component';
 import { LabelContainerComponent } from '../../containers/lg-containers/label-container/label-container.component';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
 import { DissolveToBlackComponent } from '../../animations/dissolve-to-black/dissolve-to-black.component';
 import { TopNavComponent } from '../../nav/top-nav/top-nav.component';
 
