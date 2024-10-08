@@ -18,7 +18,7 @@ export interface Article {
   providedIn: 'root',
 })
 export class ArticleService {
-  private articles: Article[] = [article1, article2, article3, article4];
+  private articles: Article[] = [article4, article3, article2, article1];
 
   getArticles(): Article[] {
     return this.articles;

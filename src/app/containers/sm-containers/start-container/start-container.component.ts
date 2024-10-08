@@ -37,8 +37,10 @@ export class StartContainerComponent {
   private startColorChange(): void {
     this.intervalId = window.setInterval((): void => {
       const textElement = document.getElementById('text');
-      if (textElement) {
+      const divElement = document.getElementById('inner-container');
+      if (textElement && divElement) {
         textElement.style.color = this.isRed ? 'white' : '#6ffa1e';
+        divElement.style.borderColor = this.isRed ? 'white' : '#6ffa1e';
         this.isRed = !this.isRed;
       }
     }, 600);

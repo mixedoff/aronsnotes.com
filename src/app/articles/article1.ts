@@ -2,8 +2,8 @@ export const article1 = {
   id: 1,
   date: '05.08.2023',
   folder: 'UX',
-  title: 'UX Mastercourse',
-  subtitle: 'UX-research and UX-design a career planning webapp',
+  title: 'CareeVerz UX',
+  subtitle: '',
   tags: ['UXResearch', 'UXDesign'],
   content: `
 <h2>summary</h2>
@@ -20,7 +20,7 @@ of not just the product built but also the ux abstractions.</p>
 <p>We followed the classic double diamond model, but with an agile twist. We researched, analyzed, created and validated not just on a macro level but on a micro too. It's because we needed as much feedback from users and reality as often and as quickly as possible.</p>
 <br>
 <br>
-<img src="./assets/img/article1/double-diamond.png">
+<img src="./assets/img/article1/double-diamond.png" >
 <br>
       <p>RESEARCH PHASE</p>
       <p>core problem</p>
@@ -159,21 +159,21 @@ of not just the product built but also the ux abstractions.</p>
   Against our secondary research almost all of the interviewed users (9 out of 12) said that purpose in their career is more important than money. This was a huge surprise for us, but nevertheless an important piece of the puzzle and a good sign that career does matter to Gen Z.
 </p>
 <br>
-<img src="./assets/img/article1/affinity-mapping.png">
+<img src="./assets/img/article1/affinity-mapping.png" class="whiteBoard">
 <br>
 <h2>insights from interviews</h2>
 <p>
 Another important part were a general set of bad experiences throughout early schooling up until the university (for some even then) which resulted in bad faith for the institutions but more importantly that resulted in short term strategy where users plan for 1-2 years ahead and some even try to postpone serious decisions as much as they could. An example below:
 </p>
 <br>
-<img src="./assets/img/article1/insight1.png">
+<img src="./assets/img/article1/insight1.png" class="whiteBoard">
 <br>
 <h2>behavioural variables</h2>
 <p>
   It became truly clear through the behavioral variables who our typical user is.
 </p>
 <br>
-<img src="./assets/img/article1/behavioural-variable.png">
+<img src="./assets/img/article1/behavioural-variable.png" class="whiteBoard">
 <br>
 <h2>persona</h2>
 <p>
@@ -193,7 +193,7 @@ Another important part were a general set of bad experiences throughout early sc
   Two of our key competitors (in the US market) were US Onet and CareerExplorer. We examined their information architecture and tested the tools they offered. Combining the best of both, plus creating a superb UX, would be our competitive advantage.
 </p>
 <br>
-<img src="./assets/img/article1/best-practice.png">
+<img src="./assets/img/article1/best-practice.png" class="whiteBoard">
 <br>
 <br>
 <h2>site map</h2>
@@ -201,7 +201,7 @@ Another important part were a general set of bad experiences throughout early sc
   Low and behold our sitemap, which is useful for development but also for us to see user rights at a glance.
 </p>
 <br>
-<img src="./assets/img/article1/site-map.png">
+<img src="./assets/img/article1/site-map.png" class="whiteBoard">
 <br>
 <h2>design system</h2>
 <p>
