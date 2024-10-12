@@ -3,8 +3,6 @@
     <small>about</small>
   </div>
   <div class="inner-container">
-    <p id="about-text" [class.fade-in]="typeText">
-      {{ aboutText }}
-    </p>
+    <div id="about-text" [innerHTML]="aboutText" style="background: none"></div>
   </div>
 </div>

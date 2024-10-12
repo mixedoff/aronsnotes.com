@@ -35,3 +35,25 @@
     font-size: smaller;
   }
 }
+
+:root {
+  --flick: cubic-bezier(0.36, 2.09, 0.07, -1.52);
+}
+
+.grey-div p {
+  transition: color 0.15s var(--flick);
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    color: initial;
+  }
+  50% {
+    color: #fff;
+  }
+}
+
+.flicker {
+  animation: flicker 0.3s var(--flick) 3;
+}
