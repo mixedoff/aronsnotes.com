@@ -19,6 +19,8 @@ export class AboutContainerComponent implements OnInit {
     <p>Aronsnotes.com is my effort to dive deep in technical topics on making great WebApps.</p>
     <br>
     <p>I would love to connect: <a href="mailto:apple.aron@gmail.com">apple.aron@gmail.com</a></p>
+    <br>
+    <p>aronsnotes.com is designed and developed by me check out the code on <a href="https://github.com/mixedoff/aronsnotes.com" target="_blank">Github</a></p>
   `;
 
   ngOnInit() {
