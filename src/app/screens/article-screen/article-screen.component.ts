@@ -22,6 +22,18 @@ export class ArticleScreenComponent {
   @Output() ArticleClickedFromParent = new EventEmitter<Article | undefined>();
   @Output() connectClickedOnChild = new EventEmitter<boolean>();
   @Output() menuClickedOnChild = new EventEmitter<boolean>();
+  @Output() shiftC = new EventEmitter<boolean>();
+  @Output() shiftM = new EventEmitter<boolean>();
+
+  pressedShiftCOnChild() {
+    this.shiftC.emit(true);
+    console.log('shiftC emitted');
+  }
+
+  pressedShiftMOnChild() {
+    this.shiftM.emit(true);
+    console.log('shiftM emitted');
+  }
 
   onArticleClickedFromParent(article: Article | undefined) {
     this.ArticleClickedFromParent.emit(article);

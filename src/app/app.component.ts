@@ -90,6 +90,18 @@ export class AppComponent {
     this.showAboutScreen = true;
   }
 
+  onGrandchildShiftC() {
+    this.showMainMenuScreen = false;
+    this.showArticleScreen = false;
+    this.showAboutScreen = true;
+  }
+
+  onGrandchildShiftM() {
+    this.showMainMenuScreen = true;
+    this.showArticleScreen = false;
+    this.showAboutScreen = false;
+  }
+
   onGrandchildMenuClick() {
     this.showMainMenuScreen = true;
     this.showArticleScreen = false;

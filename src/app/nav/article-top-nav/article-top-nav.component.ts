@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Component({
   selector: 'app-article-top-nav',
@@ -10,6 +10,19 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class ArticleTopNavComponent {
   @Output() clickConnect = new EventEmitter<boolean>();
   @Output() clickMenu = new EventEmitter<boolean>();
+  @Output() shiftC = new EventEmitter<void>();
+  @Output() shiftM = new EventEmitter<void>();
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.code === 'KeyC' && event.shiftKey) {
+      console.log('Shift + C');
+      this.shiftC.emit();
+    } else if (event.code === 'KeyM' && event.shiftKey) {
+      console.log('Shift + M');
+      this.shiftM.emit();
+    }
+  }
   onUpvote() {
     throw new Error('Method not implemented.');
   }
