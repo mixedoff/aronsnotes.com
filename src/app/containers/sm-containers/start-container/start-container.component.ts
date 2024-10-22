@@ -19,6 +19,10 @@ export class StartContainerComponent {
       this.enterPressed.emit();
     }
   }
+
+  onEnter() {
+    this.enterPressed.emit();
+  }
   // event: { $event: any } | undefined;
   // onEnter($event: { $event: any } | undefined) {
   //   this.enterPressed.emit($event);

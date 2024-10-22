@@ -28,3 +28,13 @@
 p {
   color: #6ffa1e;
 } */
+
+.enter-text {
+  background: none;
+}
+
+@media (max-width: 768px) {
+  .enter-text {
+    display: none;
+  }
+}

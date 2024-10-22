@@ -12,7 +12,7 @@ export class AboutContainerComponent implements OnInit {
   showAboutText = false;
   aboutText = '';
   private aboutFullText = `
-    <h1>Hey, my name is Aron.</h1>
+    <h1 class="mt-1">Hey, my name is Aron.</h1>
     <br>
     <p>I am a Front-end Developer / UX and UI designer / Product manager currently working on my own startup at CareeVerz.com.</p>
     <br>
@@ -20,7 +20,7 @@ export class AboutContainerComponent implements OnInit {
     <br>
     <p>I would love to connect: <a href="mailto:apple.aron@gmail.com">apple.aron@gmail.com</a></p>
     <br>
-    <p>This site is designed and developed by me check out the code on <a href="https://github.com/mixedoff/aronsnotes.com" target="_blank">Github</a></p>
+    <p>The site is designed and developed by me. Check out the code on <a href="https://github.com/mixedoff/aronsnotes.com" target="_blank">Github</a></p>
   `;
 
   ngOnInit() {
