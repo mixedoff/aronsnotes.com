@@ -11,7 +11,12 @@
 
 p {
   color: #6ffa1e;
-  margin: 4rem;
+  margin-top: 4rem;
+  margin-left: 4rem;
+}
+
+#the-matrix {
+  margin-top: 0rem;
 }
 
 #wake-up {
@@ -37,4 +42,14 @@ p {
 
 #the-matrix.fade-out {
   opacity: 0;
+}
+
+@media (max-width: 768px) {
+  p {
+    margin-top: 2rem;
+    margin-left: 2rem;
+  }
+  #the-matrix {
+    margin-top: 0rem;
+  }
 }

@@ -104,13 +104,21 @@ p {
 
 p.article {
   font-family: "IBM Plex Mono";
-  font-size: 1.25rem; /* This is a good size for readability */
   font-style: normal;
-  font-weight: 500; /* Medium weight for clarity without being too bold */
-  line-height: 1.6; /* Adjusted for better spacing between lines (160%) */
-  letter-spacing: 0; /* Remove negative letter-spacing for clearer text */
+  font-weight: 500;
+  letter-spacing: 0;
   color: #080a19;
   background: none;
+
+  /* Desktop styles */
+  font-size: 1.25rem;
+  line-height: 1.6;
+
+  /* Mobile styles */
+  @media screen and (max-width: 768px) {
+    font-size: 1rem; /* Slightly smaller for mobile */
+    line-height: 1.5; /* Tighter line height for mobile */
+  }
 }
 
 p.mb-2 {
