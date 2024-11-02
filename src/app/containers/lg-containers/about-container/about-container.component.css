@@ -34,13 +34,17 @@ p {
   width: 100%;
   height: 100%;
   display: flex;
-  padding: 20px;
+  padding: 20px 40px;
   flex-direction: column;
   align-items: flex-start;
   flex: 1 0 0;
   align-self: stretch;
   border: 2px solid var(--Neutral1, #080a19);
   background: var(--Neutral3, #c6c8c8);
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 }
 
 .small-div {

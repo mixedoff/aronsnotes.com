@@ -3,6 +3,7 @@ import { article1 } from './articles/article1';
 import { article2 } from './articles/article2';
 import { article3 } from './articles/article3';
 import { article4 } from './articles/article4';
+import { article5 } from './articles/article5';
 
 export interface Article {
   id: number;
@@ -18,7 +19,13 @@ export interface Article {
   providedIn: 'root',
 })
 export class ArticleService {
-  private articles: Article[] = [article4, article3, article2, article1];
+  private articles: Article[] = [
+    article5,
+    article4,
+    article3,
+    article2,
+    article1,
+  ];
 
   getArticles(): Article[] {
     return this.articles;

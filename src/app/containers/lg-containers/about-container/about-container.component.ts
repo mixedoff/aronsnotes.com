@@ -14,7 +14,7 @@ export class AboutContainerComponent implements OnInit {
   private aboutFullText = `
     <h1 class="mt-1">Hey, I'm Aron.</h1>
     <br>
-    <p>I am a Front-end Developer / UX and UI designer / Product manager currently working on a startup at <a href="careeverz.com">CareeVerz.com</a></p> .
+    <p>I am a Front-end Developer / UX and UI designer / Product manager currently working on a startup at <a href="careeverz.com">CareeVerz.com</a></p>
     <br>
     <p>Aronsnotes.com is my effort to dive deep into technical topics on making great WebApps.</p>
     <br>

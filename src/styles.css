@@ -11,6 +11,12 @@
   );
 }
 
+/* html,
+body {
+  height: 100%;
+  width: 100%;
+} */
+
 img {
   width: auto;
   max-width: 100%;
@@ -84,11 +90,12 @@ h6 {
   font-family: "IBM Plex Mono";
   font-size: 1.25rem;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 2rem;
   letter-spacing: -0.0125rem;
   color: #080a19;
   background: none;
+  margin-top: 2rem;
 }
 
 p {
@@ -161,16 +168,30 @@ blockquote {
 }
 
 code {
+  display: block;
+  background: #000000;
   font-family: "IBM Plex Mono";
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 1.5rem; /* 150% */
+  line-height: 1.5rem;
   letter-spacing: 0.02rem;
-  color: #e83e8c; /* Adjust color as needed */
-  background: #f8f9fa; /* Light background for readability */
+  color: #6ffa1e;
   padding: 0.2rem 0.4rem;
-  border-radius: 4px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+code::selection {
+  background-color: rgba(
+    111,
+    250,
+    30,
+    0.2
+  ); /* Green background on text select */
 }
 
 ul,
