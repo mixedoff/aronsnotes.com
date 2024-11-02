@@ -29,5 +29,7 @@ git push  # Push to GitHub</code></pre>
     <blockquote>
       Note: Regularly push changes with clear commit messages for easier tracking and reverting (if needed)
     </blockquote>
+
+    <br />
   `,
 };

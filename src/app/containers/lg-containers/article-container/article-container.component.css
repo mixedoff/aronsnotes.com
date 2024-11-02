@@ -6,27 +6,6 @@ p {
   color: #080a19;
 }
 
-/* pre {
-  width: 100%;
-  max-width: 100%;
-  margin: 1rem 0;
-  background: none;
-  overflow-x: auto;
-  box-sizing: border-box;
-}
-
-code {
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  box-sizing: border-box;
-  white-space: pre-wrap;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.9rem;
-  word-wrap: break-word;
-  word-break: break-all;
-} */
-
 .horizontal-rule {
   background: none;
   border: none;
@@ -73,7 +52,7 @@ code {
   /* background: white; */
   background: var(--Neutral3, #c6c8c8);
   overflow: auto;
-  overflow-x: hidden; /* Add this line */
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -111,7 +90,9 @@ code {
   max-height: 100%;
   /* overflow: auto; */
   background: none;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  @media (min-width: 650px) {
+    overflow-x: hidden;
+  }
 }
 
 #upvotes {
