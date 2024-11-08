@@ -34,7 +34,7 @@
 .small-div {
   display: flex;
   width: 100%;
-  flex-direction: flex-start;
+  justify-content: space-between;
   background: none;
 }
 
@@ -120,4 +120,12 @@ p.disabled:hover {
     line-height: 1.75rem;
     letter-spacing: -0.0125rem;
   }
+}
+
+.article-title {
+  white-space: nowrap; /* Keep text in a single line */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+  max-width: 100%; /* Ensure it doesn't overflow container */
+  cursor: pointer; /* Optional: shows it's clickable */
 }

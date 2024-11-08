@@ -50,7 +50,7 @@ p {
 .small-div {
   display: flex;
   width: 100%;
-  flex-direction: flex-start;
+  justify-content: space-between;
   background: none;
 }
 

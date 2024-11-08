@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Article, ArticleService } from '../../../article.service';
 import { Subscription } from 'rxjs';
 import { ArticleStateService } from '../../../article.service.state';
@@ -12,15 +12,17 @@ import { ImageHolderComponent } from '../../../image-holder/image-holder.compone
   styleUrl: './article-container.component.css',
 })
 export class ArticleContainerComponent {
-  // @Input() selectedArticle: Article | undefined;
-  // @Input() date: string | undefined = undefined;
-  // @Input() folder: string | undefined = undefined;
-  // @Input() title: string | undefined = undefined;
-  // @Input() subtitle: string | undefined = undefined;
-  // @Input() content: string | undefined = undefined;
+  @Output() closeClicked = new EventEmitter<boolean>();
+
   selectedArticle: Article | undefined = undefined;
   showArticleContent: boolean = false;
   private subscriptions: Subscription = new Subscription();
+
+  clickClose() {
+    // this.articleStateService.setShowArticleContent(false);
+    console.log('clickClose');
+    this.closeClicked.emit(true);
+  }
 
   articles: Article[];
 

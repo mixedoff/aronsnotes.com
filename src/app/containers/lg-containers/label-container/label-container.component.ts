@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-label-container',
@@ -8,6 +8,11 @@ import { Component, Input } from '@angular/core';
   styleUrl: './label-container.component.css',
 })
 export class LabelContainerComponent {
+  @Output() skipLoadingScreenEvent = new EventEmitter<boolean>();
+  skipLoadingScreen() {
+    console.log('skipLoadingScreen');
+    this.skipLoadingScreenEvent.emit(true);
+  }
   @Input() message: string = '';
   @Input() content: string = '';
 }

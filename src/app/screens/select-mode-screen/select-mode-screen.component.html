@@ -1,4 +1,7 @@
-<app-label-container message="select mode"></app-label-container>
+<app-label-container
+  (skipLoadingScreenEvent)="forwardToMainMenuScreen()"
+  message="select mode"
+></app-label-container>
 <app-level-container
   (buttonClicked)="onChildButtonClick()"
 ></app-level-container>

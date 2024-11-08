@@ -1,8 +1,7 @@
-import { Component, Output, HostBinding } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { InfoContainerComponent } from '../../containers/sm-containers/info-container/info-container.component';
 import { LabelContainerComponent } from '../../containers/lg-containers/label-container/label-container.component';
 import { DissolveToBlackComponent } from '../../animations/dissolve-to-black/dissolve-to-black.component';
-import { TopNavComponent } from '../../nav/top-nav/top-nav.component';
 
 @Component({
   selector: 'app-loading-screen',
@@ -11,12 +10,15 @@ import { TopNavComponent } from '../../nav/top-nav/top-nav.component';
     InfoContainerComponent,
     LabelContainerComponent,
     DissolveToBlackComponent,
-    TopNavComponent,
   ],
   templateUrl: './loading-screen.component.html',
   styleUrl: './loading-screen.component.css',
 })
 export class LoadingScreenComponent {
+  @Output() skipLoadingScreenEvent = new EventEmitter<boolean>();
+  forwardToMainMenuScreen() {
+    this.skipLoadingScreenEvent.emit(true);
+  }
   loadingMessages: string[] = [
     'Please wait! Codes are being generated...',
     'Please wait! Data are being generated...',

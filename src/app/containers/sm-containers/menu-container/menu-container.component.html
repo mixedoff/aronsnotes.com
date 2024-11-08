@@ -1,28 +1,91 @@
 <div class="outer-container">
   <div class="small-div">
+    <div class="traffic-lights">
+      <svg
+        class="traffic-lights-svg"
+        width="52"
+        height="12"
+        viewBox="0 0 52 12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          (click)="onQuit()"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
+          fill="#ef5747"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
+          fill="#ffffff"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
+          fill="#ffffff"
+        />
+      </svg>
+    </div>
     <small>explore</small>
+    <!-- <div class="place-holder" style="width: 54px; background: none"></div> -->
   </div>
   <div class="inner-container">
-    <p (click)="openSubmenuOverlay('code')">Code</p>
-    <p (click)="openSubmenuOverlay('UX')">UX</p>
-    <p (click)="openSubmenuOverlay('UI')">UI</p>
-    <p (click)="openSubmenuOverlay('marketing')" class="disabled">Marketing</p>
+    <br />
+    <p (click)="openSubmenuOverlay('code')">&lt;code&gt;</p>
+    <p (click)="openSubmenuOverlay('UX')">&lt;UX&gt;</p>
+    <p (click)="openSubmenuOverlay('UI')">&lt;UI&gt;</p>
+    <!-- <p (click)="openSubmenuOverlay('marketing')" class="disabled">Marketing</p> -->
     <!-- <p (click)="openSubmenuOverlay('business')" class="disabled">Business</p> -->
     <br />
-    <p (click)="onConnect()">About</p>
-    <p (click)="onQuit()">Quit the game</p>
+    <br />
+    <p (click)="onConnect()">&lt;about&gt;</p>
+    <p (click)="onQuit()">&lt;quit-the-game&gt;</p>
   </div>
 </div>
 
 @if (showSubmenu) {
 <div class="second-outer-container">
   <div class="small-div">
+    <div class="traffic-lights">
+      <svg
+        class="traffic-lights-svg"
+        width="52"
+        height="12"
+        viewBox="0 0 52 12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          (click)="closeSubmenu()"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
+          fill="#ef5747"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
+          fill="#ffffff"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
+          fill="#ffffff"
+        />
+      </svg>
+    </div>
     <small>{{ currentLabel }}</small>
   </div>
   <div class="second-inner-container">
     @for (article of articles; track article.id) { @if (article.folder ===
     currentLabel) {
-    <p (click)="openArticle(article)">{{ article.title }}</p>
+    <p (click)="openArticle(article)" class="article-title">
+      {{ article.title }}
+    </p>
     }}
     <br />
     <p (click)="closeSubmenu()">Back</p>

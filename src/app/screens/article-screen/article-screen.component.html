@@ -1,5 +1,8 @@
 <div class="heroDiv">
-  <app-article-container class="article"></app-article-container>
+  <app-article-container
+    (closeClicked)="clickMenuOnChild()"
+    class="article"
+  ></app-article-container>
   <!-- <app-article-container
   (ArticleClickedFromGrandchild)="onArticleClickedFromParent()"
   ></app-article-container> -->

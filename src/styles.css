@@ -250,21 +250,13 @@ strong {
   }
 }
 
-/* Containers */
-
-/* .small-container {
-  max-width: 600px;
-  margin: 40px auto;
-  overflow: hidden;
-  padding: 20px;
-  background: #6f7a83;
-  box-shadow: 10px 10px 0px 0px #000;
-} */
-/* 
-.small-container p {
-  color: white;
+.traffic-lights {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
 }
 
-.small-container small {
-  color: white;
-} */
+svg.traffic-lights-svg {
+  background: none;
+}

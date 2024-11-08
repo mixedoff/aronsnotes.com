@@ -4,6 +4,7 @@ import { article2 } from './articles/article2';
 import { article3 } from './articles/article3';
 import { article4 } from './articles/article4';
 import { article5 } from './articles/article5';
+import { article6 } from './articles/article6';
 
 export interface Article {
   id: number;
@@ -20,6 +21,7 @@ export interface Article {
 })
 export class ArticleService {
   private articles: Article[] = [
+    article6,
     article5,
     article4,
     article3,

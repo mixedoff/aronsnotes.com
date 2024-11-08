@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,6 +9,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './about-container.component.css',
 })
 export class AboutContainerComponent implements OnInit {
+  @Output() closeSubmenuEvent = new EventEmitter<boolean>();
+  closeSubmenu() {
+    console.log('closeSubmenu');
+    this.closeSubmenuEvent.emit(true);
+  }
   showAboutText = false;
   aboutText = '';
   private aboutFullText = `

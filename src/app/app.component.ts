@@ -58,6 +58,7 @@ export class AppComponent {
   @Output() ArticleClickedFromGrandchild = new EventEmitter<
     Article | undefined
   >();
+  private loadingTimeout?: number;
 
   onGrandchildEnterPressed() {
     // console.log('enter');
@@ -104,6 +105,10 @@ export class AppComponent {
 
   onGrandchildMenuClick() {
     this.showMainMenuScreen = true;
+    this.showLoadingScreen = false;
+    this.showWelcomeScreen = false;
+    this.showSelectModeScreen = false;
+    this.showPasswordScreen = false;
     this.showArticleScreen = false;
     this.showAboutScreen = false;
     this.showQuitScreen = false;
@@ -116,8 +121,22 @@ export class AppComponent {
     this.showQuitScreen = true;
   }
 
+  onGrandchildSkipLoadingScreen() {
+    if (this.loadingTimeout) {
+      clearTimeout(this.loadingTimeout);
+    }
+    this.showMainMenuScreen = true;
+    this.showLoadingScreen = false;
+    this.showWelcomeScreen = false;
+    this.showSelectModeScreen = false;
+    this.showPasswordScreen = false;
+    this.showArticleScreen = false;
+    this.showAboutScreen = false;
+    this.showQuitScreen = false;
+  }
+
   ngOnInit() {
-    setTimeout(() => {
+    this.loadingTimeout = window.setTimeout(() => {
       this.showLoadingScreen = false;
       this.showWelcomeScreen = true;
     }, 4000);

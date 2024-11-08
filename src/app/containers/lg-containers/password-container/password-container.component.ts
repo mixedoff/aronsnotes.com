@@ -13,6 +13,10 @@ export class PasswordContainerComponent {
   inputControl = new FormControl('');
   @Output() inputSubmitted = new EventEmitter<void>();
 
+  skipWelcomeScreen() {
+    this.inputSubmitted.emit();
+  }
+
   checkInput(value: string) {
     if (value === '1111') {
       console.log('Input is exactly 1111');
@@ -22,20 +26,4 @@ export class PasswordContainerComponent {
       // Handle other cases if needed
     }
   }
-
-  // ngOnInit() {
-  //   this.inputControl.valueChanges.subscribe((value) => {
-  //     console.log(value);
-  //     // Perform actions on input change
-  //   });
-  // }
-
-  // checkInput() {
-  //   if (this.inputControl.value === '1111') {
-  //     console.log('Input is exactly 1111');
-  //     // Perform your desired action here
-  //   } else {
-  //     console.log(`'Input is' ${this.inputControl.value}`);
-  //   }
-  // }
 }
