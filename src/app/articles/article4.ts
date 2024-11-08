@@ -2,7 +2,7 @@ export const article4 = {
   id: 4,
   date: '30.09.2024',
   folder: 'UI',
-  title: 'CareeVerz UI v6_final',
+  title: 'careeverz.com ui v6_final',
   subtitle: '',
   tags: ['design', 'figma'],
   content: `

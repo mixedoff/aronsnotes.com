@@ -2,7 +2,7 @@ export const article6 = {
   id: 6,
   date: '05.11.2024',
   folder: 'code',
-  title: 'Connect GoDaddy domain with Hetzner Cloud',
+  title: 'connect godaddy domain with hetzner cloud',
   subtitle:
     'To connect your purchased GoDaddy domain with a Hetzner server, you need to update the DNS settings on GoDaddy to point to your Hetzner server',
   tags: ['godaddy', 'hetzner'],
@@ -11,16 +11,16 @@ export const article6 = {
 <p class="article">First, you need the IP address of your Hetzner server. You can find this in the Hetzner Cloud Console under the details of your server.</p>
 
 <h6>2. Log in to Your GoDaddy Account</h6>
-<p class="article">Navigate to the **Domains** section and select the domain you want to connect to your Hetzner server.</p>
+<p class="article">Navigate to the <strong>Domains</strong> section and select the domain you want to connect to your Hetzner server.</p>
 
 <h6>3. Access DNS Management</h6>
-<p class="article">Click on **Manage DNS** for the selected domain.</p>
+<p class="article">Click on <strong>Manage DNS</strong> for the selected domain.</p>
 
 <h6>4. Update A Record</h6>
-<p class="article">1. Find the **Type A** section. If an A Record already exists, you can edit it; otherwise, you can add a new one.</p>
-<p class="article">Set the **Name** field to '@' (this represents the root domain).</p>
-<p class="article">Set the **Value** field to the IP address of your Hetzner server.</p>
-<p class="article">Set the **TTL** (Time to Live) to your preferred value, or leave it at the default setting.</p>
+<p class="article">1. Find the <strong>Type A</strong> section. If an A Record already exists, you can edit it; otherwise, you can add a new one.</p>
+<p class="article">Set the <strong>Name</strong> field to '@' (this represents the root domain).</p>
+<p class="article">Set the <strong>Value</strong> field to the IP address of your Hetzner server.</p>
+<p class="article">Set the <strong>TTL</strong> (Time to Live) to your preferred value, or leave it at the default setting.</p>
 <p class="article">Save the changes.</p>
 
 <h6>5. Wait for DNS Propagation</h6>

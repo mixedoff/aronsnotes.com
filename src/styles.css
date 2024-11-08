@@ -44,6 +44,13 @@ img.whiteBoard {
 } */
 
 /* Fonts */
+h1,
+h2,
+h3,
+h6 {
+  text-transform: lowercase;
+}
+
 h1 {
   font-family: "IBM Plex Mono";
   font-size: 6rem;
@@ -211,6 +218,7 @@ ol {
 li {
   background: none;
   margin-bottom: 0.5rem;
+  margin-left: 1rem; /* Add left margin for better readability */
 }
 
 strong {
