@@ -49,6 +49,7 @@ h2,
 h3,
 h6 {
   text-transform: lowercase;
+  word-break: break-all;
 }
 
 h1 {

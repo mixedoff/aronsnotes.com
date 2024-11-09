@@ -2,8 +2,8 @@ export const article2 = {
   id: 2,
   date: '05.08.2023',
   folder: 'UI',
-  title: 'CareeVerz UI v1',
-  subtitle: '',
+  title: 'careeverz.com UI v1',
+  subtitle: 'CareeVerze.com the first design',
   tags: ['figma', 'LandingPage', 'design'],
   content: `
 <p class="article mb-2">This is the first look of CareeVerze a career planning ai web application. This is not the design that we chose to carry further, but it was a good starting point and a great place to experiment with the design.</p>

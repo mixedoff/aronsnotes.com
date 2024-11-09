@@ -3,8 +3,7 @@ export const article5 = {
   date: '29.10.2024',
   folder: 'code',
   title: 'set up git repo',
-  subtitle:
-    'set up a git repository to track and push changes from your command line interface',
+  subtitle: 'set up a Git repository to track and push changes from your CLI',
   tags: ['bash', 'github'],
   content: `
     <h6>1. add a remote repository</h6>

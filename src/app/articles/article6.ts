@@ -3,8 +3,7 @@ export const article6 = {
   date: '05.11.2024',
   folder: 'code',
   title: 'connect godaddy domain with hetzner cloud',
-  subtitle:
-    'To connect your purchased GoDaddy domain with a Hetzner server, you need to update the DNS settings on GoDaddy to point to your Hetzner server',
+  subtitle: 'Connect your purchased GoDaddy domain with a Hetzner server',
   tags: ['godaddy', 'hetzner'],
   content: `
 <h6>1. Obtain Your Hetzner Server IP Address</h6>

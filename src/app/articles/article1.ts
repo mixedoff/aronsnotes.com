@@ -2,13 +2,12 @@ export const article1 = {
   id: 1,
   date: '05.08.2023',
   folder: 'UX',
-  title: 'CareeVerz UX',
-  subtitle: '',
-  tags: ['UXResearch', 'UXDesign'],
+  title: 'careeverz.com UX',
+  subtitle: 'The making of CareeVerze.com a career planning AI webapp',
+  tags: ['figma'],
   content: `
 <h2>summary</h2>
-<p class="article" >The making of CareeVerze.com. A career planning ai web application.
-This article covers the more than year long journey of 
+<p class="article" >This article covers the more than year long journey of 
 ux-research, and ux-design phase. 
 The article covers the methodology and various tools that we used 
 and hopefully gives the reader and quite thorough understanding 
