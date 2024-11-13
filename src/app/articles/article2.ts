@@ -2,7 +2,7 @@ export const article2 = {
   id: 2,
   date: '05.08.2023',
   folder: 'UI',
-  title: 'careeverz.com UI v1',
+  title: 'careeverz.com ui v1',
   subtitle: 'CareeVerze.com the first design',
   tags: ['figma', 'LandingPage', 'design'],
   content: `

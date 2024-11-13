@@ -1,46 +1,28 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { TopNavComponent } from './nav/top-nav/top-nav.component';
-import { BottomNavComponent } from './nav/bottom-nav/bottom-nav.component';
-import { LabelContainerComponent } from './containers/lg-containers/label-container/label-container.component';
-import { InfoContainerComponent } from './containers/sm-containers/info-container/info-container.component';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { LoadingScreenComponent } from './screens/loading-screen/loading-screen.component';
 import { WelcomeScreenComponent } from './screens/welcome-screen/welcome-screen.component';
 import { MainMenuScreenComponent } from './screens/main-menu-screen/main-menu-screen.component';
 import { SelectModeScreenComponent } from './screens/select-mode-screen/select-mode-screen.component';
 import { PasswordScreenComponent } from './screens/password-screen/password-screen.component';
-import { StartContainerComponent } from './containers/sm-containers/start-container/start-container.component';
-import { LevelContainerComponent } from './containers/sm-containers/level-container/level-container.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ArticleContainerComponent } from './containers/lg-containers/article-container/article-container.component';
 import { ArticleScreenComponent } from './screens/article-screen/article-screen.component';
 import { AboutScreenComponent } from './screens/about-screen/about-screen.component';
 import { Article } from './article.service';
 import { QuitScreenComponent } from './screens/quit-screen/quit-screen.component';
-import { ImageHolderComponent } from './image-holder/image-holder.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
-    TopNavComponent,
-    BottomNavComponent,
-    LabelContainerComponent,
-    InfoContainerComponent,
     LoadingScreenComponent,
     WelcomeScreenComponent,
     MainMenuScreenComponent,
     SelectModeScreenComponent,
     PasswordScreenComponent,
-    StartContainerComponent,
-    LevelContainerComponent,
     ReactiveFormsModule,
-    ArticleContainerComponent,
     ArticleScreenComponent,
     AboutScreenComponent,
     QuitScreenComponent,
-    ImageHolderComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -80,7 +62,7 @@ export class AppComponent {
   }
 
   onGrandchildArticleClick(article: Article | undefined) {
-    this.showMainMenuScreen = false;
+    // this.showMainMenuScreen = false;
     this.showArticleScreen = true;
     this.ArticleClickedFromGrandchild.emit(article);
   }
@@ -133,6 +115,10 @@ export class AppComponent {
     this.showArticleScreen = false;
     this.showAboutScreen = false;
     this.showQuitScreen = false;
+  }
+
+  onGoBackToSubmenu() {
+    this.showArticleScreen = false;
   }
 
   ngOnInit() {

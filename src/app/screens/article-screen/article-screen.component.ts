@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ArticleContainerComponent } from '../../containers/lg-containers/article-container/article-container.component';
-import { TopNavComponent } from '../../nav/top-nav/top-nav.component';
 import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
 import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-nav.component';
 import { Article } from '../../article.service';
@@ -11,7 +10,6 @@ import { ImageHolderComponent } from '../../image-holder/image-holder.component'
   standalone: true,
   imports: [
     ArticleContainerComponent,
-    TopNavComponent,
     BottomNavComponent,
     ArticleTopNavComponent,
   ],
@@ -24,7 +22,7 @@ export class ArticleScreenComponent {
   @Output() menuClickedOnChild = new EventEmitter<boolean>();
   @Output() shiftC = new EventEmitter<boolean>();
   @Output() shiftM = new EventEmitter<boolean>();
-
+  @Output() goBackToSubmenu = new EventEmitter<boolean>();
   pressedShiftCOnChild() {
     this.shiftC.emit(true);
     console.log('shiftC emitted');
@@ -45,5 +43,10 @@ export class ArticleScreenComponent {
   clickMenuOnChild() {
     this.menuClickedOnChild.emit(true);
     console.log('menuClickedOnChild emitted');
+  }
+
+  onGoBackToSubmenu() {
+    this.goBackToSubmenu.emit(true);
+    console.log('goBackToSubmenu emitted');
   }
 }

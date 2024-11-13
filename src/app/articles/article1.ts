@@ -2,7 +2,7 @@ export const article1 = {
   id: 1,
   date: '05.08.2023',
   folder: 'UX',
-  title: 'careeverz.com UX',
+  title: 'careeverz.com ux',
   subtitle: 'The making of CareeVerze.com a career planning AI webapp',
   tags: ['figma'],
   content: `

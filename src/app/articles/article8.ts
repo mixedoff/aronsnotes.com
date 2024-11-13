@@ -3,7 +3,7 @@ export const article8 = {
   date: '08.11.2024',
   folder: 'code',
   title: 'deploying angular app with nginx on rocky linux',
-  subtitle: 'step by step guide to deploy an Angular application',
+  subtitle: 'step by step guide to deploy an angular application',
   tags: ['angular', 'nginx', 'RockyLinux'],
   content: `
     <h6>1. install nginx</h6>

@@ -12,7 +12,7 @@ import { ImageHolderComponent } from '../../../image-holder/image-holder.compone
   styleUrl: './article-container.component.css',
 })
 export class ArticleContainerComponent {
-  @Output() closeClicked = new EventEmitter<boolean>();
+  @Output() goBackToSubmenu = new EventEmitter<boolean>();
 
   selectedArticle: Article | undefined = undefined;
   showArticleContent: boolean = false;
@@ -21,7 +21,7 @@ export class ArticleContainerComponent {
   clickClose() {
     // this.articleStateService.setShowArticleContent(false);
     console.log('clickClose');
-    this.closeClicked.emit(true);
+    this.goBackToSubmenu.emit(true);
   }
 
   articles: Article[];
