@@ -1,18 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ArticleService, Article } from '../../../article.service';
-import { ArticleContainerComponent } from '../../lg-containers/article-container/article-container.component';
-import { ArticleTopNavComponent } from '../../../nav/article-top-nav/article-top-nav.component';
-import { BottomNavComponent } from '../../../nav/bottom-nav/bottom-nav.component';
 import { ArticleStateService } from '../../../article.service.state';
 
 @Component({
   selector: 'app-menu-container',
   standalone: true,
-  imports: [
-    ArticleContainerComponent,
-    ArticleTopNavComponent,
-    BottomNavComponent,
-  ],
+  imports: [],
   templateUrl: './menu-container.component.html',
   styleUrl: './menu-container.component.css',
 })

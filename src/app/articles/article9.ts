@@ -2,7 +2,7 @@ export const article9 = {
   id: 9,
   date: '08.11.2024',
   folder: 'code',
-  title: 'updating your angular app on nginx server',
+  title: 'updating angular app on nginx server',
   subtitle: 'Quick guide to deploy updates to your Angular application',
   tags: ['angular', 'nginx'],
   content: `
