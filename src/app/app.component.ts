@@ -62,7 +62,7 @@ export class AppComponent {
   }
 
   onGrandchildArticleClick(article: Article | undefined) {
-    // this.showMainMenuScreen = false;
+    this.showMainMenuScreen = false;
     this.showArticleScreen = true;
     this.ArticleClickedFromGrandchild.emit(article);
   }
@@ -119,6 +119,7 @@ export class AppComponent {
 
   onGoBackToSubmenu() {
     this.showArticleScreen = false;
+    this.showMainMenuScreen = true;
   }
 
   ngOnInit() {

@@ -15,6 +15,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  /* z-index: 800; */
 }
 
 .inner-container {
@@ -78,6 +79,7 @@ p.disabled:hover {
   top: 50%;
   left: 50%;
   transform: translate(-40%, -40%);
+  /* z-index: 900; */
 }
 
 .second-inner-container {

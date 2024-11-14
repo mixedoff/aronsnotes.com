@@ -23,6 +23,14 @@
     (connectClickedOnChild)="onGrandchildConnectClick()"
     (quitClickedOnChild)="onGrandchildQuitClick()"
   ></app-main-menu-screen>
+  } @if (showAboutScreen) {
+  <app-about-screen
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+  ></app-about-screen>
+  } @if (showQuitScreen) {
+  <app-quit-screen
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+  ></app-quit-screen>
   } @if (showArticleScreen) {
   <app-article-screen
     (connectClickedOnChild)="onGrandchildConnectClick()"
@@ -31,15 +39,7 @@
     (shiftM)="onGrandchildShiftM()"
     (goBackToSubmenu)="onGoBackToSubmenu()"
   ></app-article-screen
-  >} @if (showAboutScreen) {
-  <app-about-screen
-    (menuClickedOnChild)="onGrandchildMenuClick()"
-  ></app-about-screen>
-  } @if (showQuitScreen) {
-  <app-quit-screen
-    (menuClickedOnChild)="onGrandchildMenuClick()"
-  ></app-quit-screen>
-  }
+  >}
 
   <!-- <app-main-menu-screen
     (ArticleClickedFromChild)="onGrandchildArticleClick($event)"
