@@ -131,3 +131,16 @@ p.disabled:hover {
   max-width: 100%; /* Ensure it doesn't overflow container */
   cursor: pointer; /* Optional: shows it's clickable */
 }
+
+.svg-minimize {
+  fill: white;
+  /* Somehow transition is not working on the svg element */
+  /* -webkit-transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s;
+  -moz-transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s;
+  -o-transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s;
+  transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s; */
+}
+
+.active {
+  fill: #f7f457 !important;
+}

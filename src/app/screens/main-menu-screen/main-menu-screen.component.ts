@@ -15,7 +15,7 @@ export class MainMenuScreenComponent {
   @Output() ArticleClickedFromChild = new EventEmitter<Article | undefined>();
   @Output() connectClickedOnChild = new EventEmitter<boolean>();
   @Output() quitClickedOnChild = new EventEmitter<boolean>();
-
+  @Output() minimizeClickedOnChild = new EventEmitter<boolean>();
   onChildClickArticle(article: Article | undefined) {
     this.ArticleClickedFromChild.emit(article);
   }
@@ -28,5 +28,10 @@ export class MainMenuScreenComponent {
   clickQuitOnChild() {
     this.quitClickedOnChild.emit(true);
     console.log('quitClickedOnChild emitted');
+  }
+
+  clickMinimizeOnChild() {
+    this.minimizeClickedOnChild.emit(true);
+    console.log('minimizeClickedOnChild emitted');
   }
 }

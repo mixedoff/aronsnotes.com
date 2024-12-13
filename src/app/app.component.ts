@@ -9,6 +9,8 @@ import { ArticleScreenComponent } from './screens/article-screen/article-screen.
 import { AboutScreenComponent } from './screens/about-screen/about-screen.component';
 import { Article } from './article.service';
 import { QuitScreenComponent } from './screens/quit-screen/quit-screen.component';
+import { HiddenScreenComponent } from './screens/hidden-screen/hidden-screen.component';
+import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-screen.component';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,8 @@ import { QuitScreenComponent } from './screens/quit-screen/quit-screen.component
     ArticleScreenComponent,
     AboutScreenComponent,
     QuitScreenComponent,
+    HiddenScreenComponent,
+    BooknotesScreenComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -37,6 +41,9 @@ export class AppComponent {
   showArticleScreen: boolean = false;
   showAboutScreen: boolean = false;
   showQuitScreen: boolean = false;
+  showHiddenScreen: boolean = false;
+  showBooknotesScreen: boolean = false;
+
   @Output() ArticleClickedFromGrandchild = new EventEmitter<
     Article | undefined
   >();
@@ -94,6 +101,8 @@ export class AppComponent {
     this.showArticleScreen = false;
     this.showAboutScreen = false;
     this.showQuitScreen = false;
+    this.showBooknotesScreen = false;
+    this.showHiddenScreen = false;
   }
 
   onGrandchildQuitClick() {
@@ -101,6 +110,11 @@ export class AppComponent {
     this.showArticleScreen = false;
     this.showAboutScreen = false;
     this.showQuitScreen = true;
+  }
+
+  onGrandchildMinimizeClick() {
+    this.showMainMenuScreen = false;
+    this.showHiddenScreen = true;
   }
 
   onGrandchildSkipLoadingScreen() {
@@ -120,6 +134,11 @@ export class AppComponent {
   onGoBackToSubmenu() {
     this.showArticleScreen = false;
     this.showMainMenuScreen = true;
+  }
+
+  onChildBooknotesClick() {
+    this.showHiddenScreen = false;
+    this.showBooknotesScreen = true;
   }
 
   ngOnInit() {

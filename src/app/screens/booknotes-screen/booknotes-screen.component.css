@@ -1,0 +1,206 @@
+.heroDiv {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+small {
+  color: #080a19;
+}
+
+p {
+  color: #080a19;
+}
+
+.outer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Horizontally centers the content */
+  align-items: center; /* Vertically centers the content */
+  /* min-width: 1240px; */
+  /* width: 100%; */
+  width: 100vw;
+  max-width: 1240px;
+  /* height: 100%; */
+  height: calc(100vh - 80px);
+  /* max-height: 650px; */
+  margin: 40px 0px;
+  /* margin: 40px; */
+  /* overflow: hidden; */
+  padding: 0 20px 20px 20px;
+  background: #c6c8c8;
+  box-shadow: 20px 20px 0px 0px #000;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  /* @media (max-width: 768px) {
+    padding: 10px 20px 20px 20px;
+  } */
+}
+
+.inner-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 0 0;
+  align-self: stretch;
+  border: 2px solid var(--Neutral1, #080a19);
+  background: var(--Neutral3, #c6c8c8);
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+}
+
+.small-div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background: none;
+}
+
+@media (min-width: 650px) {
+  .outer-container {
+    height: 85%;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.book-container {
+  background: none;
+  color: #ffffff;
+  width: 100%;
+}
+
+.book-items {
+  background: none;
+  width: 100%;
+}
+
+.book-item {
+  /* padding: 2px 4px;
+  display: grid;
+  grid-template-columns: auto 1fr 128px 64px 128px;
+  column-gap: 8px; */
+  padding: 4px 0px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  gap: 16px;
+}
+
+.book-item:hover {
+  background: #ffffff;
+  color: #000080;
+}
+
+.book-title {
+  background: none;
+}
+
+.book-details {
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.book-name {
+  background: none;
+}
+
+.hr {
+  border: none;
+  border-bottom: 2px dashed #000;
+  margin: 6px 0px;
+  width: 100%;
+  background: none;
+  @media (max-width: 768px) {
+    margin: 3px 0px;
+  }
+}
+
+.book-type {
+  text-align: right;
+}
+
+.book-size {
+  text-align: right;
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.book-date {
+  text-align: right;
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.book-container.hide {
+  display: none;
+}
+
+.note-container {
+  background: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+}
+
+.note-title {
+  background: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  align-self: stretch;
+  text-align: right;
+}
+
+.horizontal-rule {
+  background: none;
+  border: none;
+  border-top: 2px dotted #080a19;
+  height: 2px;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.note-content {
+  display: flex;
+  flex-direction: column;
+  background: none;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.note-footer {
+  display: flex;
+  justify-content: center;
+  background: none;
+  margin-top: auto;
+}
+
+.back-button {
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: white;
+  padding: 0px 5px;
+}

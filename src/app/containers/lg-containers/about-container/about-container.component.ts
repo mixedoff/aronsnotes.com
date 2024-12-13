@@ -19,9 +19,9 @@ export class AboutContainerComponent implements OnInit {
   private aboutFullText = `
     <h1 class="mt-1">Hey, I'm Aron.</h1>
     <br>
-    <p>I am a Front-end Developer / UX and UI designer / Product manager currently working on a startup at <a href="careeverz.com">CareeVerz.com</a></p>
+    <p>I am a Front-end Developer / UX and UI designer / Product manager currently working on a startup at <a href="https://careeverz.com" target="_blank" rel="noopener noreferrer">CareeVerz.com</a></p>
     <br>
-    <p>Aronsnotes.com is my effort to dive deep into technical topics on making great WebApps.</p>
+    <p>Aronsnotes.com is my effort to dive deep into technical topics to make great web designs.</p>
     <br>
     <p>I would love to connect: <a href="mailto:apple.aron@gmail.com">apple.aron@gmail.com</a></p>
     <br>
@@ -32,7 +32,7 @@ export class AboutContainerComponent implements OnInit {
     this.typeText();
   }
 
-  typeText(index: number = 0, interval: number = 30) {
+  typeText(index: number = 0, interval: number = 20) {
     if (index < this.aboutFullText.length) {
       this.aboutText += this.aboutFullText.charAt(index);
       setTimeout(() => this.typeText(index + 1, interval), interval);

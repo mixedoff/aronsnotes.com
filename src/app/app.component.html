@@ -22,6 +22,7 @@
     (ArticleClickedFromChild)="onGrandchildArticleClick($event)"
     (connectClickedOnChild)="onGrandchildConnectClick()"
     (quitClickedOnChild)="onGrandchildQuitClick()"
+    (minimizeClickedOnChild)="onGrandchildMinimizeClick()"
   ></app-main-menu-screen>
   } @if (showAboutScreen) {
   <app-about-screen
@@ -39,17 +40,18 @@
     (shiftM)="onGrandchildShiftM()"
     (goBackToSubmenu)="onGoBackToSubmenu()"
   ></app-article-screen
-  >}
-
-  <!-- <app-main-menu-screen
-    (ArticleClickedFromChild)="onGrandchildArticleClick($event)"
-    (connectClickedOnChild)="onGrandchildConnectClick()"
-    (quitClickedOnChild)="onGrandchildQuitClick()"
-  ></app-main-menu-screen>
-  @if (showArticleScreen) {
-  <app-article-screen
-    (connectClickedOnChild)="onGrandchildConnectClick()"
+  >} @if (showHiddenScreen) {
+  <app-hidden-screen
     (menuClickedOnChild)="onGrandchildMenuClick()"
-  ></app-article-screen
-  >} -->
+    (booknotesClicked)="onChildBooknotesClick()"
+  ></app-hidden-screen>
+  } @if (showBooknotesScreen) {
+  <app-booknotes-screen
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+  ></app-booknotes-screen>
+  }
+
+  <!-- <app-booknotes-screen
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+  ></app-booknotes-screen> -->
 </div>

@@ -1,0 +1,28 @@
+<div class="heroDiv">
+  <app-top-nav (menuClicked)="clickMenuOnChild()"></app-top-nav>
+  <div class="icons-container">
+    <div class="icon-container">
+      <div
+        class="icon-holder"
+        style="margin-top: 100px"
+        (dblclick)="clickMenuOnChild()"
+      >
+        <img
+          src="assets/img/hidden-screen/webapps-icon.png"
+          alt="webapps-icon"
+        />
+      </div>
+      <small style="color: white">WebApps</small>
+    </div>
+    <div class="icon-container">
+      <div class="icon-holder" (dblclick)="clickBooknotesScreen()">
+        <img
+          src="assets/img/hidden-screen/booknotes-icon.png"
+          alt="booknotes-icon"
+        />
+      </div>
+      <small style="color: white">BookNotes</small>
+    </div>
+  </div>
+  <app-bottom-nav (menuClicked)="clickMenuOnChild()"></app-bottom-nav>
+</div>
