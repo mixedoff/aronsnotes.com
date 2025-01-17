@@ -1,9 +1,13 @@
+p {
+  color: var(--nav-color, #000);
+}
+
 .outer-div {
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
-  width: 100%;
+  width: 100vw;
   height: 40px;
   padding: 0px 20px;
   /* margin-bottom: 20px; */
@@ -13,7 +17,7 @@
 
   display: inline-flex;
   flex-shrink: 0;
-  background: #c6c8c8;
+  background: var(--nav-bg, #c6c8c8);
 }
 
 .traffic-lights {

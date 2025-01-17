@@ -1,11 +1,16 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { LabelContainerComponent } from '../../containers/lg-containers/label-container/label-container.component';
 import { StartContainerComponent } from '../../containers/sm-containers/start-container/start-container.component';
+import { InfoContainerComponent } from '../../containers/sm-containers/info-container/info-container.component';
 
 @Component({
   selector: 'app-welcome-screen',
   standalone: true,
-  imports: [LabelContainerComponent, StartContainerComponent],
+  imports: [
+    LabelContainerComponent,
+    StartContainerComponent,
+    InfoContainerComponent,
+  ],
   templateUrl: './welcome-screen.component.html',
   styleUrl: './welcome-screen.component.css',
 })

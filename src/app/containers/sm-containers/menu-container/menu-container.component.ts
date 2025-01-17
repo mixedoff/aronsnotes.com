@@ -18,6 +18,7 @@ export class MenuContainerComponent implements OnInit {
   @Output() clickConnect = new EventEmitter<boolean>();
   @Output() clickQuit = new EventEmitter<boolean>();
   @Output() clickMinimize = new EventEmitter<boolean>();
+  @Output() clickMaximize = new EventEmitter<boolean>();
   // selectedArticle: Article | undefined = undefined;
   // showArticleContent: boolean = false;
   // selectedArticle: Article | undefined;
@@ -33,10 +34,10 @@ export class MenuContainerComponent implements OnInit {
 
   ngOnInit() {
     this.articles = this.articleService.getArticles();
-    setTimeout(() => {
-      const element = document.querySelector('.svg-minimize');
-      element?.classList.add('active');
-    }, 4000);
+    // setTimeout(() => {
+    //   const element = document.querySelector('.svg-minimize');
+    //   element?.classList.add('active');
+    // }, 4000);
   }
 
   openArticle(article: Article) {
@@ -73,5 +74,10 @@ export class MenuContainerComponent implements OnInit {
   onMinimize() {
     this.clickMinimize.emit(true);
     console.log('clickMinimize emitted');
+  }
+
+  onMaximize() {
+    this.clickMaximize.emit(true);
+    console.log('clickMaximize emitted');
   }
 }

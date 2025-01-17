@@ -8,11 +8,7 @@ import { ImageHolderComponent } from '../../image-holder/image-holder.component'
 @Component({
   selector: 'app-article-screen',
   standalone: true,
-  imports: [
-    ArticleContainerComponent,
-    BottomNavComponent,
-    ArticleTopNavComponent,
-  ],
+  imports: [ArticleContainerComponent],
   templateUrl: './article-screen.component.html',
   styleUrl: './article-screen.component.css',
 })

@@ -10,25 +10,26 @@ import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 export class ArticleTopNavComponent {
   @Output() clickConnect = new EventEmitter<boolean>();
   @Output() clickMenu = new EventEmitter<boolean>();
-  @Output() shiftC = new EventEmitter<void>();
-  @Output() shiftM = new EventEmitter<void>();
+  @Output() clickQuit = new EventEmitter<boolean>();
+  @Output() clickArticles = new EventEmitter<boolean>();
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.code === 'KeyC' && event.shiftKey) {
-      console.log('Shift + C');
-      this.shiftC.emit();
-    } else if (event.code === 'KeyM' && event.shiftKey) {
-      console.log('Shift + M');
-      this.shiftM.emit();
+    if (event.code === 'KeyC') {
+      console.log('KeyC');
+      this.onConnect();
+    } else if (event.code === 'KeyM') {
+      console.log('KeyM');
+      this.onMenu();
+    } else if (event.code === 'KeyA') {
+      console.log('KeyA');
+      this.onArticles();
+    } else if (event.code === 'KeyQ') {
+      console.log('KeyQ');
+      this.onQuit();
     }
   }
-  onUpvote() {
-    throw new Error('Method not implemented.');
-  }
-  onReport() {
-    throw new Error('Method not implemented.');
-  }
+
   onConnect() {
     this.clickConnect.emit(true);
     console.log('clickConnect emitted');
@@ -36,5 +37,13 @@ export class ArticleTopNavComponent {
   onMenu() {
     this.clickMenu.emit(true);
     console.log('clickConnect emitted');
+  }
+  onArticles() {
+    this.clickArticles.emit(true);
+    console.log('Articles clicked');
+  }
+  onQuit() {
+    this.clickQuit.emit(true);
+    console.log('Quit clicked');
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { TopNavComponent } from '../../nav/top-nav/top-nav.component';
 import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
+import { ArticleService } from '../../article.service';
 
 @Component({
   selector: 'app-hidden-screen',
@@ -12,6 +13,8 @@ import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
 export class HiddenScreenComponent {
   @Output() menuClickedOnChild = new EventEmitter<boolean>();
   @Output() booknotesClicked = new EventEmitter<boolean>();
+
+  constructor(private articleService: ArticleService) {}
 
   clickMenuOnChild() {
     this.menuClickedOnChild.emit(true);

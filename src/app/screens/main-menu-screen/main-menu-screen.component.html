@@ -1,4 +1,9 @@
-<app-top-nav></app-top-nav>
+<app-article-top-nav
+  (clickConnect)="clickConnectOnChild()"
+  (clickMenu)="clickMenuOnChild()"
+  (clickQuit)="clickQuitOnChild()"
+  (clickArticles)="clickArticlesOnChild()"
+></app-article-top-nav>
 
 <div class="heroDiv">
   <!-- <p class="question">What makes a world-class App?</p> -->
@@ -7,6 +12,9 @@
     (clickConnect)="clickConnectOnChild()"
     (clickQuit)="clickQuitOnChild()"
     (clickMinimize)="clickMinimizeOnChild()"
+    (clickMaximize)="clickMaximizeOnChild()"
   ></app-menu-container>
 </div>
-<app-bottom-nav></app-bottom-nav>
+<app-bottom-nav
+  style="--grey-div-color: #000; --nav-bg: #c6c8c8; --beta-bg: #6f7a83"
+></app-bottom-nav>

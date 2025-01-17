@@ -1,8 +1,18 @@
 <!-- <div class="heroDiv"> -->
 <div class="heroDiv">
-  <app-top-nav (menuClicked)="clickMenuOnChild()"></app-top-nav>
+  <app-article-top-nav
+    (clickArticles)="clickArticlesOnChild()"
+    (clickConnect)="clickConnectOnChild()"
+    (clickMenu)="clickMenuOnChild()"
+    (clickQuit)="clickQuitOnChild()"
+    (aPressed)="handleAPressed()"
+    style="--nav-color: #000; --nav-bg: #c6c8c8"
+  ></app-article-top-nav>
   <app-about-container
     (closeSubmenuEvent)="clickMenuOnChild()"
   ></app-about-container>
-  <app-bottom-nav (menuClicked)="clickMenuOnChild()"></app-bottom-nav>
+  <app-bottom-nav
+    style="--grey-div-color: #000; --nav-bg: #c6c8c8; --beta-bg: #6f7a83"
+    (menuClicked)="clickMenuOnChild()"
+  ></app-bottom-nav>
 </div>

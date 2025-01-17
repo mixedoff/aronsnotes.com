@@ -1,80 +1,12 @@
-<app-top-nav (menuClicked)="clickMenuOnChild()"></app-top-nav>
-<div class="heroDiv">
-  <div class="outer-container">
-    <div class="small-div">
-      <div class="traffic-lights">
-        <svg
-          class="traffic-lights-svg"
-          width="52"
-          height="12"
-          viewBox="0 0 52 12"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            (click)="closeSubmenu()"
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
-            fill="#ef5747"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
-            fill="#ffffff"
-          />
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
-            fill="#ffffff"
-          />
-        </svg>
-      </div>
-      <small>book notes</small>
-    </div>
-    <div class="inner-container">
-      <div class="book-container" [class.hide]="selectedBook">
-        <div class="book-items">
-          @for (book of books; track book.name) {
-          <div class="book-item" (click)="selectBook(book)">
-            <div class="book-title">
-              <p class="book-name">[{{ book.name }}]</p>
-            </div>
-            <div class="book-details">
-              <div class="hr"></div>
-              <p class="book-type">{{ book.type }}</p>
-              <p class="book-size">{{ book.size }}</p>
-              <p class="book-date">{{ book.date }}</p>
-            </div>
-          </div>
-          }
-        </div>
-      </div>
-
-      @if (selectedBook) {
-      <div class="note-container">
-        <div class="note-title">
-          <h1 style="margin-bottom: 1rem">{{ selectedBook.title }}</h1>
-        </div>
-        <div class="note-title">
-          <p>{{ selectedBook.subtitle }}</p>
-        </div>
-        <div class="horizontal-rule"></div>
-        <div class="note-content">
-          <p>
-            {{ selectedBook.name }} written by {{ selectedBook.author }} and
-            published in {{ selectedBook.published }}
-          </p>
-          <br />
-          <p>{{ selectedBook.content }}</p>
-        </div>
-        <div class="note-footer">
-          <p class="back-button" (click)="closeNote()">&#8617; back</p>
-        </div>
-      </div>
-      }
-    </div>
-  </div>
-  <app-bottom-nav></app-bottom-nav>
-</div>
+<app-top-nav
+  [navTitle]="'notes on my favourite books'"
+  style="--nav-bg: #6f7a83; --nav-color: #ffffff"
+></app-top-nav>
+<app-articles-container
+  (closeArticlesClicked)="clickCloseArticlesOnChild()"
+  (articleClicked)="clickArticleOnChild($event)"
+></app-articles-container>
+<app-bottom-nav
+  (menuClicked)="clickMenuOnChild()"
+  style="--nav-bg: #6f7a83; --nav-color: #ffffff"
+></app-bottom-nav>

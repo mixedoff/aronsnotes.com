@@ -4,7 +4,10 @@ export const article7 = {
   folder: 'code',
   title: 'setting up hetzner cloud on macOS',
   subtitle: 'set up and manage Hetzner Cloud servers on macOS',
-  tags: ['cloud', 'hetzner', 'ssh'],
+  tags: ['hetzner', 'ssh'],
+  size: null,
+  author: null,
+  published: null,
   content: `
     <h6>1. install hcloud CLI</h6>
     <p class="article">Install the Hetzner Cloud CLI tool using Homebrew:</p>

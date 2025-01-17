@@ -5,7 +5,10 @@ export const article4 = {
   title: 'careeverz.com ui v6_final',
   subtitle:
     'CareeVerz.com a step-by-step guide to the final design and design system',
-  tags: ['design', 'figma'],
+  tags: ['figma', 'prototype'],
+  size: null,
+  author: null,
+  published: null,
   content: `
 <h2>summary</h2>
 <p class="article">The UI Design process of CareeVerz.com. A dark, modern, 

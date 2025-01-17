@@ -4,7 +4,10 @@ export const article3 = {
   folder: 'UI',
   title: 'careeverz.com ui v3',
   subtitle: 'CareeVerz.com the first real design',
-  tags: ['design', 'figma'],
+  tags: ['figma', 'prototype'],
+  size: null,
+  author: null,
+  published: null,
   content: `
 <p class="article mb-2">This is the first boiled down design of CareeVerz.com . At this point it was clear that the design was heading in a good direction. This version is still a little crude and sturdy in places but it has that dark and vast, universe like energy.</p>
 

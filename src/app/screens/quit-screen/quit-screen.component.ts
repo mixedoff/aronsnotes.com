@@ -6,7 +6,7 @@ import { QuitBottomNavComponent } from '../../nav/quit-bottom-nav/quit-bottom-na
 @Component({
   selector: 'app-quit-screen',
   standalone: true,
-  imports: [MatrixTypingComponent, BottomNavComponent, QuitBottomNavComponent],
+  imports: [MatrixTypingComponent, QuitBottomNavComponent],
   templateUrl: './quit-screen.component.html',
   styleUrl: './quit-screen.component.css',
 })

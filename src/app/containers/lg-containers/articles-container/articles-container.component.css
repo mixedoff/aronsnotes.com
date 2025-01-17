@@ -1,0 +1,179 @@
+.heroDiv {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+small {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+.outer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  /* max-width: 1240px; */
+  height: calc(100vh - 80px);
+  margin: 40px 0px;
+  padding: 0px 20px 20px 20px;
+  background: #6f7a83;
+  box-shadow: 20px 20px 0px 0px #000;
+}
+
+.inner-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 0 0;
+  align-self: stretch;
+  border: 2px solid white;
+  background: #6f7a83;
+}
+
+.small-div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background: none;
+}
+
+.article-container {
+  background: none;
+  color: #ffffff;
+  width: 100%;
+}
+
+.article-items {
+  background: none;
+  width: 100%;
+}
+
+.article-item {
+  padding: 4px 0px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  gap: 16px;
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.article-item:hover,
+.article-item:hover * {
+  background: #c6c8c8;
+  color: #000000;
+}
+
+.article-item:hover .hr {
+  border-bottom-color: #000000;
+}
+
+.article-holder {
+  background: none;
+  display: flex;
+  justify-content: center;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+}
+
+.article-title {
+  background: none;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
+  @media (max-width: 1023px) {
+    max-width: 512px;
+  }
+}
+
+.article-name {
+  background: none;
+}
+
+.hr {
+  border: none;
+  border-bottom: 2px dashed white;
+  margin: 6px 0px;
+  width: 100%;
+  background: none;
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.article-details {
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: fit-content;
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.article-tags {
+  text-align: right;
+  @media (min-width: 768px) and (max-width: 1279px) {
+    display: none;
+  }
+}
+
+.article-folder {
+  text-align: right;
+  width: 72px;
+  @media (max-width: 1023px) {
+    display: none;
+  }
+}
+
+.article-date {
+  text-align: right;
+  margin-left: 16px;
+}
+
+@media (max-width: 768px) {
+  .inner-container {
+    padding: 20px;
+  }
+
+  .hr {
+    margin: 3px 0px;
+  }
+
+  .article-tag {
+    display: none;
+  }
+
+  .article-folder {
+    display: none;
+  }
+
+  .article-date {
+    display: none;
+  }
+}
+/* 
+.article-container.hide {
+  display: none;
+} */

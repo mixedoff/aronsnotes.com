@@ -1,0 +1,14 @@
+<app-article-top-nav
+  style="--nav-color: white; --nav-bg: #6f7a83"
+  (clickMenu)="clickMenuOnChild()"
+  (clickArticles)="clickArticlesOnChild()"
+  (clickConnect)="clickConnectOnChild()"
+  (clickQuit)="clickQuitOnChild()"
+></app-article-top-nav>
+<app-articles-container
+  (articleClicked)="onArticleClicked($event)"
+  (closeArticlesClicked)="onCloseArticlesClicked()"
+></app-articles-container>
+<app-bottom-nav
+  style="--nav-color: white; --nav-bg: #6f7a83; --beta-bg: #6f7a83"
+></app-bottom-nav>

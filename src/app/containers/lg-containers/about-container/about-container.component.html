@@ -19,19 +19,42 @@
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
-          fill="#ffffff"
+          fill="#6F7A83"
         />
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
-          fill="#ffffff"
+          fill="#6F7A83"
         />
       </svg>
     </div>
-    <small>about</small>
+    <small>connect</small>
   </div>
+
   <div class="inner-container">
-    <div id="about-text" [innerHTML]="aboutText" style="background: none"></div>
+    <div class="row">
+      <div class="img-column">
+        <img
+          class="profile-picture"
+          src="assets/img/profile-picture/default.svg"
+          alt="profile picture"
+        />
+      </div>
+      <div class="column">
+        <div
+          id="about-text"
+          [innerHTML]="aboutText"
+          style="background: none"
+        ></div>
+        <div class="social-icons">
+          <img src="assets/img/socials/email.svg" alt="email" />
+          <img src="assets/img/socials/linkedin.svg" alt="linkedin" />
+          <img src="assets/img/socials/github.svg" alt="github" />
+          <img src="assets/img/socials/spotify.svg" alt="spotify" />
+          <img src="assets/img/socials/instagram.svg" alt="instagram" />
+        </div>
+      </div>
+    </div>
   </div>
 </div>

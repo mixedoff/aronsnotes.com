@@ -2,9 +2,12 @@ export const article1 = {
   id: 1,
   date: '05.08.2023',
   folder: 'UX',
-  title: 'careeverz.com ux',
+  title: 'careeverz.com complete ux research and design',
   subtitle: 'The making of CareeVerze.com a career planning AI webapp',
   tags: ['figma'],
+  size: null,
+  author: null,
+  published: null,
   content: `
 <h2>summary</h2>
 <p class="article" >This article covers the more than year long journey of 

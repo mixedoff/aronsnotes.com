@@ -21,13 +21,30 @@ p {
   margin: 40px 0px;
   /* margin: 40px; */
   /* overflow: hidden; */
-  padding: 0 20px 20px 20px;
+  padding: 10px 20px 30px 20px;
   background: #c6c8c8;
   box-shadow: 20px 20px 0px 0px #000;
   /* position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); */
+  @media (min-width: 650px) {
+    max-height: 650px;
+    position: absolute;
+    top: 46.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.small-div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background: none;
+  height: 20px;
+  /* margin-bottom: 10px; */
 }
 
 .inner-container {
@@ -41,25 +58,102 @@ p {
   align-self: stretch;
   border: 2px solid var(--Neutral1, #080a19);
   background: var(--Neutral3, #c6c8c8);
-
+  text-align: right;
   @media (max-width: 768px) {
     padding: 20px;
   }
 }
 
-.small-div {
+.row {
   display: flex;
+  flex-direction: row;
   width: 100%;
-  justify-content: space-between;
+  height: 100%;
   background: none;
-}
-
-@media (min-width: 650px) {
-  .outer-container {
-    max-height: 650px;
-    position: absolute;
-    top: 46.5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  align-items: center;
+  @media (max-width: 650px) {
+    flex-direction: column;
   }
 }
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: none;
+  height: 100%;
+  overflow: auto;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    flex: 2;
+  }
+}
+
+.social-icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 10px;
+  background: none;
+  opacity: 0; /* Start hidden */
+  animation: show 0s 2s forwards; /* Duration is 0s for instant appearance */
+}
+
+@keyframes show {
+  to {
+    opacity: 1;
+  }
+}
+
+.social-icons img {
+  margin: 10px 0px;
+}
+
+.img-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: none;
+  height: auto;
+  /* height: 100%; */
+  max-height: 512px;
+  @media (min-width: 1024px) {
+    flex: 1;
+  }
+}
+
+.img-column img {
+  height: auto;
+  max-height: 512px;
+  width: 100%;
+  margin: 0px;
+}
+
+/* BLINKING PROFILE PICTURE */
+/* .profile-picture {
+  animation: blink 4s infinite;
+}
+
+@keyframes blink {
+  0%,
+  45% {
+    content: url("/assets/img/profile-picture/default.svg");
+  }
+  50%,
+  95% {
+    content: url("/assets/img/profile-picture/blink.svg");
+  }
+  100% {
+    content: url("/assets/img/profile-picture/default.svg");
+  }
+} */

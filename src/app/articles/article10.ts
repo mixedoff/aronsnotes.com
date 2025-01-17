@@ -5,6 +5,9 @@ export const article10 = {
   title: 'git reset',
   subtitle: 'Different types of git reset and when to use them',
   tags: ['git'],
+  size: null,
+  author: null,
+  published: null,
   content: `
     <h6>1. what is git reset?</h6>
     <p class="article">Git reset is a command that moves the HEAD and branch refs to a specified commit. It's commonly used to undo changes or move between different commit states.</p>

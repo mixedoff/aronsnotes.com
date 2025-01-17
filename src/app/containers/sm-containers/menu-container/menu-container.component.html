@@ -21,30 +21,31 @@
           clip-rule="evenodd"
           d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
           class="svg-minimize"
-          fill="#ffffff"
+          fill="#F6DA0E"
         />
         <path
+          (click)="onMaximize()"
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
-          fill="#ffffff"
+          fill="#4EB03F"
         />
       </svg>
     </div>
-    <small>explore</small>
+    <small>menu</small>
     <!-- <div class="place-holder" style="width: 54px; background: none"></div> -->
   </div>
   <div class="inner-container">
+    <p (click)="openSubmenuOverlay('code')">code</p>
+    <p (click)="openSubmenuOverlay('UX')">user experience</p>
+    <p (click)="openSubmenuOverlay('UI')">user interface</p>
+    <p (click)="openSubmenuOverlay('misc')">miscellaneous</p>
+    <p (click)="openSubmenuOverlay('booknotes')" style="display: none">
+      book notes
+    </p>
     <br />
-    <p (click)="openSubmenuOverlay('code')">&lt;code&gt;</p>
-    <p (click)="openSubmenuOverlay('UX')">&lt;user-experience&gt;</p>
-    <p (click)="openSubmenuOverlay('UI')">&lt;user-interface&gt;</p>
-    <!-- <p (click)="openSubmenuOverlay('marketing')" class="disabled">Marketing</p> -->
-    <!-- <p (click)="openSubmenuOverlay('business')" class="disabled">Business</p> -->
-    <br />
-    <br />
-    <p (click)="onConnect()">&lt;about&gt;</p>
-    <p (click)="onQuit()">&lt;quit-the-game&gt;</p>
+    <p (click)="onConnect()">connect</p>
+    <p (click)="onQuit()">quit the game</p>
   </div>
 </div>
 

@@ -49,7 +49,6 @@ h2,
 h3,
 h6 {
   text-transform: lowercase;
-  word-break: break-all;
 }
 
 h1 {
@@ -138,6 +137,31 @@ p.article {
 
 p.mb-2 {
   margin-bottom: 2rem;
+}
+
+/* button styles */
+button {
+  cursor: pointer;
+  background: #000000;
+  padding: 4px 8px;
+  margin: 20px 10px 10px 10px;
+  box-shadow: 4px 4px 0px 0px white;
+  border: none;
+  font-family: "IBM Plex Mono";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem;
+  letter-spacing: -0.0125rem;
+}
+
+button.next {
+  color: #6ffa1e;
+  box-shadow: 4px 4px 0px 0px #6ffa1e;
+}
+
+button.back {
+  color: white;
 }
 
 s {
@@ -248,6 +272,13 @@ strong {
     font-size: 1rem;
     line-height: 1.25rem;
     letter-spacing: -0.0125rem;
+  }
+
+  @media (max-width: 440px) {
+    h1 {
+      font-size: 2.5rem;
+      line-height: 2.5rem;
+    }
   }
 
   ul,

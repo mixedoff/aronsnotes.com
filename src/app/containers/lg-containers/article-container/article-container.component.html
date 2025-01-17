@@ -36,7 +36,7 @@
       <small>{{ selectedArticle?.date }}</small>
     </div>
   </div>
-  <div class="inner-container">
+  <div class="inner-container" #innerContainer>
     <div class="title">
       <h1 style="margin-bottom: 1rem">{{ selectedArticle?.title }}</h1>
     </div>
@@ -44,7 +44,21 @@
       <p>{{ selectedArticle?.subtitle }}</p>
     </div>
     <div class="horizontal-rule"></div>
-    <div class="article-body" [innerHtml]="selectedArticle?.content"></div>
+    <!-- TODO: add article info -->
+    <!-- <div class="article-info">
+      <small
+        >Original title: '{{ selectedArticle?.title }}' by
+        {{ selectedArticle?.author }} published in
+        {{ selectedArticle?.published }}</small
+      >
+    </div> -->
+    <div class="article-body-container">
+      <div class="article-body" [innerHtml]="selectedArticle?.content"></div>
+    </div>
+    <div class="article-footer">
+      <button class="back" (click)="clickClose()">&#8617; back</button>
+      <button class="next" (click)="clickNext()">next &#8618;</button>
+    </div>
   </div>
   <div class="small-div">
     <small id="upvotes">upvotes: 2</small>

@@ -6,6 +6,73 @@
   } @if (showWelcomeScreen) {
   <app-welcome-screen
     (childEnterPressed)="onGrandchildEnterPressed()"
+    (forwardToMainMenuScreenEvent)="onGrandchildSkipLoadingScreen()"
+  ></app-welcome-screen>
+  } @if (showSelectModeScreen) {
+  <app-select-mode-screen
+    (buttonClickedFromChild)="onGrandchildButtonClick()"
+    (skipLoadingScreenEvent)="onGrandchildMenuClick()"
+  ></app-select-mode-screen>
+  } @if (showMainMenuScreen) {
+  <app-main-menu-screen
+    (ArticleClickedFromChild)="onGrandchildMenuArticleClick($event)"
+    (connectClickedOnChild)="onGrandchildConnectClick()"
+    (quitClickedOnChild)="onGrandchildQuitClick()"
+    (minimizeClickedOnChild)="onGrandchildMinimizeClick()"
+    (maximizeClickedOnChild)="onGrandchildMaximizeClick()"
+    (articlesClickedOnChild)="onGrandchildArticlesClick()"
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+  ></app-main-menu-screen>
+  } @if (showArticlesScreen) {
+  <app-articles-screen
+    (articleClicked)="onGrandchildArticlesArticleClick($event)"
+    (closeArticlesClicked)="onGrandchildCloseArticlesClicked()"
+    (quitClickedOnChild)="onGrandchildQuitClick()"
+    (connectClickedOnChild)="onGrandchildConnectClick()"
+    (articlesClickedOnChild)="onGrandchildArticlesClick()"
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+  ></app-articles-screen>
+  } @if (showAboutScreen) {
+  <app-about-screen
+    (articlesClickedOnChild)="onGrandchildArticlesClick()"
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+    (connectClickedOnChild)="onGrandchildConnectClick()"
+    (quitClickedOnChild)="onGrandchildQuitClick()"
+    (aPressedOnChild)="onGrandchildArticlesClick()"
+  ></app-about-screen>
+  } @if (showQuitScreen) {
+  <app-quit-screen
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+  ></app-quit-screen>
+  } @if (showArticleScreen) {
+  <app-article-screen
+    (connectClickedOnChild)="onGrandchildConnectClick()"
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+    (shiftC)="onGrandchildShiftC()"
+    (shiftM)="onGrandchildShiftM()"
+    (goBackToSubmenu)="onGoBackToSubmenu()"
+  ></app-article-screen
+  >} @if (showHiddenScreen) {
+  <app-hidden-screen
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+    (booknotesClicked)="onChildBooknotesClick()"
+  ></app-hidden-screen>
+  } @if (showBooknotesScreen) {
+  <app-booknotes-screen
+    (menuClickedOnChild)="onGrandchildMenuClick()"
+    (articleClickedOnChild)="onGrandchildBooknotesArticleClick($event)"
+    (closeArticlesClicked)="onGrandchildCloseArticlesClicked()"
+  ></app-booknotes-screen>
+  }
+
+  <!-- WITH PASSWORD SCREEN -->
+  <!-- @if (showLoadingScreen) {
+  <app-loading-screen
+    (skipLoadingScreenEvent)="onGrandchildSkipLoadingScreen()"
+  ></app-loading-screen>
+  } @if (showWelcomeScreen) {
+  <app-welcome-screen
+    (childEnterPressed)="onGrandchildEnterPressed()"
     (forwardToMainMenuScreenEvent)="onGrandchildMenuClick()"
   ></app-welcome-screen>
   } @if (showSelectModeScreen) {
@@ -49,9 +116,5 @@
   <app-booknotes-screen
     (menuClickedOnChild)="onGrandchildMenuClick()"
   ></app-booknotes-screen>
-  }
-
-  <!-- <app-booknotes-screen
-    (menuClickedOnChild)="onGrandchildMenuClick()"
-  ></app-booknotes-screen> -->
+  } -->
 </div>

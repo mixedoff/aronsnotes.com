@@ -4,7 +4,10 @@ export const article5 = {
   folder: 'code',
   title: 'set up git repo',
   subtitle: 'set up a Git repository to track and push changes from your CLI',
-  tags: ['bash', 'github'],
+  tags: ['git', 'bash'],
+  size: null,
+  author: null,
+  published: null,
   content: `
     <h6>1. add a remote repository</h6>
     <p class="article">Link your local project to GitHub with:</p>

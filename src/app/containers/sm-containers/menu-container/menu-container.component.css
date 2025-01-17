@@ -4,8 +4,8 @@
   justify-content: center; /* Horizontally centers the content */
   align-items: center; /* Vertically centers the content */
   width: 100%;
-  max-width: 400px;
-  height: 300px;
+  max-width: 380px;
+  height: 312px;
   /* margin: 80px 40px; */
   overflow: hidden;
   padding: 0 20px 20px 20px;
@@ -68,8 +68,8 @@ p.disabled:hover {
   justify-content: center; /* Horizontally centers the content */
   align-items: center; /* Vertically centers the content */
   width: 100%;
-  max-width: 400px;
-  height: 300px;
+  max-width: 380px;
+  height: 312px;
   /* margin: 80px 40px; */
   overflow: hidden;
   padding: 0 20px 20px 20px;
@@ -132,15 +132,10 @@ p.disabled:hover {
   cursor: pointer; /* Optional: shows it's clickable */
 }
 
-.svg-minimize {
+/* .svg-minimize {
   fill: white;
-  /* Somehow transition is not working on the svg element */
-  /* -webkit-transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s;
-  -moz-transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s;
-  -o-transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s;
-  transition: fill 0.3s cubic-bezier(1, -0.5, 0, 1.5) 4s; */
-}
+} */
 
-.active {
+/* .active {
   fill: #f7f457 !important;
-}
+} */

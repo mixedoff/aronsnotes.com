@@ -5,6 +5,9 @@ export const article9 = {
   title: 'updating angular app on nginx server',
   subtitle: 'Quick guide to deploy updates to your Angular application',
   tags: ['angular', 'nginx'],
+  size: null,
+  author: null,
+  published: null,
   content: `
     <h6>1. build your app</h6>
     <p class="article">Navigate to your Angular project directory:</p>

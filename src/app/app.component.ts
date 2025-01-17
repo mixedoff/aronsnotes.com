@@ -11,6 +11,8 @@ import { Article } from './article.service';
 import { QuitScreenComponent } from './screens/quit-screen/quit-screen.component';
 import { HiddenScreenComponent } from './screens/hidden-screen/hidden-screen.component';
 import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-screen.component';
+import { ArticlesScreenComponent } from './screens/articles-screen/articles-screen.component';
+import { ArticleService } from './article.service';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +22,13 @@ import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-s
     WelcomeScreenComponent,
     MainMenuScreenComponent,
     SelectModeScreenComponent,
-    PasswordScreenComponent,
     ReactiveFormsModule,
     ArticleScreenComponent,
     AboutScreenComponent,
     QuitScreenComponent,
     HiddenScreenComponent,
     BooknotesScreenComponent,
+    ArticlesScreenComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -43,11 +45,14 @@ export class AppComponent {
   showQuitScreen: boolean = false;
   showHiddenScreen: boolean = false;
   showBooknotesScreen: boolean = false;
+  showArticlesScreen: boolean = false;
 
   @Output() ArticleClickedFromGrandchild = new EventEmitter<
     Article | undefined
   >();
   private loadingTimeout?: number;
+
+  constructor(private articleService: ArticleService) {}
 
   onGrandchildEnterPressed() {
     // console.log('enter');
@@ -60,7 +65,9 @@ export class AppComponent {
     this.showLoadingScreen = false;
     this.showWelcomeScreen = false;
     this.showSelectModeScreen = false;
-    this.showPasswordScreen = true;
+    this.showAboutScreen = true;
+    // this.showMainMenuScreen = true;
+    // this.showPasswordScreen = true;
   }
 
   onGrandchildInputSubmitted() {
@@ -68,16 +75,50 @@ export class AppComponent {
     this.showMainMenuScreen = true;
   }
 
-  onGrandchildArticleClick(article: Article | undefined) {
-    this.showMainMenuScreen = false;
+  onGrandchildMenuArticleClick(article: Article | undefined) {
+    console.log('Article clicked:', article);
+    // this.articleService.setSelectedArticle(article);
+    // this.articleService.setShowArticleContent(true);
     this.showArticleScreen = true;
     this.ArticleClickedFromGrandchild.emit(article);
+    this.showMainMenuScreen = true;
+    // ... any other handling
   }
+
+  onGrandchildArticlesArticleClick($event: Article) {
+    console.log('Article clicked:', $event);
+    this.showArticleScreen = true;
+    this.ArticleClickedFromGrandchild.emit($event);
+    this.showMainMenuScreen = false;
+  }
+
+  onGrandchildBooknotesArticleClick(article: Article | undefined) {
+    console.log('Article clicked:', article);
+    // this.articleService.setSelectedArticle(article);
+    // this.articleService.setShowArticleContent(true);
+    this.showArticleScreen = true;
+    this.ArticleClickedFromGrandchild.emit(article);
+    this.showMainMenuScreen = false;
+    // ... any other handling
+  }
+
+  onGrandchildCloseArticlesClicked() {
+    this.showArticlesScreen = false;
+    this.showMainMenuScreen = true;
+    this.showBooknotesScreen = false;
+  }
+
+  // WHAT THE FUCK DID I DO HERE?
+  // onGrandchildArticlesClick(article: Article | undefined) {
+  //   this.showArticleScreen = true;
+  //   this.ArticleClickedFromGrandchild.emit(article);
+  // }
 
   onGrandchildConnectClick() {
     this.showMainMenuScreen = false;
     this.showArticleScreen = false;
     this.showAboutScreen = true;
+    this.showArticlesScreen = false;
   }
 
   onGrandchildShiftC() {
@@ -103,6 +144,7 @@ export class AppComponent {
     this.showQuitScreen = false;
     this.showBooknotesScreen = false;
     this.showHiddenScreen = false;
+    this.showArticlesScreen = false;
   }
 
   onGrandchildQuitClick() {
@@ -117,28 +159,42 @@ export class AppComponent {
     this.showHiddenScreen = true;
   }
 
+  onGrandchildMaximizeClick() {
+    this.showMainMenuScreen = false;
+    this.showArticlesScreen = true;
+    this.articleService.filterArticles(['code', 'UX', 'UI', 'miscellaneous']);
+  }
+
   onGrandchildSkipLoadingScreen() {
     if (this.loadingTimeout) {
       clearTimeout(this.loadingTimeout);
     }
-    this.showMainMenuScreen = true;
+    this.showMainMenuScreen = false;
     this.showLoadingScreen = false;
     this.showWelcomeScreen = false;
     this.showSelectModeScreen = false;
     this.showPasswordScreen = false;
     this.showArticleScreen = false;
-    this.showAboutScreen = false;
+    this.showAboutScreen = true;
     this.showQuitScreen = false;
   }
 
   onGoBackToSubmenu() {
     this.showArticleScreen = false;
-    this.showMainMenuScreen = true;
+    // this.showMainMenuScreen = true;
   }
 
   onChildBooknotesClick() {
     this.showHiddenScreen = false;
     this.showBooknotesScreen = true;
+    this.articleService.filterArticles('books');
+  }
+
+  onGrandchildArticlesClick() {
+    this.showArticlesScreen = true;
+    this.showAboutScreen = false;
+    this.showMainMenuScreen = false;
+    this.articleService.filterArticles(['code', 'UX', 'UI', 'miscellaneous']);
   }
 
   ngOnInit() {

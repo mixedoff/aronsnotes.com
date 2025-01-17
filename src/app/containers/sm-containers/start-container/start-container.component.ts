@@ -41,10 +41,13 @@ export class StartContainerComponent {
   private startColorChange(): void {
     this.intervalId = window.setInterval((): void => {
       const textElement = document.getElementById('text');
-      const divElement = document.getElementById('inner-container');
-      if (textElement && divElement) {
+      const innerContainer = document.getElementById('inner-container');
+      const outerContainer = document.getElementById('outer-container');
+      if (textElement && innerContainer && outerContainer) {
         textElement.style.color = this.isRed ? 'white' : '#6ffa1e';
-        divElement.style.borderColor = this.isRed ? 'white' : '#6ffa1e';
+        innerContainer.style.borderColor = this.isRed ? 'white' : '#6ffa1e';
+        innerContainer.style.backgroundColor = this.isRed ? '#010689' : 'black';
+        outerContainer.style.backgroundColor = this.isRed ? '#010689' : 'black';
         this.isRed = !this.isRed;
       }
     }, 600);

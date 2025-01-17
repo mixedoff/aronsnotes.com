@@ -9,7 +9,7 @@ import { article7 } from './articles/article7';
 import { article8 } from './articles/article8';
 import { article9 } from './articles/article9';
 import { article10 } from './articles/article10';
-
+import { article11 } from './articles/article11';
 export interface Article {
   id: number;
   date: string;
@@ -17,6 +17,9 @@ export interface Article {
   title: string;
   subtitle: string;
   tags: string[];
+  size: string | null;
+  author: string | null;
+  published: string | null;
   content: string;
 }
 
@@ -24,18 +27,25 @@ export interface Article {
   providedIn: 'root',
 })
 export class ArticleService {
-  private articles: Article[] = [
-    article10,
-    article9,
-    article8,
-    article7,
-    article6,
-    article5,
-    article4,
-    article3,
-    article2,
-    article1,
-  ];
+  private originalArticles: Article[] = [];
+  articles: Article[] = [];
+
+  constructor() {
+    this.originalArticles = [
+      article11,
+      article10,
+      article9,
+      article8,
+      article7,
+      article6,
+      article5,
+      article4,
+      article3,
+      article2,
+      article1,
+    ];
+    this.articles = [...this.originalArticles];
+  }
 
   getArticles(): Article[] {
     return this.articles;
@@ -43,6 +53,23 @@ export class ArticleService {
 
   getArticleById(id: number): Article | undefined {
     return this.articles.find((article) => article.id === id);
+  }
+
+  filterArticles(folders: string | string[]) {
+    // Reset to original list first
+    this.articles = [...this.originalArticles];
+
+    // If folders is an array, show articles from any of these folders
+    if (Array.isArray(folders)) {
+      this.articles = this.articles.filter((article) =>
+        folders.includes(article.folder)
+      );
+    } else {
+      // If folders is a single string, show articles from that folder
+      this.articles = this.articles.filter(
+        (article) => article.folder === folders
+      );
+    }
   }
 }
 

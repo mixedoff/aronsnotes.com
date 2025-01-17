@@ -5,6 +5,9 @@ export const article6 = {
   title: 'connect godaddy domain with hetzner cloud',
   subtitle: 'Connect your purchased GoDaddy domain with a Hetzner server',
   tags: ['godaddy', 'hetzner'],
+  size: null,
+  author: null,
+  published: null,
   content: `
 <h6>1. Obtain Your Hetzner Server IP Address</h6>
 <p class="article">First, you need the IP address of your Hetzner server. You can find this in the Hetzner Cloud Console under the details of your server.</p>
