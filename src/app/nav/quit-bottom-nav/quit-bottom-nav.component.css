@@ -30,6 +30,10 @@
   background: #6f7a83;
 }
 
+p {
+  color: #6ffa1e;
+}
+
 @media (max-width: 450px) {
   p {
     font-size: smaller;

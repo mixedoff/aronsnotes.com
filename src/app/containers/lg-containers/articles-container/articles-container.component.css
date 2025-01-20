@@ -20,7 +20,6 @@ p {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  /* max-width: 1240px; */
   height: calc(100vh - 80px);
   margin: 40px 0px;
   padding: 0px 20px 20px 20px;
@@ -173,7 +172,3 @@ p {
     display: none;
   }
 }
-/* 
-.article-container.hide {
-  display: none;
-} */

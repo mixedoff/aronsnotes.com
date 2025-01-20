@@ -1,5 +1,16 @@
 <app-article-top-nav
-  style="--nav-color: white; --nav-bg: #6f7a83"
+  style="
+    --nav-color: white;
+    --nav-bg: #6f7a83;
+    --nav-articles-color: #000000;
+    --nav-articles-bg: #c6c8c8;
+    --nav-connect-color: #ffffff;
+    --nav-connect-bg: #6f7a83;
+    --nav-menu-color: #ffffff;
+    --nav-menu-bg: #6f7a83;
+    --nav-quit-color: #ffffff;
+    --nav-quit-bg: #6f7a83;
+  "
   (clickMenu)="clickMenuOnChild()"
   (clickArticles)="clickArticlesOnChild()"
   (clickConnect)="clickConnectOnChild()"
@@ -11,4 +22,5 @@
 ></app-articles-container>
 <app-bottom-nav
   style="--nav-color: white; --nav-bg: #6f7a83; --beta-bg: #6f7a83"
+  (menuClicked)="clickMenuOnChild()"
 ></app-bottom-nav>

@@ -1,6 +1,24 @@
 <div class="outer-div">
-  <p (click)="onArticles()" id="no-shortcut" data-text="<A> ">articles</p>
-  <p (click)="onConnect()" id="no-shortcut" data-text="<C> ">connect</p>
-  <p (click)="onMenu()" id="no-shortcut" data-text="<M> ">menu</p>
-  <p (click)="onQuit()" id="no-shortcut" data-text="<Q> ">quit</p>
+  <p
+    (click)="onArticles()"
+    id="no-shortcut"
+    class="nav-articles"
+    data-text="<A> "
+  >
+    articles
+  </p>
+  <p
+    (click)="onConnect()"
+    id="no-shortcut"
+    class="nav-connect"
+    data-text="<C> "
+  >
+    connect
+  </p>
+  <p (click)="onMenu()" id="no-shortcut" class="nav-menu" data-text="<M> ">
+    menu
+  </p>
+  <p (click)="onQuit()" id="no-shortcut" class="nav-quit" data-text="<Q> ">
+    quit
+  </p>
 </div>

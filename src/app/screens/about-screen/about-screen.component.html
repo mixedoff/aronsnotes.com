@@ -6,7 +6,12 @@
     (clickMenu)="clickMenuOnChild()"
     (clickQuit)="clickQuitOnChild()"
     (aPressed)="handleAPressed()"
-    style="--nav-color: #000; --nav-bg: #c6c8c8"
+    style="
+      --nav-color: #000;
+      --nav-bg: #c6c8c8;
+      --nav-connect-color: #ffffff;
+      --nav-connect-bg: #6f7a83;
+    "
   ></app-article-top-nav>
   <app-about-container
     (closeSubmenuEvent)="clickMenuOnChild()"
