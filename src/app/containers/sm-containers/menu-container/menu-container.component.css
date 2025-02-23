@@ -41,10 +41,15 @@
 
 p {
   color: white;
+  cursor: pointer;
 }
 
 small {
   color: white;
+}
+
+.svg-quit {
+  cursor: pointer;
 }
 
 p:hover {
@@ -88,7 +93,7 @@ p.disabled:hover {
   display: flex;
   padding: 20px;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   flex: 1 0 0;
   align-self: stretch;
   border: 2px solid var(--Neutral1, white);
@@ -130,6 +135,12 @@ p.disabled:hover {
   text-overflow: ellipsis; /* Add ellipsis for overflow */
   max-width: 100%; /* Ensure it doesn't overflow container */
   cursor: pointer; /* Optional: shows it's clickable */
+  align-self: stretch;
+}
+
+.submenu-back {
+  align-self: center;
+  cursor: pointer;
 }
 
 /* .svg-minimize {

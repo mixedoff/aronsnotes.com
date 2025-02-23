@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   EventEmitter,
   Output,
+  HostListener,
 } from '@angular/core';
 
 @Component({
@@ -17,6 +18,13 @@ import {
 export class QuitBottomNavComponent implements AfterViewInit {
   @Output() menuClicked = new EventEmitter<boolean>();
   @ViewChild('flickerText', { static: false }) flickerText!: ElementRef;
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.code === 'KeyA') {
+      console.log('KeyA');
+      this.clickMenu();
+    }
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {

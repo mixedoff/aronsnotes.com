@@ -1,9 +1,10 @@
 export const article2 = {
   id: 2,
   date: '05.08.2023',
-  folder: 'UI',
-  title: 'careeverz.com ui v1',
-  subtitle: 'CareeVerze.com the first design',
+  folder: 'careeverz',
+  function: 'UI',
+  title: 'UI v1',
+  subtitle: 'careeverz.com the first design',
   tags: ['figma', 'look&feel'],
   size: null,
   author: null,

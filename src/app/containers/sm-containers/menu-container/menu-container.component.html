@@ -10,42 +10,49 @@
       >
         <path
           (click)="onQuit()"
+          class="svg-quit"
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
           fill="#ef5747"
         />
+        <!-- I HAVE REMOVED MINIMIZE AND MAXIMIZE FUNCTION FOR NOW
         <path
           (click)="onMinimize()"
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
           class="svg-minimize"
-          fill="#F6DA0E"
+          fill="#ffffff"
         />
         <path
           (click)="onMaximize()"
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
-          fill="#4EB03F"
+          fill="#ffffff"
+        /> -->
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
+          fill="#ffffff"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
+          fill="#ffffff"
         />
       </svg>
     </div>
-    <small>menu</small>
-    <!-- <div class="place-holder" style="width: 54px; background: none"></div> -->
+    <small>works</small>
+    <!-- <div class="place-holder" style="width: 54px; background: none"></dirv> -->
   </div>
   <div class="inner-container">
-    <p (click)="openSubmenuOverlay('code')">code</p>
-    <p (click)="openSubmenuOverlay('UX')">user experience</p>
-    <p (click)="openSubmenuOverlay('UI')">user interface</p>
+    <p (click)="openSubmenuOverlay('careeverz')">careeverz.com</p>
+    <p (click)="openSubmenuOverlay('aronsnotes')">aronsnotes.com</p>
     <p (click)="openSubmenuOverlay('misc')">miscellaneous</p>
-    <p (click)="openSubmenuOverlay('booknotes')" style="display: none">
-      book notes
-    </p>
-    <br />
-    <p (click)="onConnect()">connect</p>
-    <p (click)="onQuit()">quit the game</p>
   </div>
 </div>
 
@@ -62,6 +69,7 @@
       >
         <path
           (click)="closeSubmenu()"
+          class="svg-quit"
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
@@ -91,7 +99,7 @@
     </p>
     }}
     <br />
-    <p (click)="closeSubmenu()">&#8617; back</p>
+    <p class="submenu-back" (click)="closeSubmenu()">&#8617; back</p>
   </div>
 </div>
 }

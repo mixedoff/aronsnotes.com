@@ -32,6 +32,7 @@
 
 p {
   color: #6ffa1e;
+  cursor: pointer;
 }
 
 @media (max-width: 450px) {

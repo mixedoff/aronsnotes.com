@@ -1,8 +1,9 @@
 export const article3 = {
   id: 3,
   date: '05.08.2023',
-  folder: 'UI',
-  title: 'careeverz.com ui v3',
+  folder: 'careeverz',
+  function: 'UI',
+  title: 'UI v3',
   subtitle: 'CareeVerz.com the first real design',
   tags: ['figma', 'prototype'],
   size: null,

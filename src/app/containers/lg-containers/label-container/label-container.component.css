@@ -6,6 +6,10 @@ p {
   color: #080a19;
 }
 
+.svg-quit {
+  cursor: pointer;
+}
+
 .outer-container {
   display: flex;
   flex-direction: column;

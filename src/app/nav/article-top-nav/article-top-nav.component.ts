@@ -12,18 +12,21 @@ export class ArticleTopNavComponent {
   @Output() clickMenu = new EventEmitter<boolean>();
   @Output() clickQuit = new EventEmitter<boolean>();
   @Output() clickArticles = new EventEmitter<boolean>();
-
+  @Output() clickReads = new EventEmitter<boolean>();
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.code === 'KeyC') {
       console.log('KeyC');
       this.onConnect();
-    } else if (event.code === 'KeyM') {
-      console.log('KeyM');
+    } else if (event.code === 'KeyW') {
+      console.log('KeyW');
       this.onMenu();
-    } else if (event.code === 'KeyA') {
-      console.log('KeyA');
+    } else if (event.code === 'KeyN') {
+      console.log('KeyN');
       this.onArticles();
+    } else if (event.code === 'KeyR') {
+      console.log('KeyR');
+      this.onReads();
     } else if (event.code === 'KeyQ') {
       console.log('KeyQ');
       this.onQuit();
@@ -45,5 +48,9 @@ export class ArticleTopNavComponent {
   onQuit() {
     this.clickQuit.emit(true);
     console.log('Quit clicked');
+  }
+  onReads() {
+    this.clickReads.emit(true);
+    console.log('Reads clicked');
   }
 }

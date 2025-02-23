@@ -20,6 +20,7 @@ export class MainMenuScreenComponent {
   @Output() quitClickedOnChild = new EventEmitter<boolean>();
   @Output() minimizeClickedOnChild = new EventEmitter<boolean>();
   @Output() maximizeClickedOnChild = new EventEmitter<boolean>();
+  @Output() readsClickedOnChild = new EventEmitter<boolean>();
 
   onChildClickArticle(article: Article | undefined) {
     this.ArticleClickedFromChild.emit(article);
@@ -27,6 +28,10 @@ export class MainMenuScreenComponent {
 
   clickArticlesOnChild() {
     this.articlesClickedOnChild.emit(true);
+  }
+
+  clickReadsOnChild() {
+    this.readsClickedOnChild.emit(true);
   }
 
   clickMenuOnChild() {

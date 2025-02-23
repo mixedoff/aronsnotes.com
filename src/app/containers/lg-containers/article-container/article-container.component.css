@@ -6,6 +6,10 @@ p {
   color: #080a19;
 }
 
+.svg-quit {
+  cursor: pointer;
+}
+
 .horizontal-rule {
   background: none;
   border: none;
@@ -28,7 +32,7 @@ p {
   margin: 40px 0px;
   /* overflow: hidden; */
   /* padding: 0 20px 0px 20px; */
-  padding: 0px 20px;
+  padding: 0px 20px 0px 20px;
   background: #c6c8c8;
   box-shadow: 20px 20px 0px 0px #000;
   /* position: absolute;
@@ -36,6 +40,17 @@ p {
   left: 50%;
   transform: translate(-50%, -50%); */
   /* z-index: 1000; */
+  @media (min-width: 650px) {
+    height: 85%;
+    position: absolute;
+    top: 46.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media (max-width: 650px) {
+    height: 100vh;
+    margin: 0;
+  }
 }
 
 .inner-container {
@@ -58,7 +73,7 @@ p {
     padding: 80px;
   }
   @media (min-width: 1024px) {
-    padding: 80px 120px;
+    padding: 80px 240px;
   }
 }
 
@@ -133,21 +148,6 @@ p {
 
 #upvotes {
   opacity: 0;
-}
-
-@media (min-width: 650px) {
-  .outer-container {
-    /* max-height: 100%; */
-    /* margin-top: 40px; */
-    /* margin-bottom: 80px; */
-    /* margin-left: 20px;
-    margin-right: 20px; */
-    height: 85%;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 .desktop-only-title {

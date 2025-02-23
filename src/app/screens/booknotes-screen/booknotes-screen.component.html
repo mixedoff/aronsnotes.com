@@ -1,12 +1,43 @@
-<app-top-nav
-  [navTitle]="'notes on my favourite books'"
-  style="--nav-bg: #6f7a83; --nav-color: #ffffff"
-></app-top-nav>
+<app-article-top-nav
+  style="
+    --nav-color: white;
+    --nav-bg: #080a19;
+    --nav-articles-color: #ffffff;
+    --nav-articles-bg: #080a19;
+    --nav-reads-color: #6ffa1e;
+    --nav-reads-bg: #080a19;
+    --nav-connect-color: #ffffff;
+    --nav-connect-bg: #080a19;
+    --nav-menu-color: #ffffff;
+    --nav-menu-bg: #080a19;
+    --nav-quit-color: #ffffff;
+    --nav-quit-bg: #080a19;
+  "
+  (clickMenu)="clickMenuOnChild()"
+  (clickArticles)="clickArticlesOnChild()"
+  (clickConnect)="clickConnectOnChild()"
+  (clickQuit)="clickQuitOnChild()"
+  (clickReads)="clickReadsOnChild()"
+></app-article-top-nav>
 <app-articles-container
+  style="
+    --outer-container-bg: #080a19;
+    --inner-container-bg: #080a19;
+    --text-color: #ffffff;
+    --article-item-hover-bg: #080a19;
+    --article-item-hover-color: #6ffa1e;
+    --article-item-hover-hr-color: #6ffa1e;
+  "
+  [containerTitle]="'reads'"
   (closeArticlesClicked)="clickCloseArticlesOnChild()"
   (articleClicked)="clickArticleOnChild($event)"
 ></app-articles-container>
 <app-bottom-nav
   (menuClicked)="clickMenuOnChild()"
-  style="--nav-bg: #6f7a83; --nav-color: #ffffff"
+  style="
+    --nav-bg: #080a19;
+    --nav-color: #ffffff;
+    --beta-bg: #080a19;
+    --beta-color: #080a19;
+  "
 ></app-bottom-nav>

@@ -22,6 +22,8 @@ export class ArticlesScreenComponent {
   @Output() connectClickedOnChild = new EventEmitter<void>();
   @Output() articlesClickedOnChild = new EventEmitter<void>();
   @Output() menuClickedOnChild = new EventEmitter<void>();
+  @Output() readsClickedOnChild = new EventEmitter<boolean>();
+
   onArticleClicked($event: Article) {
     console.log('Article clicked:', $event);
     this.articleClicked.emit($event);
@@ -45,5 +47,10 @@ export class ArticlesScreenComponent {
 
   clickMenuOnChild() {
     this.menuClickedOnChild.emit();
+  }
+
+  clickReadsOnChild() {
+    this.readsClickedOnChild.emit(true);
+    console.log('Reads clicked');
   }
 }

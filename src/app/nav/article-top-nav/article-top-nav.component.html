@@ -3,9 +3,15 @@
     (click)="onArticles()"
     id="no-shortcut"
     class="nav-articles"
-    data-text="<A> "
+    data-text="<N> "
   >
-    articles
+    notes
+  </p>
+  <p (click)="onReads()" id="no-shortcut" class="nav-reads" data-text="<R> ">
+    reads
+  </p>
+  <p (click)="onMenu()" id="no-shortcut" class="nav-menu" data-text="<W> ">
+    works
   </p>
   <p
     (click)="onConnect()"
@@ -14,9 +20,6 @@
     data-text="<C> "
   >
     connect
-  </p>
-  <p (click)="onMenu()" id="no-shortcut" class="nav-menu" data-text="<M> ">
-    menu
   </p>
   <p (click)="onQuit()" id="no-shortcut" class="nav-quit" data-text="<Q> ">
     quit

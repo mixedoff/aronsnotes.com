@@ -1,7 +1,8 @@
 export const article7 = {
   id: 7,
   date: '08.11.2024',
-  folder: 'code',
+  folder: 'aronsnotes',
+  function: 'code',
   title: 'setting up hetzner cloud on macOS',
   subtitle: 'set up and manage Hetzner Cloud servers on macOS',
   tags: ['hetzner', 'ssh'],

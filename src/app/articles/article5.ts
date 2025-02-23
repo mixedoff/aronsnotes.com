@@ -1,7 +1,8 @@
 export const article5 = {
   id: 5,
   date: '29.10.2024',
-  folder: 'code',
+  folder: 'aronsnotes',
+  function: 'code',
   title: 'set up git repo',
   subtitle: 'set up a Git repository to track and push changes from your CLI',
   tags: ['git', 'bash'],

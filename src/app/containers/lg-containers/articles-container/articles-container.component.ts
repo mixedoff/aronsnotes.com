@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Article, ArticleService } from '../../../article.service';
 import { ArticleStateService } from '../../../article.service.state';
+import { OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-articles-container',
@@ -9,9 +10,10 @@ import { ArticleStateService } from '../../../article.service.state';
   templateUrl: './articles-container.component.html',
   styleUrl: './articles-container.component.css',
 })
-export class ArticlesContainerComponent {
+export class ArticlesContainerComponent implements OnInit, OnDestroy {
   @Output() articleClicked = new EventEmitter<Article>();
   @Output() closeArticlesClicked = new EventEmitter<void>();
+  @Input() containerTitle: string = 'notes'; // default value is 'notes'
   articles: Article[];
 
   constructor(
@@ -38,6 +40,10 @@ export class ArticlesContainerComponent {
   }
 
   ngOnDestroy() {
-    this.articleService.filterArticles(['code', 'UX', 'UI', 'miscellaneous']);
+    this.articleService.filterArticles([
+      'aronsnotes',
+      'careeverz',
+      'miscellaneous',
+    ]);
   }
 }

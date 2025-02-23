@@ -1,8 +1,9 @@
 export const article1 = {
   id: 1,
   date: '05.08.2023',
-  folder: 'UX',
-  title: 'careeverz.com complete ux research and design',
+  folder: 'careeverz',
+  function: 'UX',
+  title: 'UX research and design mastercourse',
   subtitle: 'The making of CareeVerze.com a career planning AI webapp',
   tags: ['figma'],
   size: null,
@@ -11,8 +12,7 @@ export const article1 = {
   content: `
 <h2>summary</h2>
 <p class="article" >This article covers the more than year long journey of 
-ux-research, and ux-design phase. 
-The article covers the methodology and various tools that we used 
+ux-research, and ux-design phase. The article covers the methodology and various tools that we used 
 and hopefully gives the reader and quite thorough understanding 
 of not just the product built but also the ux abstractions.</p>
 

@@ -22,6 +22,7 @@
     (maximizeClickedOnChild)="onGrandchildMaximizeClick()"
     (articlesClickedOnChild)="onGrandchildArticlesClick()"
     (menuClickedOnChild)="onGrandchildMenuClick()"
+    (readsClickedOnChild)="onChildBooknotesClick()"
   ></app-main-menu-screen>
   } @if (showArticlesScreen) {
   <app-articles-screen
@@ -31,6 +32,7 @@
     (connectClickedOnChild)="onGrandchildConnectClick()"
     (articlesClickedOnChild)="onGrandchildArticlesClick()"
     (menuClickedOnChild)="onGrandchildMenuClick()"
+    (readsClickedOnChild)="onChildBooknotesClick()"
   ></app-articles-screen>
   } @if (showAboutScreen) {
   <app-about-screen
@@ -39,6 +41,7 @@
     (connectClickedOnChild)="onGrandchildConnectClick()"
     (quitClickedOnChild)="onGrandchildQuitClick()"
     (aPressedOnChild)="onGrandchildArticlesClick()"
+    (readsClickedOnChild)="onChildBooknotesClick()"
   ></app-about-screen>
   } @if (showQuitScreen) {
   <app-quit-screen
@@ -62,6 +65,9 @@
     (menuClickedOnChild)="onGrandchildMenuClick()"
     (articleClickedOnChild)="onGrandchildBooknotesArticleClick($event)"
     (closeArticlesClicked)="onGrandchildCloseArticlesClicked()"
+    (connectClickedOnChild)="onGrandchildConnectClick()"
+    (quitClickedOnChild)="onGrandchildQuitClick()"
+    (articlesClickedOnChild)="onGrandchildArticlesClick()"
   ></app-booknotes-screen>
   }
 

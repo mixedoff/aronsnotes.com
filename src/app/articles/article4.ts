@@ -1,8 +1,9 @@
 export const article4 = {
   id: 4,
   date: '30.09.2024',
-  folder: 'UI',
-  title: 'careeverz.com ui v6_final',
+  folder: 'careeverz',
+  function: 'UI',
+  title: 'UI v6_final',
   subtitle:
     'CareeVerz.com a step-by-step guide to the final design and design system',
   tags: ['figma', 'prototype'],

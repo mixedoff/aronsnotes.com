@@ -26,6 +26,10 @@ img {
   background: none;
 }
 
+img.mt-0 {
+  margin-top: 0.3rem;
+}
+
 img.whiteBoard {
   border: 8px solid #6f7a83;
   padding: 20px;
@@ -78,6 +82,10 @@ h2 {
   background: none;
   margin-top: 4rem;
   margin-bottom: 0.75rem;
+}
+
+h3.mt-0 {
+  margin-top: 0rem;
 }
 
 h3 {
@@ -137,6 +145,15 @@ p.article {
 
 p.mb-2 {
   margin-bottom: 2rem;
+}
+
+p.highlight {
+  display: block;
+  background: #000000;
+  color: #6ffa1e;
+  padding: 0.2rem 1rem;
+  border-left: 2px solid #6ffa1e; /* Added green left border */
+  margin: 2rem 0;
 }
 
 /* button styles */

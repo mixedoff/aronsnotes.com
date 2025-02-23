@@ -22,6 +22,7 @@ export class AboutScreenComponent {
   @Output() connectClickedOnChild = new EventEmitter<boolean>();
   @Output() quitClickedOnChild = new EventEmitter<boolean>();
   @Output() articlesClickedOnChild = new EventEmitter<boolean>();
+  @Output() readsClickedOnChild = new EventEmitter<boolean>();
 
   clickMenuOnChild() {
     this.menuClickedOnChild.emit(true);
@@ -46,5 +47,10 @@ export class AboutScreenComponent {
   handleAPressed() {
     this.aPressedOnChild.emit(true);
     console.log('aPressedOnChild emitted');
+  }
+
+  clickReadsOnChild() {
+    this.readsClickedOnChild.emit(true);
+    console.log('Reads clicked');
   }
 }

@@ -6,6 +6,10 @@ p {
   color: #080a19;
 }
 
+.svg-quit {
+  cursor: pointer;
+}
+
 .outer-container {
   display: flex;
   flex-direction: column;
@@ -58,7 +62,7 @@ p {
   align-self: stretch;
   border: 2px solid var(--Neutral1, #080a19);
   background: var(--Neutral3, #c6c8c8);
-  text-align: right;
+  text-align: left;
   overflow-y: auto;
   @media (max-width: 768px) {
     padding: 20px;
@@ -96,6 +100,10 @@ p {
   @media (min-width: 1024px) {
     flex: 2;
   }
+
+  @media (max-width: 650px) {
+    order: 2;
+  }
 }
 
 .img-column {
@@ -108,8 +116,20 @@ p {
   height: auto;
   /* height: 100%; */
   max-height: 512px;
+  margin-top: 20px;
+
+  @media (min-width: 650px) {
+    position: sticky;
+    top: 0px; /* Add specific top value */
+  }
+
   @media (min-width: 1024px) {
     flex: 1;
+  }
+
+  @media (max-width: 650px) {
+    order: 1;
+    margin-top: 0px;
   }
 }
 
@@ -118,6 +138,7 @@ p {
   max-height: 512px;
   width: 100%;
   margin: 0px;
+
   /* I HAVE ADDED THIS FOR NOW FOR EASE OF USE */
   @media (max-width: 650px) {
     max-height: 256px;
@@ -128,7 +149,7 @@ p {
 .social-icons {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 100%;
   gap: 10px;
   background: none;

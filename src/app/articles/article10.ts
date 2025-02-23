@@ -1,7 +1,8 @@
 export const article10 = {
   id: 10,
   date: '13.11.2024',
-  folder: 'code',
+  folder: 'aronsnotes',
+  function: 'code',
   title: 'git reset',
   subtitle: 'Different types of git reset and when to use them',
   tags: ['git'],

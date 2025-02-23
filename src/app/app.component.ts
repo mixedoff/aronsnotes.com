@@ -119,6 +119,7 @@ export class AppComponent {
     this.showArticleScreen = false;
     this.showAboutScreen = true;
     this.showArticlesScreen = false;
+    this.showBooknotesScreen = false;
   }
 
   onGrandchildShiftC() {
@@ -162,7 +163,11 @@ export class AppComponent {
   onGrandchildMaximizeClick() {
     this.showMainMenuScreen = false;
     this.showArticlesScreen = true;
-    this.articleService.filterArticles(['code', 'UX', 'UI', 'miscellaneous']);
+    this.articleService.filterArticles([
+      'aronsnotes',
+      'careeverz',
+      'miscellaneous',
+    ]);
   }
 
   onGrandchildSkipLoadingScreen() {
@@ -185,16 +190,26 @@ export class AppComponent {
   }
 
   onChildBooknotesClick() {
+    // Filter articles first
+    this.articleService.filterArticles('books');
+    // Then handle screen transitions
     this.showHiddenScreen = false;
     this.showBooknotesScreen = true;
-    this.articleService.filterArticles('books');
+    this.showAboutScreen = false;
+    this.showArticlesScreen = false;
+    this.showMainMenuScreen = false;
   }
 
   onGrandchildArticlesClick() {
+    this.articleService.filterArticles([
+      'aronsnotes',
+      'careeverz',
+      'miscellaneous',
+    ]);
     this.showArticlesScreen = true;
     this.showAboutScreen = false;
     this.showMainMenuScreen = false;
-    this.articleService.filterArticles(['code', 'UX', 'UI', 'miscellaneous']);
+    this.showBooknotesScreen = false;
   }
 
   ngOnInit() {

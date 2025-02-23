@@ -4,6 +4,8 @@
     --nav-bg: #6f7a83;
     --nav-articles-color: #000000;
     --nav-articles-bg: #c6c8c8;
+    --nav-reads-color: #ffffff;
+    --nav-reads-bg: #6f7a83;
     --nav-connect-color: #ffffff;
     --nav-connect-bg: #6f7a83;
     --nav-menu-color: #ffffff;
@@ -15,6 +17,7 @@
   (clickArticles)="clickArticlesOnChild()"
   (clickConnect)="clickConnectOnChild()"
   (clickQuit)="clickQuitOnChild()"
+  (clickReads)="clickReadsOnChild()"
 ></app-article-top-nav>
 <app-articles-container
   (articleClicked)="onArticleClicked($event)"
