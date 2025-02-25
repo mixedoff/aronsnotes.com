@@ -26,6 +26,12 @@ img {
   background: none;
 }
 
+img.article-img {
+  @media screen and (max-width: 768px) {
+    width: 128px;
+  }
+}
+
 img.mt-0 {
   margin-top: 0.3rem;
 }
@@ -62,7 +68,7 @@ h1 {
   font-weight: 700;
   line-height: 6rem; /* 100% */
   letter-spacing: -0.18rem;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   background: none;
   margin: 3rem 0 1.5rem 0;
 }
@@ -78,7 +84,7 @@ h2 {
   font-weight: 600;
   line-height: 4rem;
   letter-spacing: -0.1rem;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   background: none;
   margin-top: 4rem;
   margin-bottom: 0.75rem;
@@ -95,7 +101,7 @@ h3 {
   font-weight: 500;
   line-height: 3rem;
   letter-spacing: -0.05rem;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   background: none;
   margin-top: 3rem;
   margin-bottom: 0.5rem;
@@ -108,7 +114,7 @@ h6 {
   font-weight: 700;
   line-height: 2rem;
   letter-spacing: -0.0125rem;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   background: none;
   margin-top: 2rem;
 }
@@ -120,16 +126,16 @@ p {
   font-weight: 500;
   line-height: 1.75rem;
   letter-spacing: -0.0125rem;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   background: none;
 }
 
 p.article {
   font-family: "IBM Plex Mono";
   font-style: normal;
-  font-weight: 500;
+  font-weight: var(--font-weight, 500);
   letter-spacing: 0;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   background: none;
 
   /* Desktop styles */
@@ -155,6 +161,18 @@ p.highlight {
   border-left: 2px solid #6ffa1e; /* Added green left border */
   margin: 2rem 0;
 }
+
+mark {
+  color: #000000;
+  background: rgba(111, 250, 30, 0.6);
+  padding: 0rem 0.5rem;
+}
+
+/* mark {
+  color: #ffffff;
+  background: #080a19;
+  padding: 0.2rem 0.5rem;
+} */
 
 /* button styles */
 button {
@@ -208,10 +226,10 @@ blockquote {
   font-weight: 500;
   line-height: 2rem; /* 133% */
   letter-spacing: -0.0125rem;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   /* background: #6f7a83; */
   background: none;
-  border-left: 3px solid #080a19;
+  border-left: 3px solid var(--text-color, #080a19);
   padding-left: 1rem;
   margin: 2rem 0; /* 2rem top and bottom, 0 left and right */
 }
@@ -251,7 +269,7 @@ ol {
   font-weight: 500;
   line-height: 1.25rem; /* 140% */
   letter-spacing: -0.0125rem;
-  color: #080a19;
+  color: var(--text-color, #080a19);
   background: none;
   margin: 1rem 0;
   padding-left: 2rem;

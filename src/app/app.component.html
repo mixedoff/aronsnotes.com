@@ -49,13 +49,14 @@
   ></app-quit-screen>
   } @if (showArticleScreen) {
   <app-article-screen
+    [sourceScreen]="showBooknotesScreen ? 'booknotes' : 'articles'"
     (connectClickedOnChild)="onGrandchildConnectClick()"
     (menuClickedOnChild)="onGrandchildMenuClick()"
     (shiftC)="onGrandchildShiftC()"
     (shiftM)="onGrandchildShiftM()"
     (goBackToSubmenu)="onGoBackToSubmenu()"
-  ></app-article-screen
-  >} @if (showHiddenScreen) {
+  ></app-article-screen>
+  } @if (showHiddenScreen) {
   <app-hidden-screen
     (menuClickedOnChild)="onGrandchildMenuClick()"
     (booknotesClicked)="onChildBooknotesClick()"

@@ -1,6 +1,7 @@
 p {
   color: var(--nav-color, #000);
   cursor: pointer;
+  font-weight: var(--font-weight, 500);
 }
 
 /* [data-text]::before {

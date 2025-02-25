@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { ArticleContainerComponent } from '../../containers/lg-containers/article-container/article-container.component';
 import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
 import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-nav.component';
@@ -19,6 +19,8 @@ export class ArticleScreenComponent {
   @Output() shiftC = new EventEmitter<boolean>();
   @Output() shiftM = new EventEmitter<boolean>();
   @Output() goBackToSubmenu = new EventEmitter<boolean>();
+  @Input() sourceScreen: 'booknotes' | 'articles' = 'articles';
+
   pressedShiftCOnChild() {
     this.shiftC.emit(true);
     console.log('shiftC emitted');

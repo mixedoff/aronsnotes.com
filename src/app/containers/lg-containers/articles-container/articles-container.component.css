@@ -12,6 +12,7 @@ small {
 
 p {
   color: var(--text-color, #ffffff);
+  font-weight: var(--font-weight, 500);
 }
 
 .svg-quit {
@@ -76,11 +77,18 @@ p {
   }
 }
 
-.article-item:hover,
+.article-item:hover {
+  background: var(--article-item-hover-bg, #c6c8c8);
+  padding-left: 4px;
+}
+.article-item:hover * {
+  color: var(--article-item-hover-color, #000000);
+}
+/* .article-item:hover,
 .article-item:hover * {
   background: var(--article-item-hover-bg, #c6c8c8);
   color: var(--article-item-hover-color, #000000);
-}
+} */
 
 .article-item:hover .hr {
   border-bottom-color: var(--article-item-hover-hr-color, #000000);

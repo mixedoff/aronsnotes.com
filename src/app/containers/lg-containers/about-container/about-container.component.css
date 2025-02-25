@@ -136,7 +136,7 @@ p {
 .img-column img {
   height: auto;
   max-height: 512px;
-  width: 100%;
+  /* width: 100%; */
   margin: 0px;
 
   /* I HAVE ADDED THIS FOR NOW FOR EASE OF USE */

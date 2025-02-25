@@ -1,9 +1,9 @@
 small {
-  color: #080a19;
+  color: var(--text-color, #080a19);
 }
 
 p {
-  color: #080a19;
+  color: var(--text-color, #080a19);
 }
 
 .svg-quit {
@@ -13,7 +13,7 @@ p {
 .horizontal-rule {
   background: none;
   border: none;
-  border-top: 2px dotted #080a19;
+  border-top: 2px dotted var(--horizontal-rule-color, #080a19);
   height: 2px;
   width: 100%;
   margin: 20px 0;
@@ -33,7 +33,7 @@ p {
   /* overflow: hidden; */
   /* padding: 0 20px 0px 20px; */
   padding: 0px 20px 0px 20px;
-  background: #c6c8c8;
+  background: var(--outer-container-bg, #c6c8c8);
   box-shadow: 20px 20px 0px 0px #000;
   /* position: absolute;
   top: 50%;
@@ -64,8 +64,8 @@ p {
   align-items: center;
   flex: 1 0 0;
   align-self: stretch;
-  border: 2px solid var(--Neutral1, #080a19);
-  background: var(--Neutral3, #c6c8c8);
+  border: 2px solid var(--inner-container-border, #080a19);
+  background: var(--inner-container-bg, #c6c8c8);
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
@@ -75,6 +75,10 @@ p {
   @media (min-width: 1024px) {
     padding: 80px 240px;
   }
+}
+
+.inner-container p {
+  color: var(--text-color, #080a19);
 }
 
 .small-div {

@@ -1,5 +1,19 @@
 <div class="heroDiv">
   <app-article-container
+    [style]="
+      sourceScreen === 'booknotes'
+        ? '--outer-container-bg: #091522;' +
+          '--inner-container-bg: #091522;' +
+          '--inner-container-border: #F2F2F2;' +
+          '--text-color: #F2F2F2;' +
+          '--horizontal-rule-color: #F2F2F2;' +
+          '--font-weight: 400;'
+        : '--outer-container-bg: #c6c8c8;' +
+          '--inner-container-bg: #c6c8c8;' +
+          '--inner-container-border: #080a19;' +
+          '--text-color: #080a19;' +
+          '--horizontal-rule-color: #080a19;'
+    "
     (goBackToSubmenu)="onGoBackToSubmenu()"
     class="article"
   ></app-article-container>
