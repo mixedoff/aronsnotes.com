@@ -110,7 +110,7 @@ p {
   text-overflow: ellipsis;
   white-space: nowrap;
   @media (max-width: 550px) {
-    max-width: 300px;
+    max-width: 256px;
   }
 }
 

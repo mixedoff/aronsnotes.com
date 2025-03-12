@@ -13,6 +13,8 @@ import { article11 } from './articles/article11';
 import { article12 } from './articles/article12';
 import { article13 } from './articles/article13';
 import { article14 } from './articles/article14';
+import { article15 } from './articles/article15';
+import { article16 } from './articles/article16';
 export interface Article {
   id: number;
   date: string;
@@ -35,6 +37,8 @@ export class ArticleService {
 
   constructor() {
     this.originalArticles = [
+      article16,
+      article15,
       article14,
       article13,
       article12,
