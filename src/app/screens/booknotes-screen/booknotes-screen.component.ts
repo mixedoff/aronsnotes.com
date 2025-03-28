@@ -4,6 +4,8 @@ import { ArticlesContainerComponent } from '../../containers/lg-containers/artic
 import { Article } from '../../article.service';
 import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-nav.component';
 import { ArticleService } from '../../article.service';
+import { Router } from '@angular/router';
+import { ThemeService } from '../../theme.service';
 
 interface Book {
   name: string;
@@ -37,16 +39,23 @@ export class BooknotesScreenComponent implements OnInit {
   @Output() readsClickedOnChild = new EventEmitter<boolean>();
   @Output() articlesClickedOnChild = new EventEmitter<boolean>();
 
-  constructor(private articleService: ArticleService) {}
+  constructor(
+    private articleService: ArticleService,
+    private router: Router,
+    public themeService: ThemeService
+  ) {}
 
   ngOnInit() {
     // Ensure articles are filtered when component initializes
+    console.log('BooknotesScreenComponent initialized - filtering for books');
     this.articleService.filterArticles('books');
   }
 
   clickArticleOnChild(article: Article) {
     console.log('Article clicked:', article);
+    // Just emit the event, the navigation is handled by ArticlesContainerComponent
     this.articleClickedOnChild.emit(article);
+    // No need to navigate here as it's already done in ArticlesContainerComponent
   }
 
   clickMenuOnChild() {

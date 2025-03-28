@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-about-container',
@@ -10,9 +11,13 @@ import { CommonModule } from '@angular/common';
 })
 export class AboutContainerComponent implements OnInit {
   @Output() closeSubmenuEvent = new EventEmitter<boolean>();
+
+  constructor(private router: Router) {}
+
   closeSubmenu() {
     console.log('closeSubmenu');
     this.closeSubmenuEvent.emit(true);
+    this.router.navigate(['/quit']);
   }
   showAboutText = false;
   aboutText = '';

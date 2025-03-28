@@ -2,7 +2,7 @@ export const article11 = {
   id: 11,
   date: '23.02.2025',
   folder: 'books',
-  function: 'writing',
+  function: 'books',
   title: 'Soros on Soros',
   subtitle: "George Soros's philosophy on life",
   tags: ['philosophy', 'business'],
@@ -41,8 +41,6 @@ export const article11 = {
     <blockquote>
       “Trend following speculation renders a freely fluctuating exchange system unstable and the instability is cumulative. The longer it lasts the more unstable it becomes.” 
     </blockquote>
-
-    <p class="article mb-2">“The usual flaw is in people's values. What they believe to be fundamental turns out to be reflexive." What Soros tries to explain is complexity theory. Effectively, he is saying that the market (or Reality) is a complex adaptive system (moving target) instead of the common prevailing wisdom at the time, the efficient market hypothesis. And as he very well sniffed, much of the contemporary business has shifted into the complex domain. And every once in a while, things become chaotic.</p>
 
     <p class="article mb-2">“The usual flaw is in people's values. What they believe to be fundamental turns out to be reflexive." What Soros tries to explain is complexity theory. Effectively, he is saying that the market (or Reality) is a complex adaptive system (moving target) instead of the common prevailing wisdom at the time, the efficient market hypothesis. And as he very well sniffed, much of the contemporary business has shifted into the complex domain. And every once in a while, things become chaotic.</p>
 

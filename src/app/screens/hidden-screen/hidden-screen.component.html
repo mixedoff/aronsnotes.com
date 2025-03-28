@@ -29,7 +29,7 @@
     </div>
   </div>
   <app-bottom-nav
-    style="--grey-div-color: #000; --nav-bg: #c6c8c8; --beta-bg: #6f7a83"
+    [sourceScreen]="'main-menu'"
     (menuClicked)="clickMenuOnChild()"
   ></app-bottom-nav>
 </div>

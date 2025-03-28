@@ -3,23 +3,29 @@
     (click)="onArticles()"
     id="no-shortcut"
     class="nav-articles"
-    data-text="<N> "
+    data-text="<P> "
   >
-    notes
+    practice
   </p>
-  <p (click)="onReads()" id="no-shortcut" class="nav-reads" data-text="<R> ">
-    reads
+  <p (click)="onReads()" id="no-shortcut" class="nav-reads" data-text="<T> ">
+    theory
   </p>
-  <p (click)="onMenu()" id="no-shortcut" class="nav-menu" data-text="<W> ">
+  <p
+    (click)="onMenu()"
+    id="no-shortcut"
+    class="nav-menu"
+    data-text="<W> "
+    style="display: none"
+  >
     works
   </p>
   <p
     (click)="onConnect()"
     id="no-shortcut"
     class="nav-connect"
-    data-text="<C> "
+    data-text="<A> "
   >
-    connect
+    about
   </p>
   <p (click)="onQuit()" id="no-shortcut" class="nav-quit" data-text="<Q> ">
     quit

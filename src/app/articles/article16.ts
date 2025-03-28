@@ -2,7 +2,7 @@ export const article16 = {
   id: 16,
   date: '23.02.2025',
   folder: 'books',
-  function: 'writing',
+  function: 'books',
   title: 'The hard thing about hard things',
   subtitle: 'An honest guide for CEOs',
   tags: ['management'],

@@ -4,6 +4,7 @@ import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
 import { MenuContainerComponent } from '../../containers/sm-containers/menu-container/menu-container.component';
 import { Article } from '../../article.service';
 import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-nav.component';
+import { ThemeService } from '../../theme.service';
 
 @Component({
   selector: 'app-main-menu-screen',
@@ -21,6 +22,8 @@ export class MainMenuScreenComponent {
   @Output() minimizeClickedOnChild = new EventEmitter<boolean>();
   @Output() maximizeClickedOnChild = new EventEmitter<boolean>();
   @Output() readsClickedOnChild = new EventEmitter<boolean>();
+
+  constructor(public themeService: ThemeService) {}
 
   onChildClickArticle(article: Article | undefined) {
     this.ArticleClickedFromChild.emit(article);

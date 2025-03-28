@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoadingScreenComponent } from './screens/loading-screen/loading-screen.component';
 import { WelcomeScreenComponent } from './screens/welcome-screen/welcome-screen.component';
 import { MainMenuScreenComponent } from './screens/main-menu-screen/main-menu-screen.component';
 import { SelectModeScreenComponent } from './screens/select-mode-screen/select-mode-screen.component';
-import { PasswordScreenComponent } from './screens/password-screen/password-screen.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ArticleScreenComponent } from './screens/article-screen/article-screen.component';
 import { AboutScreenComponent } from './screens/about-screen/about-screen.component';
@@ -13,6 +13,8 @@ import { HiddenScreenComponent } from './screens/hidden-screen/hidden-screen.com
 import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-screen.component';
 import { ArticlesScreenComponent } from './screens/articles-screen/articles-screen.component';
 import { ArticleService } from './article.service';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -29,175 +31,95 @@ import { ArticleService } from './article.service';
     HiddenScreenComponent,
     BooknotesScreenComponent,
     ArticlesScreenComponent,
+    RouterModule,
+    CommonModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
   title: string = 'aronsnotes';
-  showLoadingScreen: boolean = true;
-  showWelcomeScreen: boolean = false;
-  showSelectModeScreen: boolean = false;
-  showPasswordScreen: boolean = false;
-  showMainMenuScreen: boolean = false;
-  showArticleScreen: boolean = false;
-  showAboutScreen: boolean = false;
-  showQuitScreen: boolean = false;
-  showHiddenScreen: boolean = false;
-  showBooknotesScreen: boolean = false;
-  showArticlesScreen: boolean = false;
 
-  @Output() ArticleClickedFromGrandchild = new EventEmitter<
-    Article | undefined
-  >();
-  private loadingTimeout?: number;
-
-  constructor(private articleService: ArticleService) {}
+  constructor(private articleService: ArticleService, private router: Router) {}
 
   onGrandchildEnterPressed() {
-    // console.log('enter');
-    this.showLoadingScreen = false; // Show select mode screen on Enter press
-    this.showWelcomeScreen = false; // Show select mode screen on Enter press
-    this.showSelectModeScreen = true; // Show select mode screen on Enter press
+    this.router.navigate(['/select-mode']);
   }
+
   onGrandchildButtonClick() {
-    console.log('Button in grandchild component was clicked');
-    this.showLoadingScreen = false;
-    this.showWelcomeScreen = false;
-    this.showSelectModeScreen = false;
-    this.showAboutScreen = true;
-    // this.showMainMenuScreen = true;
-    // this.showPasswordScreen = true;
+    this.router.navigate(['/about']);
   }
 
   onGrandchildInputSubmitted() {
-    this.showPasswordScreen = false;
-    this.showMainMenuScreen = true;
+    this.router.navigate(['/main-menu']);
   }
 
   onGrandchildMenuArticleClick(article: Article | undefined) {
-    console.log('Article clicked:', article);
-    // this.articleService.setSelectedArticle(article);
-    // this.articleService.setShowArticleContent(true);
-    this.showArticleScreen = true;
-    this.ArticleClickedFromGrandchild.emit(article);
-    this.showMainMenuScreen = true;
-    // ... any other handling
+    if (article) {
+      this.router.navigate(['/article', article.id]);
+    }
   }
 
-  onGrandchildArticlesArticleClick($event: Article) {
-    console.log('Article clicked:', $event);
-    this.showArticleScreen = true;
-    this.ArticleClickedFromGrandchild.emit($event);
-    this.showMainMenuScreen = false;
+  onGrandchildArticlesArticleClick(article: Article) {
+    this.router.navigate(['/article', article.id]);
   }
 
   onGrandchildBooknotesArticleClick(article: Article | undefined) {
-    console.log('Article clicked:', article);
-    // this.articleService.setSelectedArticle(article);
-    // this.articleService.setShowArticleContent(true);
-    this.showArticleScreen = true;
-    this.ArticleClickedFromGrandchild.emit(article);
-    this.showMainMenuScreen = false;
-    // ... any other handling
+    if (article) {
+      this.router.navigate(['/article', article.id]);
+    }
   }
 
   onGrandchildCloseArticlesClicked() {
-    this.showArticlesScreen = false;
-    this.showMainMenuScreen = true;
-    this.showBooknotesScreen = false;
+    this.router.navigate(['/main-menu']);
   }
 
-  // WHAT THE FUCK DID I DO HERE?
-  // onGrandchildArticlesClick(article: Article | undefined) {
-  //   this.showArticleScreen = true;
-  //   this.ArticleClickedFromGrandchild.emit(article);
-  // }
-
   onGrandchildConnectClick() {
-    this.showMainMenuScreen = false;
-    this.showArticleScreen = false;
-    this.showAboutScreen = true;
-    this.showArticlesScreen = false;
-    this.showBooknotesScreen = false;
+    this.router.navigate(['/about']);
   }
 
   onGrandchildShiftC() {
-    this.showMainMenuScreen = false;
-    this.showArticleScreen = false;
-    this.showAboutScreen = true;
+    this.router.navigate(['/about']);
   }
 
   onGrandchildShiftM() {
-    this.showMainMenuScreen = true;
-    this.showArticleScreen = false;
-    this.showAboutScreen = false;
+    this.router.navigate(['/main-menu']);
   }
 
   onGrandchildMenuClick() {
-    this.showMainMenuScreen = true;
-    this.showLoadingScreen = false;
-    this.showWelcomeScreen = false;
-    this.showSelectModeScreen = false;
-    this.showPasswordScreen = false;
-    this.showArticleScreen = false;
-    this.showAboutScreen = false;
-    this.showQuitScreen = false;
-    this.showBooknotesScreen = false;
-    this.showHiddenScreen = false;
-    this.showArticlesScreen = false;
+    this.router.navigate(['/main-menu']);
   }
 
   onGrandchildQuitClick() {
-    this.showMainMenuScreen = false;
-    this.showArticleScreen = false;
-    this.showAboutScreen = false;
-    this.showQuitScreen = true;
+    this.router.navigate(['/quit']);
   }
 
   onGrandchildMinimizeClick() {
-    this.showMainMenuScreen = false;
-    this.showHiddenScreen = true;
+    this.router.navigate(['/hidden']);
   }
 
   onGrandchildMaximizeClick() {
-    this.showMainMenuScreen = false;
-    this.showArticlesScreen = true;
     this.articleService.filterArticles([
       'aronsnotes',
       'careeverz',
       'miscellaneous',
     ]);
+    this.router.navigate(['/articles']);
   }
 
   onGrandchildSkipLoadingScreen() {
-    if (this.loadingTimeout) {
-      clearTimeout(this.loadingTimeout);
-    }
-    this.showMainMenuScreen = false;
-    this.showLoadingScreen = false;
-    this.showWelcomeScreen = false;
-    this.showSelectModeScreen = false;
-    this.showPasswordScreen = false;
-    this.showArticleScreen = false;
-    this.showAboutScreen = true;
-    this.showQuitScreen = false;
+    this.router.navigate(['/about']);
   }
 
   onGoBackToSubmenu() {
-    this.showArticleScreen = false;
-    // this.showMainMenuScreen = true;
+    // Determine which screen to go back to based on context
+    // For now, default to main-menu
+    this.router.navigate(['/main-menu']);
   }
 
   onChildBooknotesClick() {
-    // Filter articles first
     this.articleService.filterArticles('books');
-    // Then handle screen transitions
-    this.showHiddenScreen = false;
-    this.showBooknotesScreen = true;
-    this.showAboutScreen = false;
-    this.showArticlesScreen = false;
-    this.showMainMenuScreen = false;
+    this.router.navigate(['/booknotes']);
   }
 
   onGrandchildArticlesClick() {
@@ -206,16 +128,6 @@ export class AppComponent {
       'careeverz',
       'miscellaneous',
     ]);
-    this.showArticlesScreen = true;
-    this.showAboutScreen = false;
-    this.showMainMenuScreen = false;
-    this.showBooknotesScreen = false;
-  }
-
-  ngOnInit() {
-    this.loadingTimeout = window.setTimeout(() => {
-      this.showLoadingScreen = false;
-      this.showWelcomeScreen = true;
-    }, 4000);
+    this.router.navigate(['/articles']);
   }
 }

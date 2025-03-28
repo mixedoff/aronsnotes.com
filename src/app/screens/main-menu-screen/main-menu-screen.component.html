@@ -4,7 +4,8 @@
   (clickQuit)="clickQuitOnChild()"
   (clickArticles)="clickArticlesOnChild()"
   (clickReads)="clickReadsOnChild()"
-  style="--nav-menu-color: #ffffff; --nav-menu-bg: #6f7a83"
+  [sourceScreen]="'main-menu'"
+  [style]="themeService.getTopNavStyles('main-menu')"
 ></app-article-top-nav>
 
 <div class="heroDiv">
@@ -18,5 +19,6 @@
   ></app-menu-container>
 </div>
 <app-bottom-nav
-  style="--nav-color: #000; --nav-bg: #c6c8c8; --beta-bg: #6f7a83"
+  [sourceScreen]="'main-menu'"
+  (menuClicked)="clickMenuOnChild()"
 ></app-bottom-nav>

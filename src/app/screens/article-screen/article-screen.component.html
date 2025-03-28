@@ -1,27 +1,38 @@
 <div class="heroDiv">
-  <app-article-container
-    [style]="
-      sourceScreen === 'booknotes'
-        ? '--outer-container-bg: #091522;' +
-          '--inner-container-bg: #091522;' +
-          '--inner-container-border: #F2F2F2;' +
-          '--text-color: #F2F2F2;' +
-          '--horizontal-rule-color: #F2F2F2;' +
-          '--font-weight: 400;'
-        : '--outer-container-bg: #c6c8c8;' +
-          '--inner-container-bg: #c6c8c8;' +
-          '--inner-container-border: #080a19;' +
-          '--text-color: #080a19;' +
-          '--horizontal-rule-color: #080a19;'
-    "
-    (goBackToSubmenu)="onGoBackToSubmenu()"
-    class="article"
-  ></app-article-container>
-  <!-- <app-article-top-nav
+  @if (currentArticle) {
+  <!-- <div
+    class="articles-background"
+    [style]="themeService.getArticlesBackgroundStyles(sourceScreen)"
+  ></div> -->
+  <app-article-top-nav
+    #topNav
+    [sourceScreen]="sourceScreen"
     (clickConnect)="clickConnectOnChild()"
     (clickMenu)="clickMenuOnChild()"
     (shiftC)="pressedShiftCOnChild()"
     (shiftM)="pressedShiftMOnChild()"
+    [style]="themeService.getTopNavStyles(sourceScreen)"
   ></app-article-top-nav>
-  <app-bottom-nav (menuClicked)="clickMenuOnChild()"></app-bottom-nav> -->
+  <app-bottom-nav
+    [sourceScreen]="sourceScreen"
+    [style]="themeService.getBottomNavStyles(sourceScreen)"
+  ></app-bottom-nav>
+  <div class="blackened-background"></div>
+  <app-article-container
+    [style]="themeService.getArticleContainerStyles(sourceScreen)"
+    [sourceScreen]="sourceScreen"
+    (goBack)="handleGoBack($event)"
+    class="article"
+  ></app-article-container>
+  <app-articles-container
+    [sourceScreen]="sourceScreen"
+    [style]="themeService.getArticlesContainerStyles(sourceScreen)"
+  ></app-articles-container>
+  } @else {
+  <div class="not-found">
+    <h1>Article Not Found</h1>
+    <p>Sorry, the article you're looking for doesn't exist.</p>
+    <button (click)="clickMenuOnChild()">Back to Menu</button>
+  </div>
+  }
 </div>

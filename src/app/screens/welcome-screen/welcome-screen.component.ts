@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { LabelContainerComponent } from '../../containers/lg-containers/label-container/label-container.component';
 import { StartContainerComponent } from '../../containers/sm-containers/start-container/start-container.component';
 import { InfoContainerComponent } from '../../containers/sm-containers/info-container/info-container.component';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-welcome-screen',
   standalone: true,
@@ -15,6 +15,7 @@ import { InfoContainerComponent } from '../../containers/sm-containers/info-cont
   styleUrl: './welcome-screen.component.css',
 })
 export class WelcomeScreenComponent {
+  constructor(private router: Router) {}
   @Output() forwardToMainMenuScreenEvent = new EventEmitter<boolean>();
   forwardToMainMenuScreen() {
     console.log('forwardToMainMenuScreen');
@@ -22,6 +23,6 @@ export class WelcomeScreenComponent {
   }
   @Output() childEnterPressed = new EventEmitter<void>();
   onChildEnterPressed() {
-    this.childEnterPressed.emit(); // Emit an event when Enter is pressed
+    this.router.navigate(['/select-mode']);
   }
 }

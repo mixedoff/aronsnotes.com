@@ -1,18 +1,6 @@
 <app-article-top-nav
-  style="
-    --nav-color: white;
-    --nav-bg: #6f7a83;
-    --nav-articles-color: #000000;
-    --nav-articles-bg: #c6c8c8;
-    --nav-reads-color: #ffffff;
-    --nav-reads-bg: #6f7a83;
-    --nav-connect-color: #ffffff;
-    --nav-connect-bg: #6f7a83;
-    --nav-menu-color: #ffffff;
-    --nav-menu-bg: #6f7a83;
-    --nav-quit-color: #ffffff;
-    --nav-quit-bg: #6f7a83;
-  "
+  [sourceScreen]="'articles'"
+  [style]="themeService.getTopNavStyles('articles')"
   (clickMenu)="clickMenuOnChild()"
   (clickArticles)="clickArticlesOnChild()"
   (clickConnect)="clickConnectOnChild()"
@@ -20,10 +8,12 @@
   (clickReads)="clickReadsOnChild()"
 ></app-article-top-nav>
 <app-articles-container
+  [sourceScreen]="'articles'"
+  [style]="themeService.getArticlesContainerStyles('articles')"
   (articleClicked)="onArticleClicked($event)"
   (closeArticlesClicked)="onCloseArticlesClicked()"
 ></app-articles-container>
 <app-bottom-nav
-  style="--nav-color: white; --nav-bg: #6f7a83; --beta-bg: #6f7a83"
+  [sourceScreen]="'articles'"
   (menuClicked)="clickMenuOnChild()"
 ></app-bottom-nav>

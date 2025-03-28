@@ -10,7 +10,7 @@
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          (click)="clickClose()"
+          (click)="clickClose(sourceScreen)"
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
@@ -22,7 +22,7 @@
           cy="6"
           r="20"
           fill="transparent"
-          (click)="clickClose()"
+          (click)="clickClose(sourceScreen)"
           class="hit-area"
         />
         <path
@@ -65,7 +65,7 @@
       <div class="article-body" [innerHtml]="selectedArticle?.content"></div>
     </div>
     <div class="article-footer">
-      <button class="back" (click)="clickClose()">close ✕</button>
+      <button class="back" (click)="clickClose(sourceScreen)">close ✕</button>
       <button class="next" (click)="clickNext()">next &rsaquo;</button>
     </div>
   </div>

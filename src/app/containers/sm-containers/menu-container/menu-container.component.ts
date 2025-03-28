@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { ArticleService, Article } from '../../../article.service';
 import { ArticleStateService } from '../../../article.service.state';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-container',
@@ -27,7 +28,8 @@ export class MenuContainerComponent implements OnInit {
 
   constructor(
     private articleService: ArticleService,
-    private articleStateService: ArticleStateService
+    private articleStateService: ArticleStateService,
+    private router: Router
   ) {
     this.articles = this.articleService.getArticles();
   }
@@ -47,6 +49,7 @@ export class MenuContainerComponent implements OnInit {
     this.showArticleContent.emit(true);
     this.articleStateService.setSelectedArticle(article);
     this.articleStateService.setShowArticleContent(true);
+    this.router.navigate(['/article', article.id]);
     // this.selectedArticle = article;
     // this.showArticleContent = true;
     // this.clickArticleScreen.emit(true);

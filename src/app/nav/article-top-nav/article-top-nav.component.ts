@@ -1,31 +1,89 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Output,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ArticleStateService } from '../../article.service.state';
+import { Article } from '../../article.service';
+import { Subscription } from 'rxjs';
+import { ThemeService } from '../../theme.service';
 
 @Component({
   selector: 'app-article-top-nav',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './article-top-nav.component.html',
   styleUrl: './article-top-nav.component.css',
+  host: {
+    '[style]': 'navStyles',
+  },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArticleTopNavComponent {
+export class ArticleTopNavComponent implements OnInit {
   @Output() clickConnect = new EventEmitter<boolean>();
   @Output() clickMenu = new EventEmitter<boolean>();
   @Output() clickQuit = new EventEmitter<boolean>();
   @Output() clickArticles = new EventEmitter<boolean>();
   @Output() clickReads = new EventEmitter<boolean>();
+  @Output() shiftC = new EventEmitter<boolean>();
+  @Output() shiftM = new EventEmitter<boolean>();
+
+  private subscriptions: Subscription = new Subscription();
+  private currentArticle?: Article;
+
+  private _sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' =
+    'articles';
+  private _navStyles: string = '';
+
+  @Input()
+  set sourceScreen(value: 'booknotes' | 'articles' | 'main-menu' | 'about') {
+    if (this._sourceScreen !== value) {
+      this._sourceScreen = value;
+      // Update styles only when sourceScreen changes
+      this._navStyles = this.themeService.getTopNavStyles(this._sourceScreen);
+    }
+  }
+
+  get sourceScreen(): 'booknotes' | 'articles' | 'main-menu' | 'about' {
+    return this._sourceScreen;
+  }
+
+  // Use a getter for styles instead of a method
+  get navStyles(): string {
+    return this._navStyles;
+  }
+
+  constructor(
+    private router: Router,
+    private articleStateService: ArticleStateService,
+    public themeService: ThemeService
+  ) {}
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.code === 'KeyC') {
-      console.log('KeyC');
+    if (event.code === 'KeyA') {
+      console.log('KeyA');
       this.onConnect();
     } else if (event.code === 'KeyW') {
       console.log('KeyW');
       this.onMenu();
-    } else if (event.code === 'KeyN') {
-      console.log('KeyN');
+    } else if (event.code === 'KeyP') {
+      console.log('KeyP');
       this.onArticles();
-    } else if (event.code === 'KeyR') {
-      console.log('KeyR');
+    } else if (event.code === 'KeyT') {
+      console.log('KeyT');
       this.onReads();
     } else if (event.code === 'KeyQ') {
       console.log('KeyQ');
@@ -36,21 +94,34 @@ export class ArticleTopNavComponent {
   onConnect() {
     this.clickConnect.emit(true);
     console.log('clickConnect emitted');
+    this.sourceScreen = 'about';
+    this.router.navigate(['/about']);
   }
+
   onMenu() {
     this.clickMenu.emit(true);
-    console.log('clickConnect emitted');
+    console.log('clickMenu emitted');
+    this.sourceScreen = 'main-menu';
+    this.router.navigate(['/main-menu']);
   }
+
   onArticles() {
     this.clickArticles.emit(true);
     console.log('Articles clicked');
+    this.sourceScreen = 'articles';
+    this.router.navigate(['/practice']);
   }
+
   onQuit() {
     this.clickQuit.emit(true);
     console.log('Quit clicked');
+    this.router.navigate(['/quit']);
   }
+
   onReads() {
     this.clickReads.emit(true);
     console.log('Reads clicked');
+    this.sourceScreen = 'booknotes';
+    this.router.navigate(['/theory']);
   }
 }

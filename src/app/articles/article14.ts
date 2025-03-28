@@ -2,7 +2,7 @@ export const article14 = {
   id: 14,
   date: '23.02.2025',
   folder: 'books',
-  function: 'writing',
+  function: 'books',
   title: 'The making of prince of persia journals',
   subtitle: 'An intro into technical artisting',
   tags: ['game-design'],

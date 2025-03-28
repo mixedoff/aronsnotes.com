@@ -19,6 +19,7 @@ export interface Article {
   id: number;
   date: string;
   folder: string;
+  function: string;
   title: string;
   subtitle: string;
   tags: string[];
@@ -32,7 +33,7 @@ export interface Article {
   providedIn: 'root',
 })
 export class ArticleService {
-  private originalArticles: Article[] = [];
+  public originalArticles: Article[] = [];
   articles: Article[] = [];
 
   constructor() {

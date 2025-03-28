@@ -1,19 +1,6 @@
 <app-article-top-nav
-  style="
-    --nav-color: #f2f2f2;
-    --nav-bg: #091522;
-    --nav-articles-color: #f2f2f2;
-    --nav-articles-bg: #091522;
-    --nav-reads-color: #6ffa1e;
-    --nav-reads-bg: #091522;
-    --nav-connect-color: #f2f2f2;
-    --nav-connect-bg: #091522;
-    --nav-menu-color: #f2f2f2;
-    --nav-menu-bg: #091522;
-    --nav-quit-color: #f2f2f2;
-    --nav-quit-bg: #091522;
-    --font-weight: 400;
-  "
+  [sourceScreen]="'booknotes'"
+  [style]="themeService.getTopNavStyles('booknotes')"
   (clickMenu)="clickMenuOnChild()"
   (clickArticles)="clickArticlesOnChild()"
   (clickConnect)="clickConnectOnChild()"
@@ -21,26 +8,13 @@
   (clickReads)="clickReadsOnChild()"
 ></app-article-top-nav>
 <app-articles-container
-  style="
-    --outer-container-bg: #091522;
-    --inner-container-bg: #091522;
-    --text-color: #f2f2f2;
-    --article-item-hover-bg: rgba(111, 250, 30, 0.1);
-    --article-item-hover-color: #6ffa1e;
-    --article-item-hover-hr-color: #6ffa1e;
-    --font-weight: 400;
-  "
+  [sourceScreen]="'booknotes'"
+  [style]="themeService.getArticlesContainerStyles('booknotes')"
   [containerTitle]="'reads'"
   (closeArticlesClicked)="clickCloseArticlesOnChild()"
   (articleClicked)="clickArticleOnChild($event)"
 ></app-articles-container>
 <app-bottom-nav
+  [sourceScreen]="'booknotes'"
   (menuClicked)="clickMenuOnChild()"
-  style="
-    --nav-bg: #091522;
-    --nav-color: #f2f2f2;
-    --beta-bg: #091522;
-    --beta-color: #f2f2f2;
-    --font-weight: 400;
-  "
 ></app-bottom-nav>

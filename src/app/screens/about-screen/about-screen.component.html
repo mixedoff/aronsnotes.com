@@ -18,7 +18,7 @@
     (closeSubmenuEvent)="clickMenuOnChild()"
   ></app-about-container>
   <app-bottom-nav
-    style="--nav-color: #000; --nav-bg: #c6c8c8; --beta-bg: #6f7a83"
+    [sourceScreen]="'about'"
     (menuClicked)="clickMenuOnChild()"
   ></app-bottom-nav>
 </div>

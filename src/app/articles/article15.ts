@@ -2,7 +2,7 @@ export const article15 = {
   id: 15,
   date: '23.02.2025',
   folder: 'books',
-  function: 'writing',
+  function: 'books',
   title: 'The art of game design',
   subtitle: 'My top 3 lenses',
   tags: ['game-design'],

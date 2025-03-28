@@ -7,7 +7,7 @@ import {
   Output,
   HostListener,
 } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-quit-bottom-nav',
   standalone: true,
@@ -16,6 +16,7 @@ import {
   styleUrls: ['./quit-bottom-nav.component.css'],
 })
 export class QuitBottomNavComponent implements AfterViewInit {
+  constructor(private router: Router) {}
   @Output() menuClicked = new EventEmitter<boolean>();
   @ViewChild('flickerText', { static: false }) flickerText!: ElementRef;
   @HostListener('document:keydown', ['$event'])
@@ -42,5 +43,6 @@ export class QuitBottomNavComponent implements AfterViewInit {
   clickMenu() {
     this.menuClicked.emit(true);
     console.log('menuClicked has been emitted');
+    this.router.navigate(['/about']);
   }
 }
