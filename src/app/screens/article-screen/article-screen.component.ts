@@ -66,25 +66,17 @@ export class ArticleScreenComponent implements OnInit {
 
         // Set the selected article in the state service for ArticleContainerComponent
         if (this.currentArticle) {
-          // Determine the source screen based on the current route
-          const currentUrl = this.router.url;
-          if (currentUrl.includes('/theory/')) {
+          // Determine the source screen based on the article's folder
+          if (this.currentArticle.folder === 'books') {
             this.sourceScreen = 'booknotes';
-          } else if (currentUrl.includes('/practice/')) {
+          } else if (
+            this.currentArticle.folder === 'articles' ||
+            this.currentArticle.folder === 'aronsnotes' ||
+            this.currentArticle.folder === 'careeverz'
+          ) {
             this.sourceScreen = 'articles';
           } else {
-            // Fallback to determining source screen based on the article's folder
-            if (this.currentArticle.folder === 'books') {
-              this.sourceScreen = 'booknotes';
-            } else if (
-              this.currentArticle.folder === 'articles' ||
-              this.currentArticle.folder === 'aronsnotes' ||
-              this.currentArticle.folder === 'careeverz'
-            ) {
-              this.sourceScreen = 'articles';
-            } else {
-              this.sourceScreen = 'main-menu';
-            }
+            this.sourceScreen = 'main-menu';
           }
 
           console.log(
@@ -133,11 +125,11 @@ export class ArticleScreenComponent implements OnInit {
   }
 
   onGoBackToBooknotes() {
-    this.router.navigate(['/theory']);
+    this.router.navigate(['/booknotes']);
   }
 
   onGoBackToArticles() {
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/articles']);
   }
 
   handleGoBack(sourceScreen: string) {

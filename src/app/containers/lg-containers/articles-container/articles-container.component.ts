@@ -33,9 +33,8 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        // Check if we're navigating to an article page (theory or practice)
-        this.navigatingToArticle =
-          event.url.includes('/theory/') || event.url.includes('/practice/');
+        // Check if we're navigating to an article page (note or practice)
+        this.navigatingToArticle = event.url.includes('/note/');
       });
   }
 
@@ -57,9 +56,9 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     // Determine the correct route based on the article's folder
     let routePath: string;
     if (article.folder === 'books') {
-      routePath = '/theory';
+      routePath = '/note';
     } else {
-      routePath = '/practice';
+      routePath = '/note';
     }
 
     // Navigate to the appropriate route

@@ -1,6 +1,6 @@
 export const article16 = {
   id: 16,
-  date: '23.02.2025',
+  date: '12.03.2025',
   folder: 'books',
   function: 'books',
   title: 'The hard thing about hard things',

@@ -17,11 +17,12 @@ export const routes: Routes = [
   { path: 'select-mode', component: SelectModeScreenComponent },
   { path: 'main-menu', component: MainMenuScreenComponent },
   { path: 'theory', component: BooknotesScreenComponent },
-  { path: 'theory/:id', component: ArticleScreenComponent },
+  { path: 'note/:id', component: ArticleScreenComponent },
   { path: 'practice', component: ArticlesScreenComponent },
-  { path: 'practice/:id', component: ArticleScreenComponent },
+  { path: 'note/:id', component: ArticleScreenComponent },
   { path: 'about', component: AboutScreenComponent },
   { path: 'quit', component: QuitScreenComponent },
   { path: 'hidden', component: HiddenScreenComponent },
-  { path: '**', redirectTo: 'about' },
+  // redirect to practice if no path is found
+  { path: '**', redirectTo: 'practice' },
 ];

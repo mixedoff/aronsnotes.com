@@ -103,15 +103,15 @@ export class ArticleContainerComponent
 
   private getRouteForArticle(article: Article): string {
     if (article.folder === 'books') {
-      return `/theory/${article.id}`;
+      return `/note/${article.id}`;
     } else if (
       article.folder === 'miscellaneous' ||
       article.folder === 'aronsnotes' ||
       article.folder === 'careeverz'
     ) {
-      return `/practice/${article.id}`;
+      return `/note/${article.id}`;
     } else {
-      return `/practice/${article.id}`;
+      return `/note/${article.id}`;
     }
   }
 
