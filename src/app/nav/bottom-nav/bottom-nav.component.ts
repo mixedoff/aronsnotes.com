@@ -53,10 +53,6 @@ export class BottomNavComponent implements OnInit, OnDestroy {
 
   // Method to get the nav styles based on the component's sourceScreen
   getNavStyles(): string {
-    console.log(
-      'Getting bottom nav styles for sourceScreen:',
-      this.sourceScreen
-    );
     return this.themeService.getBottomNavStyles(this.sourceScreen);
   }
 }

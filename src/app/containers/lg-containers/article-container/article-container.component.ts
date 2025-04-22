@@ -8,6 +8,11 @@ import {
   AfterViewInit,
   ViewChild,
   ElementRef,
+  ComponentRef,
+  ViewContainerRef,
+  Injector,
+  createComponent,
+  EnvironmentInjector,
 } from '@angular/core';
 import { Article, ArticleService } from '../../../article.service';
 import { Subscription } from 'rxjs';
@@ -15,6 +20,7 @@ import { ArticleStateService } from '../../../article.service.state';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../../theme.service';
 import { Router } from '@angular/router';
+import { GameOfLifeComponent } from '../../../animations/game-of-life.component';
 
 @Component({
   selector: 'app-article-container',
@@ -31,12 +37,16 @@ export class ArticleContainerComponent
 {
   @Output() goBack = new EventEmitter<string>();
   @ViewChild('innerContainer') innerContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('articleBodyContainer', { read: ViewContainerRef })
+  articleBodyContainer!: ViewContainerRef;
   @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' =
     'articles';
 
   selectedArticle: Article | undefined = undefined;
   showArticleContent: boolean = false;
   private subscriptions: Subscription = new Subscription();
+  private gameOfLifeComponentRef: ComponentRef<GameOfLifeComponent> | null =
+    null;
 
   articles: Article[];
 
@@ -44,7 +54,8 @@ export class ArticleContainerComponent
     private articleService: ArticleService,
     private articleStateService: ArticleStateService,
     private router: Router,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private injector: EnvironmentInjector
   ) {
     this.articles = this.articleService.getArticles();
   }
@@ -54,15 +65,20 @@ export class ArticleContainerComponent
 
     this.subscriptions.add(
       this.articleStateService.selectedArticle$.subscribe((article) => {
-        console.log('ArticleContainer received article:', article);
         this.selectedArticle = article;
         this.scrollInnerContainerToTop();
+
+        // Check if we need to add the Game of Life component
+        if (article && 'gameOfLifeComponent' in article) {
+          this.addGameOfLifeComponent();
+        } else {
+          this.removeGameOfLifeComponent();
+        }
       })
     );
 
     this.subscriptions.add(
       this.articleStateService.showArticleContent$.subscribe((show) => {
-        console.log('ArticleContainer showArticleContent:', show);
         this.showArticleContent = show;
       })
     );
@@ -71,14 +87,57 @@ export class ArticleContainerComponent
   ngAfterViewInit() {
     // Initial scroll if needed
     this.scrollInnerContainerToTop();
+
+    // If the selected article has the game of life, add it
+    if (this.selectedArticle && 'gameOfLifeComponent' in this.selectedArticle) {
+      setTimeout(() => {
+        this.addGameOfLifeComponent();
+      }, 0);
+    }
   }
 
   ngOnDestroy() {
+    this.removeGameOfLifeComponent();
     this.subscriptions.unsubscribe();
   }
 
+  private addGameOfLifeComponent() {
+    if (!this.articleBodyContainer) return;
+
+    // Remove any existing component
+    this.removeGameOfLifeComponent();
+
+    // Create a new component
+    setTimeout(() => {
+      if (this.articleBodyContainer) {
+        this.articleBodyContainer.clear();
+        this.gameOfLifeComponentRef = createComponent(GameOfLifeComponent, {
+          environmentInjector: this.injector,
+          hostElement: document.createElement('div'),
+        });
+
+        // Configure the component
+        this.gameOfLifeComponentRef.instance.width = 300;
+        this.gameOfLifeComponentRef.instance.height = 300;
+
+        // Add it to the view
+        this.articleBodyContainer.insert(this.gameOfLifeComponentRef.hostView);
+      }
+    }, 100);
+  }
+
+  private removeGameOfLifeComponent() {
+    if (this.gameOfLifeComponentRef) {
+      this.gameOfLifeComponentRef.destroy();
+      this.gameOfLifeComponentRef = null;
+    }
+
+    if (this.articleBodyContainer) {
+      this.articleBodyContainer.clear();
+    }
+  }
+
   clickClose(sourceScreen?: string) {
-    console.log('clickClose called with sourceScreen:', sourceScreen);
     this.goBack.emit(sourceScreen || this.sourceScreen);
     this.articleService.filterArticles([
       'aronsnotes',
@@ -123,7 +182,6 @@ export class ArticleContainerComponent
           top: 0,
           behavior: 'smooth',
         });
-        console.log('Scrolled to top');
       } else {
         console.warn('Inner container not found');
       }
@@ -132,10 +190,6 @@ export class ArticleContainerComponent
 
   // Method to get the container styles based on the component's sourceScreen
   getContainerStyles(): string {
-    console.log(
-      'Getting container styles for sourceScreen:',
-      this.sourceScreen
-    );
     return this.themeService.getArticleContainerStyles(this.sourceScreen);
   }
 }

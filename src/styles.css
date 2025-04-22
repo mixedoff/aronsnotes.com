@@ -179,6 +179,26 @@ mark {
   padding: 0rem 0.5rem;
 }
 
+/* em {
+  font-style: normal;
+  color: #ffffff;
+  background: rgba(111, 250, 30, 0.2);
+  padding: 0rem 0.5rem;
+} */
+
+em {
+  font-style: normal;
+  color: #ffffff;
+  font-weight: 500;
+  background: none;
+  /* font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem; */
+  letter-spacing: 0.02rem;
+  /* background: black; */
+}
+
 /* mark {
   color: #ffffff;
   background: #080a19;
@@ -227,7 +247,7 @@ small {
 
 a {
   background: none;
-  color: #010689;
+  color: #6ffa1e;
 }
 
 blockquote {
@@ -421,4 +441,12 @@ svg.traffic-lights-svg {
   margin: 20px auto;
   display: block;
   animation: changeLemon 2s infinite steps(1);
+}
+
+.game-of-life-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 100%;
 }

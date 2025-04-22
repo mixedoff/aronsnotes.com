@@ -1,11 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { GameOfLifeComponent } from '../../../animations/game-of-life.component';
 
 @Component({
   selector: 'app-about-container',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GameOfLifeComponent],
   templateUrl: './about-container.component.html',
   styleUrl: './about-container.component.css',
 })
