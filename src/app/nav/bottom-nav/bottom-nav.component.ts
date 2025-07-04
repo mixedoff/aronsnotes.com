@@ -40,10 +40,13 @@ export class BottomNavComponent implements OnInit, OnDestroy {
 
   private startTextCycle() {
     this.textInterval = setInterval(() => {
-      this.displayText =
-        this.displayText === 'aronsnotes.com'
-          ? 'embrace your weirdness'
-          : 'aronsnotes.com';
+      if (this.displayText === 'follow the flow') {
+        this.displayText = 'embrace your weirdness';
+      } else if (this.displayText === 'embrace your weirdness') {
+        this.displayText = 'be kind';
+      } else {
+        this.displayText = 'follow the flow';
+      }
     }, 5000); // Changes every 5 seconds
   }
 
