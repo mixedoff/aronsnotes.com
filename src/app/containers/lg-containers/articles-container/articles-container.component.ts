@@ -77,6 +77,7 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
         'aronsnotes',
         'careeverz',
         'miscellaneous',
+        'codingmindtech',
       ]);
     }
 

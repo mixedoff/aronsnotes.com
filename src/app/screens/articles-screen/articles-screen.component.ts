@@ -40,6 +40,7 @@ export class ArticlesScreenComponent implements OnInit {
       'aronsnotes',
       'careeverz',
       'miscellaneous',
+      'codingmindtech',
     ]);
   }
 

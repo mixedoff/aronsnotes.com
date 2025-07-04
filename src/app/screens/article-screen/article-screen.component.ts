@@ -72,7 +72,8 @@ export class ArticleScreenComponent implements OnInit {
           } else if (
             this.currentArticle.folder === 'articles' ||
             this.currentArticle.folder === 'aronsnotes' ||
-            this.currentArticle.folder === 'careeverz'
+            this.currentArticle.folder === 'careeverz' ||
+            this.currentArticle.folder === 'codingmindtech'
           ) {
             this.sourceScreen = 'articles';
           } else {

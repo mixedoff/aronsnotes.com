@@ -143,6 +143,7 @@ export class ArticleContainerComponent
       'aronsnotes',
       'careeverz',
       'miscellaneous',
+      'codingmindtech',
     ]);
   }
 

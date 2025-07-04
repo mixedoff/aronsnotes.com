@@ -3,7 +3,7 @@ export const article4 = {
   date: '30.09.2024',
   folder: 'careeverz',
   function: 'UI',
-  title: 'UI v6_final',
+  title: 'CareeVerz UI and brand identity v6_final',
   subtitle:
     'CareeVerz.com a step-by-step guide to the final design and design system',
   tags: ['figma', 'prototype'],

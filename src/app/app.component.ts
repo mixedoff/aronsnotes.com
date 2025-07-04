@@ -103,6 +103,7 @@ export class AppComponent {
       'aronsnotes',
       'careeverz',
       'miscellaneous',
+      'codingmindtech',
     ]);
     this.router.navigate(['/articles']);
   }
@@ -127,6 +128,7 @@ export class AppComponent {
       'aronsnotes',
       'careeverz',
       'miscellaneous',
+      'codingmindtech',
     ]);
     this.router.navigate(['/articles']);
   }
