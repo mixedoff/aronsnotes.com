@@ -61,10 +61,12 @@ p {
 
 .disabled {
   color: #6f7a83;
+  cursor: default;
 }
 
 #hover-div:hover {
   background-color: #c6c8c8;
   color: black;
+  cursor: pointer;
   /* padding: 0px 5px; */
 }

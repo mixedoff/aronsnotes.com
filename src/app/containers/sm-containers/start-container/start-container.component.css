@@ -24,10 +24,10 @@
   border: 2px solid var(--Neutral4, #fff);
   background: var(--Neutral2, #010689);
 }
-/* 
+
 p {
-  color: #6ffa1e;
-} */
+  cursor: pointer;
+}
 
 .enter-text {
   background: none;
