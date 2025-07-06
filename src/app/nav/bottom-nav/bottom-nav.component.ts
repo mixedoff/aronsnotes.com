@@ -43,7 +43,7 @@ export class BottomNavComponent implements OnInit, OnDestroy {
       if (this.displayText === 'follow the flow') {
         this.displayText = 'embrace your weirdness';
       } else if (this.displayText === 'embrace your weirdness') {
-        this.displayText = 'be kind';
+        this.displayText = 'be kind to yourself';
       } else {
         this.displayText = 'follow the flow';
       }

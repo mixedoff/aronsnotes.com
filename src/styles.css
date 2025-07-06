@@ -188,7 +188,7 @@ mark {
 
 em {
   font-style: normal;
-  color: #ef5747;
+  color: #3A94DE;
   font-weight: 500;
   background: none;
   /* font-size: 1rem;
@@ -247,7 +247,7 @@ small {
 
 a {
   background: none;
-  color: #6ffa1e;
+  color: rgb(54, 54, 255);
 }
 
 blockquote {

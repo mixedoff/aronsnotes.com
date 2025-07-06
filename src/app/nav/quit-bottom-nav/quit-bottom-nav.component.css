@@ -50,15 +50,37 @@ p {
 }
 
 @keyframes flicker {
-  0%,
-  100% {
-    color: initial;
+  0% {
+    opacity: 0.4;
+    text-shadow: none;
   }
-  50% {
-    color: #fff;
+  19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% {
+    opacity: 0.99;
+    text-shadow: 
+      -1px -1px 0 rgba(111, 250, 30, 0.4), 
+      1px -1px 0 rgba(111, 250, 30, 0.4), 
+      -1px 1px 0 rgba(111, 250, 30, 0.4), 
+      1px 1px 0 rgba(111, 250, 30, 0.4), 
+      0 -2px 8px #6ffa1e,
+      0 0 2px #6ffa1e,
+      0 0 5px #6ffa1e, 
+      0 0 15px #6ffa1e, 
+      0 0 2px #6ffa1e, 
+      0 2px 3px #000;
+  }
+  20%, 21.9%, 63%, 63.9%, 65%, 69.9% {
+    opacity: 0.4;
+    text-shadow: none;
   }
 }
 
 .flicker {
-  animation: flicker 0.3s var(--flick) 3;
+  animation: flicker 3s infinite;
+  animation-delay: 6s;
+  animation-fill-mode: both;
+}
+
+.flicker:hover {
+  animation: flicker 2s infinite;
+  animation-delay: 0s;
 }
