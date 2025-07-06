@@ -2,7 +2,7 @@ export const article12 = {
   id: 12,
   date: '19.02.2025',
   folder: 'careeverz',
-  function: 'UI',
+  function: 'design',
   title: 'CareeVerz logo',
   subtitle: 'Adventures in logo design',
   tags: ['figma', 'logo'],
