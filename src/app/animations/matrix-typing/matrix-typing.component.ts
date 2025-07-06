@@ -17,6 +17,11 @@ export class MatrixTypingComponent implements OnInit {
 
   ngOnInit() {
     this.typeText('wakeUpText', this.wakeUpFullText, 0, 100);
+    
+    // Set fade out to exactly 6 seconds
+    setTimeout(() => {
+      this.fadeAllText = true;
+    }, 6000);
   }
 
   private typeText(
@@ -34,10 +39,6 @@ export class MatrixTypingComponent implements OnInit {
       setTimeout(() => {
         this.showMatrixText = true;
         this.typeText('matrixText', this.matrixFullText, 0, 100);
-      }, 2000);
-    } else if (property === 'matrixText') {
-      setTimeout(() => {
-        this.fadeAllText = true;
       }, 2000);
     }
   }

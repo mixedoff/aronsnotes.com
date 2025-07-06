@@ -1,0 +1,15 @@
+/* Animation to make overlay background turn black when flicker starts */
+/* app-matrix-typing .overlay {
+  animation: backgroundToBlack 3s infinite !important;
+  animation-delay: 6s !important;
+  animation-fill-mode: both !important;
+}
+
+@keyframes backgroundToBlack {
+  0%, 19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% {
+    background: black !important;
+  }
+  20%, 21.9%, 63%, 63.9%, 65%, 69.9% {
+    background: #080a19 !important;
+  }
+} */

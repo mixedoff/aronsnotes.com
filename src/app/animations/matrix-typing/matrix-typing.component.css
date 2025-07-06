@@ -7,6 +7,18 @@
   background: #080a19;
   opacity: 1;
   pointer-events: none;
+  animation: backgroundToBlack 3s infinite;
+  animation-delay: 6s;
+  animation-fill-mode: both;
+}
+
+@keyframes backgroundToBlack {
+  0%, 19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% {
+    background: #080a19;
+  }
+  20%, 21.9%, 63%, 63.9%, 65%, 69.9% {
+    background: #000000;
+  }
 }
 
 p {
@@ -29,7 +41,7 @@ p {
 
 #the-matrix {
   opacity: 0;
-  transition: opacity 1s ease-in;
+  transition: opacity 0s ease-in;
 }
 
 #the-matrix:not(:empty) {

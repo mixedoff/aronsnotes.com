@@ -19,7 +19,27 @@
   display: inline-flex;
   flex-shrink: 0;
   background: #6f7a83;
+  animation: backgroundToNone 0.1s forwards;
+  animation-delay: 6s;
+  animation-fill-mode: both;
 }
+
+@keyframes backgroundToNone {
+  0% {
+    background: #6f7a83;
+  }
+  100% {
+    background: none;
+  }
+}
+
+  /* @keyframes backgroundToBlack {
+    0%, 20%, 21.9%, 63%, 63.9%, 65%, 69.9% {
+      background: #6f7a83;
+    }
+    19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% {
+      background: none;
+    } */
 
 .blue-div {
   display: flex;
