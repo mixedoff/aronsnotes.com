@@ -7,7 +7,7 @@ export class ThemeService {
   constructor() {}
 
   getTopNavStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about'
+    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
@@ -60,16 +60,35 @@ export class ThemeService {
         );
       case 'about':
         return (
-          '--nav-color: #000000;' +
-          '--nav-bg: #c6c8c8;' +
-          '--nav-articles-color: #000000;' +
-          '--nav-articles-bg: #c6c8c8;' +
-          '--nav-reads-color: #000000;' +
-          '--nav-reads-bg: #c6c8c8;' +
+          '--nav-color: #f2f2f2;' +
+          '--nav-bg: #091522;' +
+          '--nav-articles-color: #ffffff;' +
+          '--nav-articles-bg: #091522;' +
+          '--nav-reads-color: #6ffa1e;' +
+          '--nav-reads-bg: #091522;' +
           '--nav-connect-color: #ffffff;' +
-          '--nav-connect-bg: #6f7a83;' +
-          '--nav-menu-color: #000000;' +
-          '--nav-menu-bg: #c6c8c8;'
+          '--nav-connect-bg: #091522;' +
+          '--nav-menu-color: #ffffff;' +
+          '--nav-menu-bg: #091522;' +
+          '--nav-quit-color: #ffffff;' +
+          '--nav-quit-bg: #091522;' +
+          '--font-weight: 400;'
+        );
+      case 'personal':
+        return (
+          '--nav-color: #f2f2f2;' +
+          '--nav-bg: #091522;' +
+          '--nav-articles-color: #ffffff;' +
+          '--nav-articles-bg: #091522;' +
+          '--nav-reads-color: #6ffa1e;' +
+          '--nav-reads-bg: #091522;' +
+          '--nav-connect-color: #ffffff;' +
+          '--nav-connect-bg: #091522;' +
+          '--nav-menu-color: #ffffff;' +
+          '--nav-menu-bg: #091522;' +
+          '--nav-quit-color: #ffffff;' +
+          '--nav-quit-bg: #091522;' +
+          '--font-weight: 400;'
         );
       default:
         return '';
@@ -77,7 +96,7 @@ export class ThemeService {
   }
 
   getBottomNavStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about'
+    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
@@ -112,13 +131,21 @@ export class ThemeService {
           '--beta-bg: #6f7a83;' +
           '--beta-color: #F2F2F2;'
         );
+      case 'personal':
+        return (
+          '--nav-bg: #091522;' +
+          '--nav-color: #F2F2F2;' +
+          '--font-weight: 400;' +
+          '--beta-bg: none;' +
+          '--beta-color: transparent;'
+        );
       default:
         return '';
     }
   }
 
   getArticleContainerStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about'
+    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
@@ -160,13 +187,22 @@ export class ThemeService {
           '--article-blockquote-bg: rgba(111, 250, 30, 0.1);' +
           '--article-blockquote-color: #f2f2f2;'
         );
+      case 'personal':
+        return (
+          '--outer-container-bg: #091522;' +
+          '--inner-container-bg: #091522;' +
+          '--inner-container-border: #F2F2F2;' +
+          '--text-color: #F2F2F2;' +
+          '--horizontal-rule-color: #F2F2F2;' +
+          '--font-weight: 400;'
+        );
       default:
         return '';
     }
   }
 
   getArticlesContainerStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about'
+    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
@@ -186,6 +222,17 @@ export class ThemeService {
         return '';
       case 'about':
         return '';
+      case 'personal':
+        return (
+          '--text-color: #f2f2f2;' +
+          '--outer-container-bg: #091522;' +
+          '--inner-container-bg: #091522;' +
+          '--inner-container-border: #F2F2F2;' +
+          '--font-weight: 400;' +
+          '--article-item-hover-bg: rgba(111, 250, 30, 0.1);' +
+          '--article-item-hover-color: #6ffa1e;' +
+          '--article-item-hover-hr-color: #6ffa1e;'
+        );
       default:
         return '';
     }

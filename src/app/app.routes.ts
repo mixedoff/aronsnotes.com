@@ -9,6 +9,7 @@ import { QuitScreenComponent } from './screens/quit-screen/quit-screen.component
 import { HiddenScreenComponent } from './screens/hidden-screen/hidden-screen.component';
 import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-screen.component';
 import { ArticlesScreenComponent } from './screens/articles-screen/articles-screen.component';
+import { PersonalScreenComponent } from './screens/personal-screen/personal-screen.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'loading', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const routes: Routes = [
   { path: 'about', component: AboutScreenComponent },
   { path: 'quit', component: QuitScreenComponent },
   { path: 'hidden', component: HiddenScreenComponent },
+  { path: 'personal', component: PersonalScreenComponent },
   // redirect to practice if no path is found
   { path: '**', redirectTo: 'practice' },
 ];

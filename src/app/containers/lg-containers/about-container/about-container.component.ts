@@ -1,12 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { GameOfLifeComponent } from '../../../animations/game-of-life.component';
 
 @Component({
   selector: 'app-about-container',
   standalone: true,
-  imports: [CommonModule, GameOfLifeComponent],
+  imports: [CommonModule],
   templateUrl: './about-container.component.html',
   styleUrl: './about-container.component.css',
 })
@@ -14,6 +13,10 @@ export class AboutContainerComponent implements OnInit {
   @Output() closeSubmenuEvent = new EventEmitter<boolean>();
 
   constructor(private router: Router) {}
+
+  clickHiddenScreen() {
+    this.router.navigate(['/hidden']);
+  }
 
   closeSubmenu() {
     console.log('closeSubmenu');
@@ -87,4 +90,6 @@ Figma, Angular, Hetzner Cloud, Nginx
       );
     }
   }
+
+
 }

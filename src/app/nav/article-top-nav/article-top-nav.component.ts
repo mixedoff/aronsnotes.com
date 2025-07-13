@@ -37,12 +37,12 @@ export class ArticleTopNavComponent implements OnInit {
   private subscriptions: Subscription = new Subscription();
   private currentArticle?: Article;
 
-  private _sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' =
+  private _sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' =
     'articles';
   private _navStyles: string = '';
 
   @Input()
-  set sourceScreen(value: 'booknotes' | 'articles' | 'main-menu' | 'about') {
+  set sourceScreen(value: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal') {
     if (this._sourceScreen !== value) {
       this._sourceScreen = value;
       // Update styles only when sourceScreen changes
@@ -50,7 +50,7 @@ export class ArticleTopNavComponent implements OnInit {
     }
   }
 
-  get sourceScreen(): 'booknotes' | 'articles' | 'main-menu' | 'about' {
+  get sourceScreen(): 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' {
     return this._sourceScreen;
   }
 

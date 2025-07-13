@@ -1,35 +1,12 @@
 <div class="heroDiv">
+
   <app-top-nav [navTitle]="'secret screen'"></app-top-nav>
-  <div class="icons-container">
-    <div class="icon-container">
-      <div
-        class="icon-holder"
-        style="margin-top: 100px; width: 54px; height: 54px"
-        (dblclick)="clickMenuOnChild()"
-      >
-        <img
-          src="assets/img/hidden-screen/webapps-icon.png"
-          alt="webapps-icon"
-        />
-      </div>
-      <small style="color: white">web design</small>
-    </div>
-    <div class="icon-container">
-      <div
-        class="icon-holder"
-        (dblclick)="clickBooknotesScreen()"
-        (touchstart)="clickBooknotesScreen()"
-      >
-        <img
-          src="assets/img/hidden-screen/booknotes-icon.png"
-          alt="booknotes-icon"
-        />
-      </div>
-      <small style="color: white">book notes</small>
-    </div>
-  </div>
+
+  <app-about-hidden-apps></app-about-hidden-apps>
+
   <app-bottom-nav
     [sourceScreen]="'main-menu'"
     (menuClicked)="clickMenuOnChild()"
   ></app-bottom-nav>
+  
 </div>

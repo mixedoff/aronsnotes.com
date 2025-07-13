@@ -4,6 +4,7 @@ import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
 import { LabelContainerComponent } from '../../containers/lg-containers/label-container/label-container.component';
 import { AboutContainerComponent } from '../../containers/lg-containers/about-container/about-container.component';
 import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-nav.component';
+import { AboutHiddenAppsComponent } from "../../components/about-hidden-apps/about-hidden-apps.component";
 
 @Component({
   selector: 'app-about-screen',
@@ -12,7 +13,8 @@ import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-na
     BottomNavComponent,
     AboutContainerComponent,
     ArticleTopNavComponent,
-  ],
+    AboutHiddenAppsComponent
+],
   templateUrl: './about-screen.component.html',
   styleUrl: './about-screen.component.css',
 })

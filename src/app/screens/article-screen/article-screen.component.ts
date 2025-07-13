@@ -31,7 +31,7 @@ export class ArticleScreenComponent implements OnInit {
   @Output() shiftC = new EventEmitter<boolean>();
   @Output() shiftM = new EventEmitter<boolean>();
   @Output() goBackToSubmenu = new EventEmitter<boolean>();
-  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' =
+  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' =
     'articles';
 
   currentArticle?: Article;
@@ -76,6 +76,8 @@ export class ArticleScreenComponent implements OnInit {
             this.currentArticle.folder === 'codingmindtech'
           ) {
             this.sourceScreen = 'articles';
+          } else if (this.currentArticle.folder === 'personal') {
+            this.sourceScreen = 'personal';
           } else {
             this.sourceScreen = 'main-menu';
           }
@@ -164,6 +166,8 @@ export class ArticleScreenComponent implements OnInit {
       this.onGoBackToBooknotes();
     } else if (this.sourceScreen === 'articles') {
       this.onGoBackToArticles();
+    } else if (this.sourceScreen === 'personal') {
+      this.router.navigate(['/personal']);
     } else {
       this.onGoBackToSubmenu();
     }

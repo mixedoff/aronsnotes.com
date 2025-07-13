@@ -1,0 +1,17 @@
+<app-top-nav
+  sourceScreen="personal"
+  [style]="themeService.getTopNavStyles('personal')"
+  [navTitle]="'personal notes'"
+></app-top-nav>
+<app-articles-container
+  [sourceScreen]="'personal'"
+  [style]="themeService.getArticlesContainerStyles('personal')"
+  [containerTitle]="'personal notes'"
+  (closeArticlesClicked)="clickCloseArticlesOnChild()"
+  (articleClicked)="clickArticleOnChild($event)"
+></app-articles-container>
+<app-bottom-nav
+  [sourceScreen]="'personal'"
+  (menuClicked)="clickMenuOnChild()"
+  (pClicked)="onBottomNavPClick()"
+></app-bottom-nav>

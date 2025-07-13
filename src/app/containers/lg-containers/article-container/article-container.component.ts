@@ -39,7 +39,7 @@ export class ArticleContainerComponent
   @ViewChild('innerContainer') innerContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('articleBodyContainer', { read: ViewContainerRef })
   articleBodyContainer!: ViewContainerRef;
-  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' =
+  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' =
     'articles';
 
   selectedArticle: Article | undefined = undefined;

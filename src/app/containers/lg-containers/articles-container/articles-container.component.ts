@@ -13,7 +13,7 @@ import { filter, Subscription } from 'rxjs';
   styleUrl: './articles-container.component.css',
 })
 export class ArticlesContainerComponent implements OnInit, OnDestroy {
-  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' =
+  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' =
     'articles';
   @Output() articleClicked = new EventEmitter<Article>();
   @Output() closeArticlesClicked = new EventEmitter<void>();

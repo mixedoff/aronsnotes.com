@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../theme.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -21,12 +22,12 @@ import { ThemeService } from '../../theme.service';
 })
 export class BottomNavComponent implements OnInit, OnDestroy {
   @Output() menuClicked = new EventEmitter<boolean>();
-  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' =
+  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' =
     'articles';
   displayText: string = 'aronsnotes.com';
   private textInterval: any;
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService, private router: Router) {}
 
   ngOnInit() {
     this.startTextCycle();
@@ -52,6 +53,7 @@ export class BottomNavComponent implements OnInit, OnDestroy {
 
   clickMenu() {
     this.menuClicked.emit(true);
+    this.router.navigate(['/practice']);
   }
 
   // Method to get the nav styles based on the component's sourceScreen
