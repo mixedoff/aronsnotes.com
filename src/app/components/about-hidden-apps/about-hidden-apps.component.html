@@ -23,6 +23,13 @@
         alt="booknotes-icon"
       />
     </div>
-    <small style="color: white">personal <br> notes</small>
+    <small style="color: white">creative <br> writing</small>
   </div>
 </div>
+
+@if (showPassword) {
+  <app-password-container class="password-container"
+    (inputSubmitted)="onPasswordSuccess()"
+    (onClose)="onClosePasswordContainer()">
+  </app-password-container>
+}

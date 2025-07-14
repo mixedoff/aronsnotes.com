@@ -167,7 +167,7 @@ export class ArticleScreenComponent implements OnInit {
     } else if (this.sourceScreen === 'articles') {
       this.onGoBackToArticles();
     } else if (this.sourceScreen === 'personal') {
-      this.router.navigate(['/personal']);
+      this.router.navigate(['/creative']);
     } else {
       this.onGoBackToSubmenu();
     }

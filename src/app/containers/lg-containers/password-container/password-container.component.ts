@@ -12,9 +12,10 @@ import { ReactiveFormsModule } from '@angular/forms'; // Import this module
 export class PasswordContainerComponent {
   inputControl = new FormControl('');
   @Output() inputSubmitted = new EventEmitter<void>();
+  @Output() onClose = new EventEmitter<void>();
 
-  skipWelcomeScreen() {
-    this.inputSubmitted.emit();
+  closePasswordContainer() {
+    this.onClose.emit();
   }
 
   checkInput(value: string) {

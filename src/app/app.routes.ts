@@ -24,7 +24,7 @@ export const routes: Routes = [
   { path: 'about', component: AboutScreenComponent },
   { path: 'quit', component: QuitScreenComponent },
   { path: 'hidden', component: HiddenScreenComponent },
-  { path: 'personal', component: PersonalScreenComponent },
+  { path: 'creative', component: PersonalScreenComponent },
   // redirect to practice if no path is found
   { path: '**', redirectTo: 'practice' },
 ];

@@ -9,6 +9,9 @@ import { PasswordContainerComponent } from '../../containers/lg-containers/passw
   styleUrl: './password-screen.component.css',
 })
 export class PasswordScreenComponent {
+onChildOnClose() {
+throw new Error('Method not implemented.');
+}
   @Output() childInputSubmitted = new EventEmitter<void>();
 
   onChildInputSubmitted() {

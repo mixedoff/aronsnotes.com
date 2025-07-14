@@ -38,3 +38,15 @@ small {
   width: 100%;
   text-align: center;
 }
+
+.password-container {
+  /* position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,12 +1,12 @@
 <app-top-nav
   sourceScreen="personal"
   [style]="themeService.getTopNavStyles('personal')"
-  [navTitle]="'personal notes'"
+  [navTitle]="'creative writing'"
 ></app-top-nav>
 <app-articles-container
   [sourceScreen]="'personal'"
   [style]="themeService.getArticlesContainerStyles('personal')"
-  [containerTitle]="'personal notes'"
+  [containerTitle]="'creative writing'"
   (closeArticlesClicked)="clickCloseArticlesOnChild()"
   (articleClicked)="clickArticleOnChild($event)"
 ></app-articles-container>
