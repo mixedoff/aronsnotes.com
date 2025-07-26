@@ -11,6 +11,15 @@
   );
 }
 
+/* Hide default cursor globally for custom cursor */
+* {
+  cursor: none !important;
+}
+
+html, body, div, span, button, a, input, textarea, select, img, svg {
+  cursor: none !important;
+}
+
 /* html,
 body {
   height: 100%;

@@ -1,8 +1,9 @@
 <div class="outer-container">
   <div class="small-div">
-    <div class="traffic-lights">
+    <div class="traffic-lights" role="button">
       <svg
         class="traffic-lights-svg"
+        role="button"
         width="52"
         height="12"
         viewBox="0 0 52 12"
@@ -36,7 +37,7 @@
     <div class="article-container">
       <div class="article-items">
         @for (article of articles; track article.title) {
-        <div class="article-item" (click)="selectArticle(article)">
+        <div class="article-item" (click)="selectArticle(article)" role="button">
           <div class="article-holder">
             <p class="article-title">{{ article.title }}</p>
           </div>

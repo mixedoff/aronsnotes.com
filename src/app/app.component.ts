@@ -15,6 +15,7 @@ import { ArticlesScreenComponent } from './screens/articles-screen/articles-scre
 import { ArticleService } from './article.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CustomCursorComponent } from './components/custom-cursor/custom-cursor.component';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,7 @@ import { CommonModule } from '@angular/common';
     ArticlesScreenComponent,
     RouterModule,
     CommonModule,
+    CustomCursorComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
