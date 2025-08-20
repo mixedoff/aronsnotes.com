@@ -3,7 +3,7 @@ export const article15 = {
   date: '07.03.2025',
   folder: 'books',
   function: 'books',
-  title: 'The art of game design',
+  title: 'the art of game design',
   subtitle: 'My top 3 lenses',
   tags: ['game-design'],
   author: 'Jesse Schell',

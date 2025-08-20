@@ -17,6 +17,14 @@
           (click)="closeArticles()"
           class="svg-quit"
         />
+        <circle
+          cx="6"
+          cy="6"
+          r="20"
+          fill="transparent"
+          (click)="closeArticles()"
+          class="hit-area"
+        />
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -39,7 +47,7 @@
         @for (article of articles; track article.title) {
         <div class="article-item" (click)="selectArticle(article)" role="button">
           <div class="article-holder">
-            <p class="article-title">{{ article.title }}</p>
+            <p class="article-title">{{ article.title.toLowerCase() }}</p>
           </div>
           <div class="hr"></div>
           <div class="article-details">
@@ -60,7 +68,7 @@
         !== 'booknotes') {
         <div class="article-item" (click)="selectArticle(article)">
           <div class="article-holder">
-            <p class="article-title">{{ article.title }}</p>
+            <p class="article-title">{{ article.title.toLowerCase() }}</p>
           </div>
           <div class="hr"></div>
           <div class="article-details">

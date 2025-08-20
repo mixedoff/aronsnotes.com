@@ -3,7 +3,7 @@ export const article16 = {
   date: '12.03.2025',
   folder: 'books',
   function: 'books',
-  title: 'The hard thing about hard things',
+  title: 'the hard thing about hard things',
   subtitle: 'An honest guide for CEOs',
   tags: ['management'],
   author: 'Ben Horowitz',

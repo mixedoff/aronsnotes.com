@@ -3,7 +3,7 @@ export const article14 = {
   date: '25.02.2025',
   folder: 'books',
   function: 'books',
-  title: 'The making of prince of persia journals',
+  title: 'the making of prince of persia journals',
   subtitle: 'An intro into technical artisting',
   tags: ['game-design'],
   author: 'Jordan Mechner',

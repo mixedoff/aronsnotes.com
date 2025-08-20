@@ -21,6 +21,7 @@ import { article19 } from './articles/article19';
 import { article20 } from './articles/article20';
 import { article21 } from './articles/article21';
 import { article22 } from './articles/article22';
+import { article23 } from './articles/article23';
 export interface Article {
   id: number;
   date: string;
@@ -41,9 +42,11 @@ export interface Article {
 export class ArticleService {
   public originalArticles: Article[] = [];
   articles: Article[] = [];
+  private currentFilter: string | string[] | null = null;
 
   constructor() {
     this.originalArticles = [
+      article23,
       article22,
       article21,
       article20,
@@ -79,6 +82,9 @@ export class ArticleService {
   }
 
   filterArticles(folders: string | string[]) {
+    // Store the current filter
+    this.currentFilter = folders;
+    
     // Reset to original list first
     this.articles = [...this.originalArticles];
 
@@ -92,6 +98,21 @@ export class ArticleService {
       this.articles = this.articles.filter(
         (article) => article.folder === folders
       );
+    }
+  }
+
+  resetToOriginal() {
+    this.articles = [...this.originalArticles];
+    this.currentFilter = null;
+  }
+
+  getCurrentFilter(): string | string[] | null {
+    return this.currentFilter;
+  }
+
+  applyCurrentFilter() {
+    if (this.currentFilter) {
+      this.filterArticles(this.currentFilter);
     }
   }
 }

@@ -16,6 +16,14 @@
           d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
           fill="#ef5747"
         />
+        <circle
+          cx="6"
+          cy="6"
+          r="20"
+          fill="transparent"
+          (click)="closeSubmenu()"
+          class="hit-area"
+        />
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
@@ -29,6 +37,14 @@
           clip-rule="evenodd"
           d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
           fill="#ffffff"
+        />
+        <circle
+          cx="46"
+          cy="6"
+          r="20"
+          fill="transparent"
+          (click)="clickHiddenScreen()"
+          class="hit-area"
         />
       </svg>
     </div>

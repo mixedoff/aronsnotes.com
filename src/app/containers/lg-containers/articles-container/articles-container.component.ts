@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Article, ArticleService } from '../../../article.service';
 import { ArticleStateService } from '../../../article.service.state';
 import { OnInit, OnDestroy } from '@angular/core';
@@ -25,7 +25,8 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
   constructor(
     private articleService: ArticleService,
     private articleStateService: ArticleStateService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.articles = this.articleService.getArticles();
 
@@ -39,7 +40,51 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Check if we're on a specific route and apply appropriate filtering
+    this.checkRouteAndApplyFilter();
+    
     this.articles = this.articleService.getArticles();
+  }
+
+  private checkRouteAndApplyFilter() {
+    const currentUrl = this.router.url;
+    
+    if (currentUrl.includes('/theory')) {
+      // We're on the theory/booknotes screen
+      this.articleService.filterArticles('books');
+    } else if (currentUrl.includes('/practice')) {
+      // We're on the practice screen
+      this.articleService.filterArticles([
+        'aronsnotes',
+        'careeverz',
+        'miscellaneous',
+        'codingmindtech',
+      ]);
+    } else if (currentUrl.includes('/creative')) {
+      // We're on the creative/personal screen
+      this.articleService.filterArticles('personal');
+    } else if (currentUrl.includes('/note/')) {
+      // We're viewing an article, check the article's folder to determine context
+      const articleId = this.route.snapshot.paramMap.get('id');
+      if (articleId) {
+        const article = this.articleService.getArticleById(Number(articleId));
+        if (article) {
+          // Apply filtering based on the article's folder
+          if (article.folder === 'books') {
+            this.articleService.filterArticles('books');
+          } else if (article.folder === 'personal') {
+            this.articleService.filterArticles('personal');
+          } else {
+            this.articleService.filterArticles([
+              'aronsnotes',
+              'careeverz',
+              'miscellaneous',
+              'codingmindtech',
+            ]);
+          }
+        }
+      }
+    }
   }
 
   selectArticle(article: Article) {

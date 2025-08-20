@@ -77,7 +77,7 @@ export class GameOfLifeComponent implements OnInit, OnDestroy {
     const rows = this.grid.length;
     const cols = this.grid[0].length;
 
-    this.ctx.fillStyle = '#6fce91';
+    this.ctx.fillStyle = '#6ffa1e';
 
     for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {

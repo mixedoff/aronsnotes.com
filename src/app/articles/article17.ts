@@ -5,7 +5,7 @@ export const article17 = {
   date: '21.04.2025',
   folder: 'books',
   function: 'books',
-  title: 'What is Life',
+  title: 'what is life',
   subtitle: 'contemplations on Life inspired by the book: complexity science',
   tags: ['complexity'],
   author: 'Mitchell Waldrop',

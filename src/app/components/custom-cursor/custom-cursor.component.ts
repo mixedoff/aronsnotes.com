@@ -7,7 +7,7 @@ import { DOCUMENT } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="custom-cursor" [class.clickable]="isOverClickable">
+    <div class="custom-cursor" [class.clickable]="isOverClickable" [class.hidden]="!isCursorVisible">
       <img 
         [src]="currentCursorImage" 
         alt="cursor"
@@ -16,47 +16,70 @@ import { DOCUMENT } from '@angular/common';
       />
     </div>
   `,
-  styles: [`
-    .custom-cursor {
-      position: fixed;
-      top: -20px;
-      left: 0px;
-      width: 32px;
-      height: 32px;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.1s ease-out;
-      transform: translate(-50%, -50%);
-      background: transparent !important;
-    }
+  styles: [
+    `
+      .custom-cursor {
+        position: fixed;
+        top: -15px;
+        left: 15px;
+        width: 32px;
+        height: 32px;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease-out;
+        transform: translate(-50%, -50%);
+        background: transparent !important;
+      }
 
-    .cursor-image {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+      .custom-cursor.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
 
-    .custom-cursor.animated .cursor-image {
-      animation: wingFlap 0.4s infinite steps(1);
-    }
+      .custom-cursor:not(.hidden) {
+        opacity: 1;
+      }
 
-    @keyframes wingFlap {
-      0% { content: url('/assets/img/cursor/fly_wing_flap_frame_1.png'); }
-      25% { content: url('/assets/img/cursor/fly_wing_flap_frame_2.png'); }
-      50% { content: url('/assets/img/cursor/fly_wing_flap_frame_3.png'); }
-      75% { content: url('/assets/img/cursor/fly_wing_flap_frame_4.png'); }
-    }
+      .cursor-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
 
-    /* Hide the default cursor globally */
-    * {
-      cursor: none !important;
-    }
+      .custom-cursor.animated .cursor-image {
+        animation: wingFlap 0.4s infinite steps(1);
+      }
 
-    /* Ensure no cursor shows anywhere */
-    html, body, div, span, button, a, input, textarea, select, img, svg {
-      cursor: none !important;
-    }
-  `]
+      @keyframes wingFlap {
+        0% { content: url('/assets/img/cursor/fly_wing_flap_frame_1.png'); }
+        25% { content: url('/assets/img/cursor/fly_wing_flap_frame_2.png'); }
+        50% { content: url('/assets/img/cursor/fly_wing_flap_frame_3.png'); }
+        75% { content: url('/assets/img/cursor/fly_wing_flap_frame_4.png'); }
+      }
+
+      /* Hide the default cursor globally */
+      * {
+        cursor: none !important;
+      }
+
+      /* Ensure no cursor shows anywhere */
+      html, body, div, span, button, a, input, textarea, select, img, svg {
+        cursor: none !important;
+      }
+
+      /* Disable custom cursor on mobile devices */
+      @media (max-width: 768px) {
+        .custom-cursor {
+          display: none !important;
+        }
+        
+        /* Show default cursor on mobile */
+        html, body, div, span, button, a, input, textarea, select, img, svg {
+          cursor: auto !important;
+        }
+      }
+    `
+  ]
 })
 export class CustomCursorComponent implements OnInit, OnDestroy {
   cursorX: number = 0;
@@ -64,6 +87,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
   targetX: number = 0;
   targetY: number = 0;
   isOverClickable: boolean = false;
+  isCursorVisible: boolean = true;
   private animationTimer: any;
   private currentFrame: number = 1;
   private readonly totalFrames: number = 4;
@@ -84,14 +108,14 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     if (this.isOverClickable) {
       // Use slurping animation when over clickable elements (frames 00-14)
       const frameNumber = (this.currentFrame - 1).toString().padStart(2, '0');
-      return `/assets/img/cursor/fly_slurping_frame_${frameNumber}.png`;
+      return `/assets/img/cursor/fly_slurping_v5_frame_${frameNumber}.png`;
     }
     
     if (!this.isMoving) {
       // Use alternating rubbing animations when not moving
       const frameNumber = (this.currentFrame - 1).toString().padStart(2, '0');
       if (this.useLegRubbing) {
-        return `/assets/img/cursor/fly_leg_rubbing_frame_${this.currentFrame - 1}.png`;
+        return `/assets/img/cursor/fly_leg_rubbing_v2_frame_${this.currentFrame - 1}.png`;
       } else {
         return `/assets/img/cursor/fly_rubbing_frame_${frameNumber}.png`;
       }
@@ -104,8 +128,11 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    this.targetX = event.clientX;
-    this.targetY = event.clientY;
+    this.cursorX = event.clientX;
+    this.cursorY = event.clientY;
+    
+    // Show cursor when mouse moves
+    this.isCursorVisible = true;
     
     // Reset movement timer
     const wasMoving = this.isMoving;
@@ -117,6 +144,18 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     }
     
     this.resetMovementTimer();
+  }
+
+  @HostListener('document:mouseenter')
+  onMouseEnter() {
+    // Show cursor when mouse enters the page
+    this.isCursorVisible = true;
+  }
+
+  @HostListener('document:mouseleave')
+  onMouseLeave() {
+    // Hide cursor when mouse leaves the page
+    this.isCursorVisible = false;
   }
 
   @HostListener('document:mouseover', ['$event'])
@@ -202,17 +241,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
   }
 
   private updateCursorPosition() {
-    // Apply delay using lerp (linear interpolation)
-    const lerp = (start: number, end: number, factor: number) => {
-      return start + (end - start) * factor;
-    };
-
-    const factor = 0.1; // Adjust this value to change delay sensitivity (0.05 = more delay, 0.2 = less delay)
-    
-    this.cursorX = lerp(this.cursorX, this.targetX, factor);
-    this.cursorY = lerp(this.cursorY, this.targetY, factor);
-
-    // Update the cursor element position
+    // Update the cursor element position directly without delay
     const cursorElement = this.document.querySelector('.custom-cursor') as HTMLElement;
     if (cursorElement) {
       this.renderer.setStyle(cursorElement, 'transform', `translate(${this.cursorX}px, ${this.cursorY}px) translate(-50%, -50%)`);
@@ -223,8 +252,6 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     // Initialize cursor position to center of screen
     this.cursorX = window.innerWidth / 2;
     this.cursorY = window.innerHeight / 2;
-    this.targetX = this.cursorX;
-    this.targetY = this.cursorY;
     
     // Start the animated cursor
     this.startAnimation();
