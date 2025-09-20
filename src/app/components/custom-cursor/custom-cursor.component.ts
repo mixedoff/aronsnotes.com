@@ -57,14 +57,42 @@ import { DOCUMENT } from '@angular/common';
         75% { content: url('/assets/img/cursor/fly_wing_flap_frame_4.png'); }
       }
 
-      /* Hide the default cursor globally */
+      /* Enhanced cursor hiding for screen recording compatibility */
       * {
+        cursor: none !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* Ensure no cursor shows anywhere - more specific selectors */
+      html, body, div, span, button, a, input, textarea, select, img, svg, 
+      [class*=""], [id*=""], [data-*], form, label, p, h1, h2, h3, h4, h5, h6,
+      ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
+      main, section, article, aside, canvas, video, audio, iframe, embed, object {
+        cursor: none !important;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* Force cursor hiding on all interactive elements */
+      button:hover, a:hover, input:hover, textarea:hover, select:hover,
+      button:focus, a:focus, input:focus, textarea:focus, select:focus,
+      button:active, a:active, input:active, textarea:active, select:active {
         cursor: none !important;
       }
 
-      /* Ensure no cursor shows anywhere */
-      html, body, div, span, button, a, input, textarea, select, img, svg {
+      /* Additional hiding for form elements */
+      input[type="text"], input[type="password"], input[type="email"], 
+      input[type="number"], input[type="search"], input[type="tel"], 
+      input[type="url"], textarea, select {
         cursor: none !important;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
       }
 
       /* Disable custom cursor on mobile devices */
@@ -76,6 +104,10 @@ import { DOCUMENT } from '@angular/common';
         /* Show default cursor on mobile */
         html, body, div, span, button, a, input, textarea, select, img, svg {
           cursor: auto !important;
+          -webkit-user-select: auto;
+          -moz-user-select: auto;
+          -ms-user-select: auto;
+          user-select: auto;
         }
       }
     `
@@ -98,6 +130,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
   private movementTimer: any;
   private readonly movementTimeout: number = 500; // milliseconds before switching to rubbing
   private useLegRubbing: boolean = false; // Toggle between regular and leg rubbing
+  private cursorHideInterval: any;
 
   constructor(
     private renderer: Renderer2,
@@ -248,6 +281,95 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     }
   }
 
+  private forceHideSystemCursor() {
+    // Aggressively hide system cursor on all elements
+    const allElements = this.document.querySelectorAll('*');
+    allElements.forEach((element: Element) => {
+      const htmlElement = element as HTMLElement;
+      if (htmlElement.style) {
+        this.renderer.setStyle(htmlElement, 'cursor', 'none');
+        this.renderer.setStyle(htmlElement, '-webkit-user-select', 'none');
+        this.renderer.setStyle(htmlElement, '-moz-user-select', 'none');
+        this.renderer.setStyle(htmlElement, '-ms-user-select', 'none');
+        this.renderer.setStyle(htmlElement, 'user-select', 'none');
+      }
+    });
+
+    // Also set on document body and html
+    this.renderer.setStyle(this.document.body, 'cursor', 'none');
+    this.renderer.setStyle(this.document.documentElement, 'cursor', 'none');
+  }
+
+  private setupCursorHiding() {
+    // Set up multiple layers of cursor hiding
+    
+    // 1. Continuous monitoring
+    this.cursorHideInterval = setInterval(() => {
+      this.forceHideSystemCursor();
+    }, 50); // Check every 50ms for maximum effectiveness
+
+    // 2. Monitor for DOM changes and hide cursor on new elements
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              const element = node as HTMLElement;
+              this.renderer.setStyle(element, 'cursor', 'none');
+              this.renderer.setStyle(element, '-webkit-user-select', 'none');
+              this.renderer.setStyle(element, '-moz-user-select', 'none');
+              this.renderer.setStyle(element, '-ms-user-select', 'none');
+              this.renderer.setStyle(element, 'user-select', 'none');
+              
+              // Also hide cursor on all child elements
+              const childElements = element.querySelectorAll('*');
+              childElements.forEach((child) => {
+                const childElement = child as HTMLElement;
+                if (childElement.style) {
+                  this.renderer.setStyle(childElement, 'cursor', 'none');
+                  this.renderer.setStyle(childElement, '-webkit-user-select', 'none');
+                  this.renderer.setStyle(childElement, '-moz-user-select', 'none');
+                  this.renderer.setStyle(childElement, '-ms-user-select', 'none');
+                  this.renderer.setStyle(childElement, 'user-select', 'none');
+                }
+              });
+            }
+          });
+        }
+      });
+    });
+
+    // Start observing
+    observer.observe(this.document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    // 3. Monitor for focus events and ensure cursor stays hidden
+    this.document.addEventListener('focusin', (event) => {
+      const target = event.target as HTMLElement;
+      if (target) {
+        this.renderer.setStyle(target, 'cursor', 'none');
+        this.renderer.setStyle(target, '-webkit-user-select', 'none');
+        this.renderer.setStyle(target, '-moz-user-select', 'none');
+        this.renderer.setStyle(target, '-ms-user-select', 'none');
+        this.renderer.setStyle(target, 'user-select', 'none');
+      }
+    });
+
+    // 4. Monitor for mouse events and ensure cursor stays hidden
+    this.document.addEventListener('mouseover', (event) => {
+      const target = event.target as HTMLElement;
+      if (target) {
+        this.renderer.setStyle(target, 'cursor', 'none');
+        this.renderer.setStyle(target, '-webkit-user-select', 'none');
+        this.renderer.setStyle(target, '-moz-user-select', 'none');
+        this.renderer.setStyle(target, '-ms-user-select', 'none');
+        this.renderer.setStyle(target, 'user-select', 'none');
+      }
+    });
+  }
+
   ngOnInit() {
     // Initialize cursor position to center of screen
     this.cursorX = window.innerWidth / 2;
@@ -264,10 +386,21 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     setInterval(() => {
       this.updateCursorPosition();
     }, 16); // ~60fps update rate
+
+    // Force hide system cursor immediately
+    this.forceHideSystemCursor();
+
+    // Set up continuous cursor hiding to prevent system cursor from reappearing
+    this.setupCursorHiding();
   }
 
   ngOnDestroy() {
     // Stop animation when component is destroyed
     this.stopAnimation();
+    
+    // Clear the cursor hiding interval
+    if (this.cursorHideInterval) {
+      clearInterval(this.cursorHideInterval);
+    }
   }
 } 

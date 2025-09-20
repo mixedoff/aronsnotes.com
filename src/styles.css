@@ -11,12 +11,49 @@
   );
 }
 
-/* Hide default cursor globally for custom cursor */
+/* Enhanced cursor hiding for screen recording compatibility */
 * {
+  cursor: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* More specific cursor hiding for all elements */
+html, body, div, span, button, a, input, textarea, select, img, svg,
+[class*=""], [id*=""], [data-*], form, label, p, h1, h2, h3, h4, h5, h6,
+ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
+main, section, article, aside, canvas, video, audio, iframe, embed, object,
+app-root, app-custom-cursor {
+  cursor: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Force cursor hiding on all interactive elements and their states */
+button:hover, a:hover, input:hover, textarea:hover, select:hover,
+button:focus, a:focus, input:focus, textarea:focus, select:focus,
+button:active, a:active, input:active, textarea:active, select:active,
+button:visited, a:visited, input:visited, textarea:visited, select:visited {
   cursor: none !important;
 }
 
-html, body, div, span, button, a, input, textarea, select, img, svg {
+/* Additional hiding for form elements */
+input[type="text"], input[type="password"], input[type="email"], 
+input[type="number"], input[type="search"], input[type="tel"], 
+input[type="url"], input[type="button"], input[type="submit"], input[type="reset"],
+textarea, select, option, optgroup, fieldset, legend {
+  cursor: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Ensure Angular components also have no cursor */
+[ng-version], [ng-reflect-*], [ng-reflect-routerlink], [ng-reflect-routerlinkactive] {
   cursor: none !important;
 }
 

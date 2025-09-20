@@ -16,6 +16,7 @@ import { ArticleService } from './article.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CustomCursorComponent } from './components/custom-cursor/custom-cursor.component';
+import { BezierScreensaverComponent } from './components/bezier-screensaver/bezier-screensaver.component';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ import { CustomCursorComponent } from './components/custom-cursor/custom-cursor.
     RouterModule,
     CommonModule,
     CustomCursorComponent,
+    BezierScreensaverComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
