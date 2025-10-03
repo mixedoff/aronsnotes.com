@@ -1,12 +1,14 @@
 export const article4 = {
   id: 4,
   date: '30.09.2024',
-  folder: 'careeverz',
-  function: 'UI',
+  folder: ['design'],
+  subFolder: ['ui'],
+  subSubFolder: ['design-system', 'prototype'],
+  project: 'CareeVerz',
   title: 'CareeVerz UI and brand identity v6_final',
   subtitle:
     'CareeVerz.com a step-by-step guide to the final design and design system',
-  tags: ['figma', 'prototype'],
+  technologies: ['figma'],
   size: null,
   author: null,
   published: null,

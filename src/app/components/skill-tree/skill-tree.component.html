@@ -1,0 +1,101 @@
+<div class="skill-tree-container">
+  <!-- View Toggle Controls -->
+  <div class="view-controls">
+    <button 
+      class="view-btn" 
+      [class.active]="currentView === 'folders'"
+      (click)="toggleView('folders')"
+    >
+      <span *ngIf="currentView === 'folders'" class="triangle">▶ </span>folders
+    </button>
+    <button 
+      class="view-btn" 
+      [class.active]="currentView === 'technologies'"
+      (click)="toggleView('technologies')"
+    >
+      <span *ngIf="currentView === 'technologies'" class="triangle">▶ </span>technologies
+    </button>
+    <button 
+      class="view-btn" 
+      [class.active]="currentView === 'projects'"
+      (click)="toggleView('projects')"
+    >
+      <span *ngIf="currentView === 'projects'" class="triangle">▶ </span>projects
+    </button>
+  </div>
+  
+  <div 
+    class="tree-container"
+    (wheel)="onMouseWheel($event)"
+    (mousedown)="onMouseDown($event)"
+    (mousemove)="onMouseMove($event)"
+    (mouseup)="onMouseUp()"
+    (mouseleave)="onMouseLeave()"
+  >
+    <div 
+      class="tree-content"
+      [style.transform]="getTransform()"
+    >
+      <svg class="connections-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <!-- Draw straight line connections between nodes -->
+        @for (node of skillNodes; track node.id) {
+          @for (connectionId of node.connections; track connectionId) {
+            @if (getConnectedNodePosition(connectionId)) {
+              <line
+                [attr.x1]="node.position.x"
+                [attr.y1]="node.position.y"
+                [attr.x2]="getConnectedNodePosition(connectionId)!.x"
+                [attr.y2]="getConnectedNodePosition(connectionId)!.y"
+                [attr.stroke]="getConnectionColor(node)"
+                stroke-width="0.1"
+                opacity="0.8"
+              />
+            }
+          }
+        }
+      </svg>
+
+      <!-- Skill Nodes -->
+      @for (node of skillNodes; track node.id) {
+        <div 
+          class="skill-node" 
+          [style]="getNodeStyle(node)"
+          [style.color]="node.color"
+          (click)="onNodeClick(node)"
+        >
+          <h3 class="node-title" 
+              [style.color]="node.color">
+            {{ node.title }}
+          </h3>
+          @if (currentView === 'projects' && node.project) {
+            <div class="project-info project-hover">
+              <div class="project-status" [class]="'status-' + node.project.status">
+                {{ node.project.status | titlecase }}
+              </div>
+              <div class="project-description">{{ node.project.description }}</div>
+              <div class="project-roles">
+                @for (role of node.project.roles; track role) {
+                  <span class="role-badge">{{ role | titlecase }}</span>
+                }
+              </div>
+              @if (node.project.link) {
+                <button class="project-link small" (click)="onProjectClick(node.project); $event.stopPropagation()">
+                  {{ node.project.buttonText || '🔗 Visit Project' }}
+                </button>
+              }
+
+            </div>
+          } @else if (node.articles.length > 0) {
+            <div class="articles-list articles-hover">
+              @for (article of node.articles; track article.id) {
+                <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()">
+                  {{ article.title }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

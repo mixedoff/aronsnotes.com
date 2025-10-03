@@ -298,7 +298,7 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   private ctx!: CanvasRenderingContext2D;
   private animationId: number = 0;
   private inactivityTimer: any;
-  readonly INACTIVITY_TIMEOUT = 20000; // 20 seconds
+  readonly INACTIVITY_TIMEOUT = 20000*60; // 20 seconds * 60 = 1200 seconds
   
   isActive = false;
   
@@ -342,11 +342,7 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
     this.startInactivityTimer();
     this.startAnimation();
     
-    // Force show for testing (remove this later)
-    setTimeout(() => {
-      console.log('Forcing screensaver to show for testing');
-      this.activate();
-    }, 2000);
+    // Test code removed
   }
 
   ngOnDestroy() {

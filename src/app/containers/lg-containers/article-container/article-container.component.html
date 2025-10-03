@@ -67,15 +67,15 @@
       <div class="article-body" [innerHtml]="selectedArticle?.content"></div>
     </div>
     <div class="article-footer">
-      <button class="back" (click)="clickClose(sourceScreen)">close ✕</button>
-      <button class="next" (click)="clickNext()">next &rsaquo;</button>
+      <button class="back big" [class.light]="sourceScreen === 'articles'" (click)="clickClose(sourceScreen)">close ✕</button>
+      <button class="next big" [class.light]="sourceScreen === 'articles'" (click)="clickNext()">next &rsaquo;</button>
     </div>
   </div>
   <div class="small-div">
     <small id="upvotes">upvotes: 2</small>
     <div class="tag-holder">
-      @for (tag of selectedArticle?.tags ?? []; track tag) {
-      <small>#{{ tag }}</small>
+      @for (technology of selectedArticle?.technologies ?? []; track technology) {
+      <small>#{{ technology }}</small>
       } @empty {
       <small>N/A</small>
       }

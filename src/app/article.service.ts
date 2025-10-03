@@ -25,11 +25,13 @@ import { article23 } from './articles/article23';
 export interface Article {
   id: number;
   date: string;
-  folder: string;
-  function: string;
+  folder: string[];
+  subFolder: string[];
+  subSubFolder: string[];
+  project: string;
   title: string;
   subtitle: string;
-  tags: string[];
+  technologies: string[];
   size: string | null;
   author: string | null;
   published: string | null;
@@ -88,17 +90,15 @@ export class ArticleService {
     // Reset to original list first
     this.articles = [...this.originalArticles];
 
-    // If folders is an array, show articles from any of these folders
-    if (Array.isArray(folders)) {
-      this.articles = this.articles.filter((article) =>
-        folders.includes(article.folder)
-      );
-    } else {
-      // If folders is a single string, show articles from that folder
-      this.articles = this.articles.filter(
-        (article) => article.folder === folders
-      );
-    }
+    // Convert single string to array for consistent handling
+    const filterFolders = Array.isArray(folders) ? folders : [folders];
+
+    // Filter articles that have at least one folder matching the filter
+    this.articles = this.articles.filter((article) =>
+      filterFolders.some(filterFolder => 
+        article.folder.includes(filterFolder)
+      )
+    );
   }
 
   resetToOriginal() {

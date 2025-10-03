@@ -7,13 +7,28 @@
   (clickQuit)="clickQuitOnChild()"
   (clickReads)="clickReadsOnChild()"
 ></app-article-top-nav>
-<app-articles-container
+
+<!-- Skill Tree - Always visible in background -->
+<app-skill-tree
   [sourceScreen]="'booknotes'"
-  [style]="themeService.getArticlesContainerStyles('booknotes')"
-  [containerTitle]="'reads'"
-  (closeArticlesClicked)="clickCloseArticlesOnChild()"
+  (closeClicked)="clickCloseArticlesOnChild()"
   (articleClicked)="clickArticleOnChild($event)"
-></app-articles-container>
+  [class.skill-tree-blurred]="showArticleContainer"
+></app-skill-tree>
+
+<!-- Article Container Overlay -->
+@if (showArticleContainer) {
+  <div class="article-overlay" (click)="onOverlayClick($event)">
+    <app-article-container
+      [sourceScreen]="'booknotes'"
+      [style]="themeService.getArticleContainerStyles('booknotes')"
+      (goBack)="onGoBack()"
+      class="article-overlay-container"
+      (click)="$event.stopPropagation()"
+    ></app-article-container>
+  </div>
+}
+
 <app-bottom-nav
   [sourceScreen]="'booknotes'"
   (menuClicked)="clickMenuOnChild()"

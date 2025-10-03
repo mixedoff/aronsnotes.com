@@ -139,12 +139,7 @@ export class ArticleContainerComponent
 
   clickClose(sourceScreen?: string) {
     this.goBack.emit(sourceScreen || this.sourceScreen);
-    this.articleService.filterArticles([
-      'aronsnotes',
-      'careeverz',
-      'miscellaneous',
-      'codingmindtech',
-    ]);
+    this.articleService.resetToOriginal();
   }
 
   clickNext() {
@@ -162,12 +157,12 @@ export class ArticleContainerComponent
   }
 
   private getRouteForArticle(article: Article): string {
-    if (article.folder === 'books') {
+    if (article.folder.includes('writing')) {
       return `/note/${article.id}`;
     } else if (
-      article.folder === 'miscellaneous' ||
-      article.folder === 'aronsnotes' ||
-      article.folder === 'careeverz'
+      article.folder.includes('development') ||
+      article.folder.includes('design') ||
+      article.folder.includes('miscellaneous')
     ) {
       return `/note/${article.id}`;
     } else {

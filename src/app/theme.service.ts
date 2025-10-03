@@ -12,17 +12,17 @@ export class ThemeService {
     switch (sourceScreen) {
       case 'booknotes':
         return (
-          '--nav-color: #f2f2f2;' +
+          '--nav-color: rgba(111, 250, 30, 0.5);' +
           '--nav-bg: #091522;' +
-          '--nav-articles-color: #ffffff;' +
+          '--nav-articles-color: rgba(111, 250, 30, 0.5);' +
           '--nav-articles-bg: #091522;' +
           '--nav-reads-color: #6ffa1e;' +
           '--nav-reads-bg: #091522;' +
-          '--nav-connect-color: #ffffff;' +
+          '--nav-connect-color: rgba(111, 250, 30, 0.5);' +
           '--nav-connect-bg: #091522;' +
-          '--nav-menu-color: #ffffff;' +
+          '--nav-menu-color: rgba(111, 250, 30, 0.5);' +
           '--nav-menu-bg: #091522;' +
-          '--nav-quit-color: #ffffff;' +
+          '--nav-quit-color: rgba(111, 250, 30, 0.5);' +
           '--nav-quit-bg: #091522;' +
           '--font-weight: 400;'
         );
@@ -102,7 +102,7 @@ export class ThemeService {
       case 'booknotes':
         return (
           '--nav-bg: #091522;' +
-          '--nav-color: #F2F2F2;' +
+          '--nav-color: #6ffa1e;' +
           '--font-weight: 400;' +
           '--beta-bg: none;' +
           '--beta-color: transparent;'

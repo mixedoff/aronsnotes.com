@@ -156,7 +156,7 @@ p {
 }
 
 .article-folder {
-  width: 100px;
+  width: fit-content;
   /* text-align: right; */
   /* margin-left: 16px; */
 }

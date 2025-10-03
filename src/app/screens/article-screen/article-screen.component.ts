@@ -18,7 +18,6 @@ import { ArticlesContainerComponent } from '../../containers/lg-containers/artic
     BottomNavComponent,
     ArticleTopNavComponent,
     CommonModule,
-    ArticlesScreenComponent,
     ArticlesContainerComponent,
   ],
   templateUrl: './article-screen.component.html',
@@ -66,21 +65,8 @@ export class ArticleScreenComponent implements OnInit {
 
         // Set the selected article in the state service for ArticleContainerComponent
         if (this.currentArticle) {
-          // Determine the source screen based on the article's folder
-          if (this.currentArticle.folder === 'books') {
-            this.sourceScreen = 'booknotes';
-          } else if (
-            this.currentArticle.folder === 'articles' ||
-            this.currentArticle.folder === 'aronsnotes' ||
-            this.currentArticle.folder === 'careeverz' ||
-            this.currentArticle.folder === 'codingmindtech'
-          ) {
-            this.sourceScreen = 'articles';
-          } else if (this.currentArticle.folder === 'personal') {
-            this.sourceScreen = 'personal';
-          } else {
-            this.sourceScreen = 'main-menu';
-          }
+          // Always set sourceScreen to 'articles' to stay on practice page
+          this.sourceScreen = 'articles';
 
           console.log(
             'Article screen loaded with article:',
@@ -138,38 +124,7 @@ export class ArticleScreenComponent implements OnInit {
   handleGoBack(sourceScreen: string) {
     console.log('handleGoBack called with sourceScreen:', sourceScreen);
 
-    // Use the passed sourceScreen if available
-    // if (sourceScreen) {
-    //   console.log('Using passed sourceScreen:', sourceScreen);
-
-    //   if (sourceScreen === 'booknotes') {
-    //     console.log('Navigating to booknotes');
-    //     this.onGoBackToBooknotes();
-    //   } else if (sourceScreen === 'articles') {
-    //     console.log('Navigating to articles');
-    //     this.onGoBackToArticles();
-    //   } else if (sourceScreen === 'main-menu') {
-    //     console.log('Navigating to main-menu');
-    //     this.onGoBackToSubmenu();
-    //   } else {
-    //     console.log('No matching sourceScreen, defaulting to articles');
-    //     this.onGoBackToArticles();
-    //   }
-    // } else {
-    //   // Fallback to component sourceScreen if not passed
-    //   console.log(
-    //     'No sourceScreen passed, using component sourceScreen:',
-    //     this.sourceScreen
-    //   );
-
-    if (this.sourceScreen === 'booknotes') {
-      this.onGoBackToBooknotes();
-    } else if (this.sourceScreen === 'articles') {
-      this.onGoBackToArticles();
-    } else if (this.sourceScreen === 'personal') {
-      this.router.navigate(['/creative']);
-    } else {
-      this.onGoBackToSubmenu();
-    }
+    // Always navigate back to practice page regardless of sourceScreen
+    this.onGoBackToArticles();
   }
 }

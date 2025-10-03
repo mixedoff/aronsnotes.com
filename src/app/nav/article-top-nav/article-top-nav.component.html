@@ -1,13 +1,20 @@
 <div class="outer-div">
   <p
+    (click)="onConnect()"
+    class="nav-connect"
+    role="button"
+  >
+    character
+  </p>
+  <p (click)="onReads()" class="nav-reads" role="button">
+    skills
+  </p>
+  <p
     (click)="onArticles()"
     class="nav-articles"
     role="button"
   >
-    skills
-  </p>
-  <p (click)="onReads()" class="nav-reads" role="button">
-    knowledge
+    notes
   </p>
   <p
     (click)="onMenu()"
@@ -16,13 +23,6 @@
     role="button"
   >
     works
-  </p>
-  <p
-    (click)="onConnect()"
-    class="nav-connect"
-    role="button"
-  >
-    character
   </p>
   <p (click)="onQuit()" class="nav-quit" role="button">
     quit

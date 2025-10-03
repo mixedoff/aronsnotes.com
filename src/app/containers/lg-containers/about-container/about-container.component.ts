@@ -18,6 +18,10 @@ export class AboutContainerComponent implements OnInit {
     this.router.navigate(['/hidden']);
   }
 
+  navigateToSkills() {
+    this.router.navigate(['/theory']);
+  }
+
   closeSubmenu() {
     console.log('closeSubmenu');
     this.closeSubmenuEvent.emit(true);
@@ -26,12 +30,12 @@ export class AboutContainerComponent implements OnInit {
   showAboutText = false;
   aboutText = '';
   private aboutFullText = `
-    <h1 class="mt-1">Hey, I'm Aron</h1>
+    <h1 class="mt-1">aron kovacs</h1>
 
-<p><strong>I am a Creative <s> Web Developer</s> Tank</strong></p>
+<p><strong>creative developer (tank)</strong></p>
 
 <blockquote>
-In games, tanks are designed to absorb damage by forging ahead into the unknown. Tanks are also inherently team players, providing protection and support to those in need.
+Tanks are designed to absorb damage by forging ahead into the unknown.
 </blockquote>
 
 <p><strong>My superpower:</strong> casting visions—novel solutions to complex problems. These visions pull me forward, and I, in turn, pull others along with me.</p>
@@ -44,14 +48,17 @@ In games, tanks are designed to absorb damage by forging ahead into the unknown.
 Figma, Angular, Hetzner, Cursor IDE, Google Workspace
 </p>
 
-<h2>Recent Works</h2>
+
+<h2>Featured Works</h2>
 <h3 class="mt-0"> <a href="https://careeverz.com" target="_blank" rel="noopener noreferrer">CareeVerz.com</a></h3>
 <p><strong>Vision:</strong> Gamifying work.</p>
-<p><strong>Role:</strong>Founder
+<p><strong>Role:</strong> Founder, Research & Development, Product Manager, Product Designer, Front-end Developer
+<p><strong>Milestones:</strong></p>
 <p>- Launched a complex AI-driven career counseling app</p>
 <p>- Led research & development</p>
 <p>- Recruited and led a multidisciplinary team of 4</p>
-<p>- Designed and executed the UX research and UX/UI design process</p>
+<p>- Designed and executed the UX/UI process</p>
+<p>- Helped to develop the front-end</p>
 </p>
 
 <p><strong>Tech stack:</strong>  
@@ -59,12 +66,8 @@ Figma, Angular, .NET, Azure, Docker, Harness ML, Hetzner, Google OAuth, Stripe, 
 </p>
 
 <h3> <a href="https://aronsnotes.com" target="_blank" rel="noopener noreferrer">aronsnotes.com</a></h3>
-<p><strong>What it is:</strong> Following my inner nerd to design and develop projects ranging from storytelling to web development.</p>
-<p><strong>Role:</strong> 
-<p>- Product design</p>
-<p>- Front-end development</p>
-<p>- Back-end development</p>
-<p>- Content creation</p>
+<p><strong>Vision:</strong> Gamifying my character development.</p>
+<p><strong>Role:</strong> Solopreneur, Product Designer, Front-end Developer, Back-end Developer, Content Creator
 </p>
 
 <p><strong>Tech stack:</strong>  

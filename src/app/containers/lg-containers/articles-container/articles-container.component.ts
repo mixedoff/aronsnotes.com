@@ -50,40 +50,23 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     const currentUrl = this.router.url;
     
     if (currentUrl.includes('/theory')) {
-      // We're on the theory/booknotes screen
-      this.articleService.filterArticles('books');
+      // We're on the theory/booknotes screen - show writing articles
+      this.articleService.filterArticles('writing');
     } else if (currentUrl.includes('/practice')) {
-      // We're on the practice screen
-      this.articleService.filterArticles([
-        'aronsnotes',
-        'careeverz',
-        'miscellaneous',
-        'codingmindtech',
-      ]);
+      // We're on the practice screen - show all articles
+      this.articleService.resetToOriginal();
     } else if (currentUrl.includes('/creative')) {
-      // We're on the creative/personal screen
-      this.articleService.filterArticles('personal');
+      // We're on the creative/personal screen - show writing articles (creative writing)
+      this.articleService.filterArticles('writing');
+    } else if (currentUrl.includes('/design')) {
+      // We're on a design screen - show design articles
+      this.articleService.filterArticles('design');
     } else if (currentUrl.includes('/note/')) {
-      // We're viewing an article, check the article's folder to determine context
-      const articleId = this.route.snapshot.paramMap.get('id');
-      if (articleId) {
-        const article = this.articleService.getArticleById(Number(articleId));
-        if (article) {
-          // Apply filtering based on the article's folder
-          if (article.folder === 'books') {
-            this.articleService.filterArticles('books');
-          } else if (article.folder === 'personal') {
-            this.articleService.filterArticles('personal');
-          } else {
-            this.articleService.filterArticles([
-              'aronsnotes',
-              'careeverz',
-              'miscellaneous',
-              'codingmindtech',
-            ]);
-          }
-        }
-      }
+      // We're viewing an article - keep showing all articles (stay on practice page)
+      this.articleService.resetToOriginal();
+    } else {
+      // Default fallback - show all articles
+      this.articleService.resetToOriginal();
     }
   }
 
@@ -98,13 +81,8 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     // Set flag that we're navigating to an article
     this.navigatingToArticle = true;
 
-    // Determine the correct route based on the article's folder
-    let routePath: string;
-    if (article.folder === 'books') {
-      routePath = '/note';
-    } else {
-      routePath = '/note';
-    }
+    // All articles use the same route structure now
+    const routePath = '/note';
 
     // Navigate to the appropriate route
     this.router.navigate([routePath, article.id]);
@@ -118,12 +96,8 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     // Only reset the filter if we're not navigating to an article page
     if (!this.navigatingToArticle) {
-      this.articleService.filterArticles([
-        'aronsnotes',
-        'careeverz',
-        'miscellaneous',
-        'codingmindtech',
-      ]);
+      // Reset to show all articles by default (practice screen)
+      this.articleService.resetToOriginal();
     }
 
     // Clean up subscription

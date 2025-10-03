@@ -92,8 +92,7 @@
     <small>{{ currentLabel }}</small>
   </div>
   <div class="second-inner-container">
-    @for (article of articles; track article.id) { @if (article.folder ===
-    currentLabel) {
+    @for (article of articles; track article.id) { @if (article.folder.includes(currentLabel)) {
     <p (click)="openArticle(article)" class="article-title">
       {{ article.title }}
     </p>
