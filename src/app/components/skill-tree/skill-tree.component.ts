@@ -40,6 +40,16 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   lastMouseX: number = 0;
   lastMouseY: number = 0;
   
+  // Touch properties
+  isTouching: boolean = false;
+  lastTouchX: number = 0;
+  lastTouchY: number = 0;
+  
+  // Pinch zoom properties
+  isPinching: boolean = false;
+  lastPinchDistance: number = 0;
+  initialScale: number = 1;
+  
   // Flicker animation properties
   private hasInitialized: boolean = false;
   private flickerTimeout: any;
@@ -55,6 +65,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     this.initializeSkillTree();
     this.loadArticles();
     
+    // Center the skill tree in the viewport initially
+    this.centerSkillTree();
+    
     // Trigger flicker animation for subnodes on first load
     if (!this.hasInitialized) {
       this.hasInitialized = true;
@@ -64,6 +77,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     // Add resize listener for responsive layout
     this.resizeListener = () => {
       this.calculateAllPositions();
+      this.centerSkillTree();
     };
     window.addEventListener('resize', this.resizeListener);
   }
@@ -536,12 +550,11 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   private circularLayout() {
-    const centerX = 50;
-    const centerY = 50;
-    
-    // Detect screen size for responsive layout
-    const isSmallScreen = window.innerWidth <= 768;
-    const isVerySmallScreen = window.innerWidth <= 480;
+    // Use absolute pixel coordinates for consistent layout regardless of screen size
+    // Base the layout on a 1200px width for optimal spacing
+    const baseWidth = 1200;
+    const centerX = baseWidth / 2;
+    const centerY = 400; // Fixed center Y position
     
     // Group nodes by level
     const mainFolders = this.skillNodes.filter(node => node.id.startsWith('folder-'));
@@ -555,21 +568,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       this.currentView === 'folders' && node.id.startsWith('subsubfolder-')
     );
     
-    // Adjust radii based on screen size
-    let innerRadius, middleRadius, outerRadius;
-    if (isVerySmallScreen) {
-      innerRadius = 8;
-      middleRadius = 20;
-      outerRadius = 32;
-    } else if (isSmallScreen) {
-      innerRadius = 12;
-      middleRadius = 25;
-      outerRadius = 35;
-    } else {
-      innerRadius = 15;
-      middleRadius = 30;
-      outerRadius = 42;
-    }
+    // Use pixel-based radii for consistent spacing
+    const innerRadius = 150;
+    const middleRadius = 300;
+    const outerRadius = 450;
     
     // Position main folders in inner circle
     mainFolders.forEach((node, index) => {
@@ -600,11 +602,11 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       });
     }
     
-    // Ensure all positions are within bounds with tighter margins on small screens
-    const margin = isSmallScreen ? 15 : 10;
+    // Ensure all positions have minimum margins
+    const margin = 100;
     this.skillNodes.forEach(node => {
-      node.position.x = Math.max(margin, Math.min(100 - margin, node.position.x));
-      node.position.y = Math.max(margin, Math.min(100 - margin, node.position.y));
+      node.position.x = Math.max(margin, node.position.x);
+      node.position.y = Math.max(margin, node.position.y);
     });
   }
 
@@ -673,8 +675,8 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   getNodeStyle(node: SkillNode): any {
     return {
       position: 'absolute',
-      left: `${node.position.x}%`,
-      top: `${node.position.y}%`,
+      left: `${node.position.x}px`,
+      top: `${node.position.y}px`,
       transform: 'translate(-50%, -50%)'
     };
   }
@@ -734,10 +736,90 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     this.isDragging = false;
   }
 
+  // Touch event handlers for mobile devices
+  onTouchStart(event: TouchEvent): void {
+    if (event.touches.length === 1) {
+      // Single touch - start dragging
+      this.isTouching = true;
+      this.isPinching = false;
+      this.lastTouchX = event.touches[0].clientX;
+      this.lastTouchY = event.touches[0].clientY;
+      event.preventDefault();
+    } else if (event.touches.length === 2) {
+      // Two touches - start pinch zoom
+      this.isTouching = false;
+      this.isPinching = true;
+      this.initialScale = this.scale;
+      this.lastPinchDistance = this.getDistance(
+        event.touches[0].clientX, event.touches[0].clientY,
+        event.touches[1].clientX, event.touches[1].clientY
+      );
+      event.preventDefault();
+    }
+  }
+
+  onTouchMove(event: TouchEvent): void {
+    if (this.isTouching && event.touches.length === 1) {
+      // Single touch dragging
+      const deltaX = event.touches[0].clientX - this.lastTouchX;
+      const deltaY = event.touches[0].clientY - this.lastTouchY;
+      
+      this.translateX += deltaX;
+      this.translateY += deltaY;
+      
+      this.lastTouchX = event.touches[0].clientX;
+      this.lastTouchY = event.touches[0].clientY;
+      
+      event.preventDefault();
+    } else if (this.isPinching && event.touches.length === 2) {
+      // Two touches - pinch zoom
+      const currentDistance = this.getDistance(
+        event.touches[0].clientX, event.touches[0].clientY,
+        event.touches[1].clientX, event.touches[1].clientY
+      );
+      
+      if (this.lastPinchDistance > 0) {
+        const scaleChange = currentDistance / this.lastPinchDistance;
+        const newScale = Math.max(0.1, Math.min(5, this.initialScale * scaleChange));
+        this.scale = newScale;
+      }
+      
+      this.lastPinchDistance = currentDistance;
+      event.preventDefault();
+    }
+  }
+
+  onTouchEnd(event: TouchEvent): void {
+    this.isTouching = false;
+    this.isPinching = false;
+    this.lastPinchDistance = 0;
+    event.preventDefault();
+  }
+
+  private getDistance(x1: number, y1: number, x2: number, y2: number): number {
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
   resetZoom(): void {
     this.scale = 1;
-    this.translateX = 0;
-    this.translateY = 0;
+    this.centerSkillTree();
+  }
+
+  private centerSkillTree(): void {
+    const containerWidth = window.innerWidth;
+    const containerHeight = window.innerHeight - 40; // Account for top margin
+    const treeWidth = 1200;
+    const treeHeight = 800;
+    
+    // Center the skill tree in the viewport
+    this.translateX = (containerWidth - treeWidth) / 2;
+    this.translateY = (containerHeight - treeHeight) / 2;
+    
+    // Ensure we don't go too far off-screen
+    this.translateX = Math.max(-treeWidth + 100, Math.min(containerWidth - 100, this.translateX));
+    this.translateY = Math.max(-treeHeight + 100, Math.min(containerHeight - 100, this.translateY));
   }
 
   getTransform(): string {
@@ -875,11 +957,11 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         if (shouldGlow) {
           line.style.opacity = '0';
           line.style.filter = 'brightness(1.2) drop-shadow(0 0 2px currentColor)';
-          line.setAttribute('stroke-width', '0.15');
+          line.setAttribute('stroke-width', '3');
         } else {
           line.style.opacity = '0.6';
           line.style.filter = 'brightness(0.8)';
-          line.setAttribute('stroke-width', '0.1');
+          line.setAttribute('stroke-width', '2');
         }
       });
       
@@ -895,7 +977,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         flickeringConnections.forEach(line => {
           line.style.opacity = '0.8';
           line.style.filter = 'none';
-          line.setAttribute('stroke-width', '0.1');
+          line.setAttribute('stroke-width', '2');
         });
         
         clearInterval(this.flickerInterval);

@@ -31,12 +31,15 @@
     (mousemove)="onMouseMove($event)"
     (mouseup)="onMouseUp()"
     (mouseleave)="onMouseLeave()"
+    (touchstart)="onTouchStart($event)"
+    (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd($event)"
   >
     <div 
       class="tree-content"
       [style.transform]="getTransform()"
     >
-      <svg class="connections-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <svg class="connections-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
         <!-- Draw straight line connections between nodes -->
         @for (node of skillNodes; track node.id) {
           @for (connectionId of node.connections; track connectionId) {
@@ -47,7 +50,7 @@
                 [attr.x2]="getConnectedNodePosition(connectionId)!.x"
                 [attr.y2]="getConnectedNodePosition(connectionId)!.y"
                 [attr.stroke]="getConnectionColor(node)"
-                stroke-width="0.1"
+                stroke-width="2"
                 opacity="0.8"
               />
             }
