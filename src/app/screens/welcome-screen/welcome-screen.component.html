@@ -1,8 +1,10 @@
-<app-label-container
-  (skipLoadingScreenEvent)="forwardToMainMenuScreen()"
-  message="product activation"
-></app-label-container>
+<div class="welcome-screen">
+  <app-label-container
+    (skipLoadingScreenEvent)="forwardToMainMenuScreen()"
+    message="product activation"
+  ></app-label-container>
 
-<app-start-container
-  (enterPressed)="onChildEnterPressed()"
-></app-start-container>
+  <app-start-container
+    (enterPressed)="onChildEnterPressed()"
+  ></app-start-container>
+</div>

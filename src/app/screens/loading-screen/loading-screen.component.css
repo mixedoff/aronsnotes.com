@@ -7,3 +7,12 @@
   background-color: black;
   z-index: 1000;
 } */
+
+.loading-screen {
+  background: url(../../../assets/img/circle-blues.png) lightgray 0% 0% / 300px 300px repeat !important;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}

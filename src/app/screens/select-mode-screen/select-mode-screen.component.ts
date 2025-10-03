@@ -16,11 +16,11 @@ export class SelectModeScreenComponent {
   constructor(private router: Router) {}
   forwardToMainMenuScreen() {
     this.skipLoadingScreenEvent.emit(true);
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/about']);
   }
 
   onChildButtonClick() {
     this.buttonClickedFromChild.emit();
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/about']);
   }
 }

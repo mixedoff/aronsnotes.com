@@ -257,18 +257,73 @@
 
 /* JavaScript-based flicker will handle the animation */
 
-/* Responsive design */
+/* Responsive design for circular layout */
 @media (max-width: 768px) {
-  .node-content {
-    min-width: 120px;
-    padding: 0.75rem;
+  .skill-tree-container {
+    height: calc(100vh - 40px);
+  }
+  
+  .tree-container {
+    padding: 10px;
   }
   
   .node-title {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-width: 1px;
+  }
+  
+  .articles-hover,
+  .project-hover {
+    min-width: 150px;
+    font-size: 0.8rem;
+  }
+  
+  .project-description {
+    font-size: 0.75rem;
+    max-width: 200px;
   }
   
   .article-item {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .view-controls {
+    top: 40px;
+    left: 15px;
+  }
+  
+  .view-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .node-title {
+    font-size: 0.7rem;
+    padding: 4px 8px;
+  }
+  
+  .articles-hover,
+  .project-hover {
+    min-width: 120px;
+    font-size: 0.7rem;
+  }
+  
+  .project-description {
+    font-size: 0.65rem;
+    max-width: 150px;
+  }
+  
+  .article-item {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .view-btn {
+    font-size: 11px;
+    padding: 4px 8px;
   }
 }

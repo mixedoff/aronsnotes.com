@@ -45,6 +45,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   private flickerTimeout: any;
   private flickerInterval: any;
   private flickerElements: HTMLElement[] = [];
+  
+  // Resize listener
+  private resizeListener: (() => void) | null = null;
 
   constructor(private articleService: ArticleService) {}
 
@@ -57,6 +60,12 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       this.hasInitialized = true;
       this.triggerFlickerAnimation();
     }
+    
+    // Add resize listener for responsive layout
+    this.resizeListener = () => {
+      this.calculateAllPositions();
+    };
+    window.addEventListener('resize', this.resizeListener);
   }
 
   ngOnDestroy() {
@@ -65,6 +74,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     }
     if (this.flickerInterval) {
       clearInterval(this.flickerInterval);
+    }
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
     }
   }
 
@@ -475,7 +487,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     const colors = {
       'design': '#3A94DE',
       'development': '#6ffa1e',
-      'writing': '#c6c8c8'
+      'writing': '#4ECDC4'
     };
     
     // First pass: assign colors to main folders
@@ -519,521 +531,84 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       }
     });
     
-    // Position main folders first with fixed positions
-    this.positionMainFolders();
-    
-    // Use force-directed graph layout for the rest
-    this.forceDirectedLayout();
+    // Use circular layout instead of force-directed
+    this.circularLayout();
   }
 
-  private positionMainFolders() {
-    const mainFolders = ['design', 'development', 'writing'];
+  private circularLayout() {
+    const centerX = 50;
+    const centerY = 50;
     
-    this.skillNodes.forEach(node => {
-      const nodeName = node.title.toLowerCase();
-      
-      if (mainFolders.includes(nodeName)) {
-        const index = mainFolders.indexOf(nodeName);
-        
-        // Position main folders in a horizontal line at the bottom
-        switch (index) {
-          case 0: // Design
-            node.position = { x: 20, y: 75 };
-            break;
-          case 1: // Development  
-            node.position = { x: 50, y: 75 };
-            break;
-          case 2: // Writing
-            node.position = { x: 80, y: 75 };
-            break;
-        }
-      }
-    });
-  }
-
-  private forceDirectedLayout() {
-    const iterations = 200; // Reduced iterations for faster convergence
-    const k = 30; // Reduced spring constant for gentler forces
-    const c = 0.05; // Reduced damping factor
-    const minDistance = 8; // Reduced minimum distance to allow closer nodes
+    // Detect screen size for responsive layout
+    const isSmallScreen = window.innerWidth <= 768;
+    const isVerySmallScreen = window.innerWidth <= 480;
     
-    // Get main folder positions for hierarchical positioning
+    // Group nodes by level
     const mainFolders = this.skillNodes.filter(node => node.id.startsWith('folder-'));
-    const mainFolderPositions = mainFolders.map(node => ({
-      id: node.id,
-      x: node.position.x,
-      y: node.position.y
-    }));
-    
-    // Get non-main folder nodes
-    const movableNodes = this.skillNodes.filter(node => 
-      !node.id.startsWith('folder-')
+    const middleLevelNodes = this.skillNodes.filter(node => {
+      if (this.currentView === 'technologies') return node.id.startsWith('technology-');
+      if (this.currentView === 'projects') return node.id.startsWith('project-');
+      if (this.currentView === 'folders') return node.id.startsWith('subfolder-');
+      return false;
+    });
+    const topLevelNodes = this.skillNodes.filter(node => 
+      this.currentView === 'folders' && node.id.startsWith('subsubfolder-')
     );
     
-    // Initialize positions hierarchically above main folders
-    movableNodes.forEach((node, index) => {
-      // Force initialize position for all nodes to prevent (0,0) overlap
-      if (node.position.x === 0 && node.position.y === 0) {
-        if (this.currentView === 'technologies' && node.id.startsWith('technology-')) {
-          // Position technologies in the middle layer above main folders
-          const connectedMainFolders = node.connections
-            .map(connId => mainFolders.find(mf => mf.id === connId))
-            .filter(Boolean);
-          
-          if (connectedMainFolders.length > 0) {
-            // Handle multi-folder nodes by finding the center position
-            const connectedPositions = connectedMainFolders
-              .map(folder => mainFolderPositions.find(pos => pos.id === folder!.id))
-              .filter(Boolean);
-            
-            if (connectedPositions.length === 1) {
-              // Single connection - position directly above
-              const mainFolderPos = connectedPositions[0]!;
-              const techIndex = movableNodes.filter(n => n.id.startsWith('technology-')).indexOf(node);
-              const offsetX = (techIndex % 3 - 1) * 8;
-              node.position = {
-                x: Math.max(15, Math.min(85, mainFolderPos.x + offsetX)),
-                y: Math.max(45, Math.min(65, mainFolderPos.y - 12 - (Math.floor(techIndex / 3) * 6)))
-              };
-            } else if (connectedPositions.length > 1) {
-              // Multi-connection - position at center between connected folders
-              const centerX = connectedPositions.reduce((sum, pos) => sum + pos!.x, 0) / connectedPositions.length;
-              const centerY = connectedPositions.reduce((sum, pos) => sum + pos!.y, 0) / connectedPositions.length;
-              
-              const techIndex = movableNodes.filter(n => n.id.startsWith('technology-')).indexOf(node);
-              const offsetX = (techIndex % 2 - 0.5) * 6; // Smaller offset for multi-folder nodes
-              
-              node.position = {
-                x: Math.max(15, Math.min(85, centerX + offsetX)),
-                y: Math.max(45, Math.min(65, centerY - 15 - (Math.floor(techIndex / 2) * 5)))
-              };
-              
-              console.log(`Multi-folder technology ${node.id} positioned at center (${node.position.x}, ${node.position.y}) between ${connectedPositions.length} folders`);
-            }
-          } else {
-            this.setGridPosition(node, index, movableNodes.length);
-          }
-        } else if (this.currentView === 'projects' && node.id.startsWith('project-')) {
-          // Position projects in the middle layer above main folders
-          const connectedMainFolders = node.connections
-            .map(connId => mainFolders.find(mf => mf.id === connId))
-            .filter(Boolean);
-          
-          if (connectedMainFolders.length > 0) {
-            // Handle multi-folder nodes by finding the center position
-            const connectedPositions = connectedMainFolders
-              .map(folder => mainFolderPositions.find(pos => pos.id === folder!.id))
-              .filter(Boolean);
-            
-            if (connectedPositions.length === 1) {
-              // Single connection - position directly above
-              const mainFolderPos = connectedPositions[0]!;
-              const projectIndex = movableNodes.filter(n => n.id.startsWith('project-')).indexOf(node);
-              const offsetX = (projectIndex % 3 - 1) * 8;
-              node.position = {
-                x: Math.max(15, Math.min(85, mainFolderPos.x + offsetX)),
-                y: Math.max(45, Math.min(65, mainFolderPos.y - 12 - (Math.floor(projectIndex / 3) * 6)))
-              };
-            } else if (connectedPositions.length > 1) {
-              // Multi-connection - position at center between connected folders
-              const centerX = connectedPositions.reduce((sum, pos) => sum + pos!.x, 0) / connectedPositions.length;
-              const centerY = connectedPositions.reduce((sum, pos) => sum + pos!.y, 0) / connectedPositions.length;
-              
-              const projectIndex = movableNodes.filter(n => n.id.startsWith('project-')).indexOf(node);
-              const offsetX = (projectIndex % 2 - 0.5) * 6; // Smaller offset for multi-folder nodes
-              
-              node.position = {
-                x: Math.max(15, Math.min(85, centerX + offsetX)),
-                y: Math.max(45, Math.min(65, centerY - 15 - (Math.floor(projectIndex / 2) * 5)))
-              };
-              
-              console.log(`Multi-folder project ${node.id} positioned at center (${node.position.x}, ${node.position.y}) between ${connectedPositions.length} folders`);
-            }
-          } else {
-            this.setGridPosition(node, index, movableNodes.length);
-          }
-        } else if (this.currentView === 'folders' && node.id.startsWith('subfolder-')) {
-          // Position subfolders in the middle layer above main folders
-          const connectedMainFolders = node.connections
-            .map(connId => mainFolders.find(mf => mf.id === connId))
-            .filter(Boolean);
-          
-          if (connectedMainFolders.length > 0) {
-            // Handle multi-folder nodes by finding the center position
-            const connectedPositions = connectedMainFolders
-              .map(folder => mainFolderPositions.find(pos => pos.id === folder!.id))
-              .filter(Boolean);
-            
-            if (connectedPositions.length === 1) {
-              // Single connection - position directly above
-              const mainFolderPos = connectedPositions[0]!;
-              const subfolderIndex = movableNodes.filter(n => n.id.startsWith('subfolder-')).indexOf(node);
-              const offsetX = (subfolderIndex % 3 - 1) * 8;
-              node.position = {
-                x: Math.max(15, Math.min(85, mainFolderPos.x + offsetX)),
-                y: Math.max(45, Math.min(65, mainFolderPos.y - 12 - (Math.floor(subfolderIndex / 3) * 6)))
-              };
-            } else if (connectedPositions.length > 1) {
-              // Multi-connection - position at center between connected folders
-              const centerX = connectedPositions.reduce((sum, pos) => sum + pos!.x, 0) / connectedPositions.length;
-              const centerY = connectedPositions.reduce((sum, pos) => sum + pos!.y, 0) / connectedPositions.length;
-              
-              const subfolderIndex = movableNodes.filter(n => n.id.startsWith('subfolder-')).indexOf(node);
-              const offsetX = (subfolderIndex % 2 - 0.5) * 6; // Smaller offset for multi-folder nodes
-              
-              node.position = {
-                x: Math.max(15, Math.min(85, centerX + offsetX)),
-                y: Math.max(45, Math.min(65, centerY - 15 - (Math.floor(subfolderIndex / 2) * 5)))
-              };
-              
-              console.log(`Multi-folder subfolder ${node.id} positioned at center (${node.position.x}, ${node.position.y}) between ${connectedPositions.length} folders`);
-            }
-          } else {
-            this.setGridPosition(node, index, movableNodes.length);
-          }
-        } else if (this.currentView === 'folders' && node.id.startsWith('subsubfolder-')) {
-          // Position sub-subfolders in the top layer above subfolders
-          const connectedSubFolders = node.connections
-            .map(connId => this.skillNodes.find(n => n.id === connId && n.id.startsWith('subfolder-')))
-            .filter(Boolean);
-          
-          if (connectedSubFolders.length > 0) {
-            // Handle multi-subfolder nodes by finding the center position
-            const connectedSubFolderPositions = connectedSubFolders
-              .filter(subfolder => subfolder && subfolder.position.x !== 0)
-              .map(subfolder => ({ x: subfolder!.position.x, y: subfolder!.position.y }));
-            
-            if (connectedSubFolderPositions.length === 1) {
-              // Single subfolder connection
-              const targetSubFolder = connectedSubFolderPositions[0];
-              const subsubfolderIndex = movableNodes.filter(n => n.id.startsWith('subsubfolder-')).indexOf(node);
-              const offsetX = (subsubfolderIndex % 4 - 1.5) * 6;
-              node.position = {
-                x: Math.max(20, Math.min(80, targetSubFolder.x + offsetX)),
-                y: Math.max(15, Math.min(40, targetSubFolder.y - 15 - (Math.floor(subsubfolderIndex / 4) * 8)))
-              };
-            } else if (connectedSubFolderPositions.length > 1) {
-              // Multi-subfolder connection - position at center
-              const centerX = connectedSubFolderPositions.reduce((sum, pos) => sum + pos.x, 0) / connectedSubFolderPositions.length;
-              const centerY = connectedSubFolderPositions.reduce((sum, pos) => sum + pos.y, 0) / connectedSubFolderPositions.length;
-              
-              const subsubfolderIndex = movableNodes.filter(n => n.id.startsWith('subsubfolder-')).indexOf(node);
-              const offsetX = (subsubfolderIndex % 3 - 1) * 4; // Smaller offset for multi-subfolder nodes
-              
-              node.position = {
-                x: Math.max(20, Math.min(80, centerX + offsetX)),
-                y: Math.max(15, Math.min(40, centerY - 20 - (Math.floor(subsubfolderIndex / 3) * 6)))
-              };
-              
-              console.log(`Multi-subfolder sub-subfolder ${node.id} positioned at center (${node.position.x}, ${node.position.y}) between ${connectedSubFolderPositions.length} subfolders`);
-            } else {
-              // No positioned subfolders yet, try main folders
-              const connectedMainFolders = node.connections
-                .map(connId => mainFolders.find(mf => mf.id === connId))
-                .filter(Boolean);
-              
-              if (connectedMainFolders.length > 0) {
-                const connectedMainPositions = connectedMainFolders
-                  .map(folder => mainFolderPositions.find(pos => pos.id === folder!.id))
-                  .filter(Boolean);
-                
-                if (connectedMainPositions.length === 1) {
-                  const mainFolderPos = connectedMainPositions[0]!;
-                  const subsubfolderIndex = movableNodes.filter(n => n.id.startsWith('subsubfolder-')).indexOf(node);
-                  const offsetX = (subsubfolderIndex % 4 - 1.5) * 6;
-                  node.position = {
-                    x: Math.max(20, Math.min(80, mainFolderPos.x + offsetX)),
-                    y: Math.max(15, Math.min(40, mainFolderPos.y - 30 - (Math.floor(subsubfolderIndex / 4) * 8)))
-                  };
-                } else if (connectedMainPositions.length > 1) {
-                  // Multi-main folder connection
-                  const centerX = connectedMainPositions.reduce((sum, pos) => sum + pos!.x, 0) / connectedMainPositions.length;
-                  const centerY = connectedMainPositions.reduce((sum, pos) => sum + pos!.y, 0) / connectedMainPositions.length;
-                  
-                  const subsubfolderIndex = movableNodes.filter(n => n.id.startsWith('subsubfolder-')).indexOf(node);
-                  const offsetX = (subsubfolderIndex % 3 - 1) * 4;
-                  
-                  node.position = {
-                    x: Math.max(20, Math.min(80, centerX + offsetX)),
-                    y: Math.max(15, Math.min(40, centerY - 35 - (Math.floor(subsubfolderIndex / 3) * 6)))
-                  };
-                  
-                  console.log(`Multi-main-folder sub-subfolder ${node.id} positioned at center (${node.position.x}, ${node.position.y}) between ${connectedMainPositions.length} main folders`);
-                } else {
-                  this.setGridPosition(node, index, movableNodes.length);
-                }
-              } else {
-                this.setGridPosition(node, index, movableNodes.length);
-              }
-            }
-          } else {
-            this.setGridPosition(node, index, movableNodes.length);
-          }
-        } else {
-          // Fallback to grid positioning
-          this.setGridPosition(node, index, movableNodes.length);
-        }
-      }
+    // Adjust radii based on screen size
+    let innerRadius, middleRadius, outerRadius;
+    if (isVerySmallScreen) {
+      innerRadius = 8;
+      middleRadius = 20;
+      outerRadius = 32;
+    } else if (isSmallScreen) {
+      innerRadius = 12;
+      middleRadius = 25;
+      outerRadius = 35;
+    } else {
+      innerRadius = 15;
+      middleRadius = 30;
+      outerRadius = 42;
+    }
+    
+    // Position main folders in inner circle
+    mainFolders.forEach((node, index) => {
+      const angle = (2 * Math.PI * index) / mainFolders.length;
+      node.position = {
+        x: centerX + innerRadius * Math.cos(angle),
+        y: centerY + innerRadius * Math.sin(angle)
+      };
     });
     
-    // Second pass: ensure ALL nodes have valid positions (no (0,0) positions)
-    movableNodes.forEach((node, index) => {
-      if (node.position.x === 0 && node.position.y === 0) {
-        console.warn(`Node ${node.id} still at (0,0), forcing position`);
-        this.setGridPosition(node, index, movableNodes.length);
-      }
+    // Position middle level nodes in outer circle
+    middleLevelNodes.forEach((node, index) => {
+      const angle = (2 * Math.PI * index) / middleLevelNodes.length;
+      node.position = {
+        x: centerX + middleRadius * Math.cos(angle),
+        y: centerY + middleRadius * Math.sin(angle)
+      };
     });
     
-    // Force-directed iterations with hierarchical attraction
-    for (let iter = 0; iter < iterations; iter++) {
-      const forces: { [key: string]: { x: number; y: number } } = {};
-      
-      // Initialize forces
-      this.skillNodes.forEach(node => {
-        forces[node.id] = { x: 0, y: 0 };
-      });
-      
-      // Strong repulsive forces between all nodes
-      for (let i = 0; i < this.skillNodes.length; i++) {
-        for (let j = i + 1; j < this.skillNodes.length; j++) {
-          const node1 = this.skillNodes[i];
-          const node2 = this.skillNodes[j];
-          
-          const dx = node1.position.x - node2.position.x;
-          const dy = node1.position.y - node2.position.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < minDistance) {
-            // Gentler repulsion when too close
-            const force = (minDistance - distance) * 2;
-            const fx = (dx / distance) * force;
-            const fy = (dy / distance) * force;
-            
-            forces[node1.id].x += fx;
-            forces[node1.id].y += fy;
-            forces[node2.id].x -= fx;
-            forces[node2.id].y -= fy;
-          } else if (distance > 0 && distance < minDistance * 1.5) {
-            // Lighter repulsion in nearby area
-            const force = k * k / (distance * distance * 2);
-            const fx = (dx / distance) * force;
-            const fy = (dy / distance) * force;
-            
-            forces[node1.id].x += fx;
-            forces[node1.id].y += fy;
-            forces[node2.id].x -= fx;
-            forces[node2.id].y -= fy;
-          }
-        }
-      }
-      
-      // Strong hierarchical attractive forces between connected nodes
-      this.skillNodes.forEach(node => {
-        node.connections.forEach((connectionId, connectionIndex) => {
-          const connectedNode = this.skillNodes.find(n => n.id === connectionId);
-          if (connectedNode) {
-            const dx = connectedNode.position.x - node.position.x;
-            const dy = connectedNode.position.y - node.position.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance > 0) {
-              // Different ideal distances and attraction for different connection types
-              let idealDistance = 15;
-              let attractionStrength = 0.1;
-              
-              // Main folder to technology connections (bottom to middle)
-              if (connectedNode.id.startsWith('folder-') && node.id.startsWith('technology-')) {
-                idealDistance = 18;
-                attractionStrength = 0.15;
-              }
-              // Main folder to project connections (bottom to middle)
-              else if (connectedNode.id.startsWith('folder-') && node.id.startsWith('project-')) {
-                idealDistance = 18;
-                attractionStrength = 0.15;
-              }
-              // Main folder to subfolder connections (bottom to middle)
-              else if (connectedNode.id.startsWith('folder-') && node.id.startsWith('subfolder-')) {
-                idealDistance = 18;
-                attractionStrength = 0.15;
-              }
-              // Subfolder to sub-subfolder connections (middle to top)
-              else if (node.id.startsWith('subsubfolder-') && connectedNode.id.startsWith('subfolder-')) {
-                idealDistance = 16;
-                attractionStrength = 0.12;
-              }
-              // Direct main folder to sub-subfolder connections (bottom to top)
-              else if (node.id.startsWith('subsubfolder-') && connectedNode.id.startsWith('folder-')) {
-                idealDistance = 25;
-                attractionStrength = 0.08;
-              }
-              // Same level connections
-              else {
-                idealDistance = 12;
-                attractionStrength = 0.06;
-              }
-              
-              // Reduce force strength for secondary connections (multi-folder nodes)
-              if (connectionIndex > 0) {
-                attractionStrength *= 0.3; // Much weaker attraction for secondary connections
-              }
-              
-              // Further reduce force for nodes with many connections to prevent conflicts
-              if (node.connections.length > 2) {
-                attractionStrength *= 0.7; // Reduce force for heavily connected nodes
-              }
-              
-              const force = (distance - idealDistance) * attractionStrength;
-              const fx = (dx / distance) * force;
-              const fy = (dy / distance) * force;
-              
-              forces[node.id].x += fx;
-              forces[node.id].y += fy;
-            }
-          }
-        });
-      });
-      
-      // Apply forces with damping (preserve main folder positions)
-      this.skillNodes.forEach(node => {
-        // Don't move main folders
-        if (node.id.startsWith('folder-')) {
-          return;
-        }
-        
-        const force = forces[node.id];
-        node.position.x += force.x * c;
-        node.position.y += force.y * c;
-        
-        // Keep nodes within bounds and respect hierarchy (more conservative bounds)
-        node.position.x = Math.max(10, Math.min(90, node.position.x));
-        
-        if (this.currentView === 'technologies' && node.id.startsWith('technology-')) {
-          // Technologies stay in middle layer (y: 45-65) - tighter bounds
-          node.position.y = Math.max(45, Math.min(65, node.position.y));
-        } else if (this.currentView === 'projects' && node.id.startsWith('project-')) {
-          // Projects stay in middle layer (y: 45-65) - tighter bounds
-          node.position.y = Math.max(45, Math.min(65, node.position.y));
-        } else if (this.currentView === 'folders' && node.id.startsWith('subfolder-')) {
-          // Subfolders stay in middle layer (y: 45-65) - tighter bounds
-          node.position.y = Math.max(45, Math.min(65, node.position.y));
-        } else if (this.currentView === 'folders' && node.id.startsWith('subsubfolder-')) {
-          // Sub-subfolders stay in top layer (y: 10-40) - tighter bounds
-          node.position.y = Math.max(10, Math.min(40, node.position.y));
-        } else {
-          // Fallback for other nodes
-          node.position.y = Math.max(5, Math.min(65, node.position.y));
-        }
+    // Position top level nodes in outermost circle (if any)
+    if (topLevelNodes.length > 0) {
+      topLevelNodes.forEach((node, index) => {
+        const angle = (2 * Math.PI * index) / topLevelNodes.length;
+        node.position = {
+          x: centerX + outerRadius * Math.cos(angle),
+          y: centerY + outerRadius * Math.sin(angle)
+        };
       });
     }
     
-    // Final pass: ensure minimum spacing
-    this.enforceMinimumSpacing();
+    // Ensure all positions are within bounds with tighter margins on small screens
+    const margin = isSmallScreen ? 15 : 10;
+    this.skillNodes.forEach(node => {
+      node.position.x = Math.max(margin, Math.min(100 - margin, node.position.x));
+      node.position.y = Math.max(margin, Math.min(100 - margin, node.position.y));
+    });
   }
 
-  private setGridPosition(node: any, index: number, totalNodes: number) {
-    const cols = Math.ceil(Math.sqrt(totalNodes));
-    const row = Math.floor(index / cols);
-    const col = index % cols;
-    
-    // Determine appropriate layer based on node type
-    let baseY = 40; // Default middle layer
-    let heightRange = 30;
-    
-    if (this.currentView === 'technologies' && node.id.startsWith('technology-')) {
-      baseY = 65; // Middle layer for technologies
-      heightRange = 20;
-    } else if (this.currentView === 'projects' && node.id.startsWith('project-')) {
-      baseY = 65; // Middle layer for projects
-      heightRange = 20;
-    } else if (this.currentView === 'folders' && node.id.startsWith('subfolder-')) {
-      baseY = 65; // Middle layer for subfolders
-      heightRange = 20;
-    } else if (this.currentView === 'folders' && node.id.startsWith('subsubfolder-')) {
-      baseY = 35; // Top layer for sub-subfolders
-      heightRange = 20;
-    }
-    
-    node.position = {
-      x: Math.max(10, Math.min(90, 20 + (col / Math.max(cols - 1, 1)) * 60)),
-      y: Math.max(10, Math.min(70, baseY + (row / Math.max(cols - 1, 1)) * heightRange))
-    };
-    
-    console.log(`Grid positioned ${node.id} at (${node.position.x}, ${node.position.y})`);
-  }
 
-  private enforceMinimumSpacing() {
-    const minDistance = 8; // Reduced minimum distance
-    const maxIterations = 30; // Reduced iterations
-    
-    for (let iter = 0; iter < maxIterations; iter++) {
-      let hasOverlap = false;
-      
-      // Check all pairs of non-main folder nodes
-      const movableNodes = this.skillNodes.filter(node => 
-        !node.id.startsWith('folder-')
-      );
-      
-      for (let i = 0; i < movableNodes.length; i++) {
-        for (let j = i + 1; j < movableNodes.length; j++) {
-          const node1 = movableNodes[i];
-          const node2 = movableNodes[j];
-          
-          const dx = node1.position.x - node2.position.x;
-          const dy = node1.position.y - node2.position.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          if (distance < minDistance) {
-            hasOverlap = true;
-            
-            // Push nodes apart more gently
-            const pushDistance = (minDistance - distance) / 3; // Gentler push
-            const angle = Math.atan2(dy, dx);
-            
-            const pushX = Math.cos(angle) * pushDistance;
-            const pushY = Math.sin(angle) * pushDistance;
-            
-            node1.position.x += pushX;
-            node1.position.y += pushY;
-            node2.position.x -= pushX;
-            node2.position.y -= pushY;
-            
-            // Keep within bounds with hierarchy
-            node1.position.x = Math.max(5, Math.min(95, node1.position.x));
-            node2.position.x = Math.max(5, Math.min(95, node2.position.x));
-            
-            // Respect hierarchy bounds
-            if (this.currentView === 'technologies' && node1.id.startsWith('technology-')) {
-              node1.position.y = Math.max(40, Math.min(70, node1.position.y));
-            } else if (this.currentView === 'projects' && node1.id.startsWith('project-')) {
-              node1.position.y = Math.max(40, Math.min(70, node1.position.y));
-            } else if (this.currentView === 'folders' && node1.id.startsWith('subfolder-')) {
-              node1.position.y = Math.max(40, Math.min(70, node1.position.y));
-            } else if (this.currentView === 'folders' && node1.id.startsWith('subsubfolder-')) {
-              node1.position.y = Math.max(5, Math.min(45, node1.position.y));
-            } else {
-              node1.position.y = Math.max(5, Math.min(70, node1.position.y));
-            }
-            
-            if (this.currentView === 'technologies' && node2.id.startsWith('technology-')) {
-              node2.position.y = Math.max(40, Math.min(70, node2.position.y));
-            } else if (this.currentView === 'projects' && node2.id.startsWith('project-')) {
-              node2.position.y = Math.max(40, Math.min(70, node2.position.y));
-            } else if (this.currentView === 'folders' && node2.id.startsWith('subfolder-')) {
-              node2.position.y = Math.max(40, Math.min(70, node2.position.y));
-            } else if (this.currentView === 'folders' && node2.id.startsWith('subsubfolder-')) {
-              node2.position.y = Math.max(5, Math.min(45, node2.position.y));
-            } else {
-              node2.position.y = Math.max(5, Math.min(70, node2.position.y));
-            }
-          }
-        }
-      }
-      
-      if (!hasOverlap) {
-        break;
-      }
-    }
-  }
 
 
   private findParentFolderForSubFolder(subFolder: string, allArticles: Article[]): string | null {
@@ -1200,6 +775,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     // Fallback to the node's own color or default
     return node.color || '#95A5A6';
   }
+
 
   shouldFlicker(node: SkillNode): boolean {
     // Only flicker subnodes (subFolder and subSubFolder), not main folders
