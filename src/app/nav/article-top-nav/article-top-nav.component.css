@@ -1,8 +1,14 @@
 p {
   color: var(--nav-color, #000);
-  cursor: pointer;
   font-weight: var(--font-weight, 500);
   transition: all 0.2s ease;
+  cursor: none !important;
+}
+
+p:hover,
+p:active,
+p:focus {
+  cursor: none !important;
 }
 
 /* [data-text]::before {
@@ -28,6 +34,11 @@ p {
   display: inline-flex;
   flex-shrink: 0;
   background: var(--nav-bg, #c6c8c8);
+  cursor: none !important;
+}
+
+.outer-div * {
+  cursor: none !important;
 }
 
 .nav-articles {
@@ -37,11 +48,13 @@ p {
   display: flex;
   align-items: center;
   padding: 16px;
+  cursor: none !important;
 }
 
 .nav-articles:hover {
   background: #6ffa1e;
   color: #000;
+  cursor: none !important;
 }
 
 .nav-reads {
@@ -51,11 +64,13 @@ p {
   display: flex;
   align-items: center;
   padding: 16px;
+  cursor: none !important;
 }
 
 .nav-reads:hover {
   background: #6ffa1e;
   color: #000;
+  cursor: none !important;
 }
 
 .nav-connect {
@@ -65,11 +80,13 @@ p {
   display: flex;
   align-items: center;
   padding: 16px;
+  cursor: none !important;
 }
 
 .nav-connect:hover {
   background: #6ffa1e;
   color: #000;
+  cursor: none !important;
 }
 
 .nav-menu {
@@ -79,11 +96,13 @@ p {
   display: flex;
   align-items: center;
   padding: 16px;
+  cursor: none !important;
 }
 
 .nav-menu:hover {
   background: #6ffa1e;
   color: #000;
+  cursor: none !important;
 }
 
 .nav-quit {
@@ -93,11 +112,13 @@ p {
   display: flex;
   align-items: center;
   padding: 16px;
+  cursor: none !important;
 }
 
 .nav-quit:hover {
   background: #6ffa1e;
   color: #000;
+  cursor: none !important;
 }
 
 @media (max-width: 512px) {

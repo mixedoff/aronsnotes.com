@@ -2,7 +2,7 @@ export const article11 = {
   id: 11,
   date: '23.02.2025',
   folder: ['writing'],
-  subFolder: ['reading'],
+  subFolder: ['reading', 'essays'],
   subSubFolder: [''],
   project: 'BookNotes',
   title: 'Soros on Soros',

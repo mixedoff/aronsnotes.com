@@ -15,7 +15,7 @@ export class WelcomeScreenComponent {
   forwardToMainMenuScreen() {
     console.log('forwardToMainMenuScreen');
     this.forwardToMainMenuScreenEvent.emit(true);
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/about']);
   }
   @Output() childEnterPressed = new EventEmitter<void>();
   onChildEnterPressed() {

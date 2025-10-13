@@ -43,6 +43,6 @@ export class QuitBottomNavComponent implements AfterViewInit {
   clickMenu() {
     this.menuClicked.emit(true);
     console.log('menuClicked has been emitted');
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/about']);
   }
 }

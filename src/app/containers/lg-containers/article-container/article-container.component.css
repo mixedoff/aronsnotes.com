@@ -7,7 +7,7 @@ p {
 }
 
 .svg-quit {
-  cursor: pointer;
+  cursor: none !important;
 }
 
 .horizontal-rule {
@@ -52,6 +52,8 @@ p {
     width: 100vw;
     margin: 0;
     position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 

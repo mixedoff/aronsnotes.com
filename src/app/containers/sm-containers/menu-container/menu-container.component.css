@@ -41,7 +41,7 @@
 
 p {
   color: white;
-  cursor: pointer;
+  cursor: none !important;
 }
 
 small {
@@ -49,7 +49,7 @@ small {
 }
 
 .svg-quit {
-  cursor: pointer;
+  cursor: none !important;
 }
 
 p:hover {
@@ -134,13 +134,13 @@ p.disabled:hover {
   overflow: hidden; /* Hide overflow content */
   text-overflow: ellipsis; /* Add ellipsis for overflow */
   max-width: 100%; /* Ensure it doesn't overflow container */
-  cursor: pointer; /* Optional: shows it's clickable */
+  cursor: none !important; /* Optional: shows it's clickable */
   align-self: stretch;
 }
 
 .submenu-back {
   align-self: center;
-  cursor: pointer;
+  cursor: none !important;
 }
 
 /* .svg-minimize {

@@ -22,6 +22,12 @@ import { article20 } from './articles/article20';
 import { article21 } from './articles/article21';
 import { article22 } from './articles/article22';
 import { article23 } from './articles/article23';
+import { article24 } from './articles/article24';
+import { article25 } from './articles/article25';
+import { article26 } from './articles/article26';
+import { article27 } from './articles/article27';
+import { article28 } from './articles/article28';
+import { article29 } from './articles/article29';
 export interface Article {
   id: number;
   date: string;
@@ -48,6 +54,12 @@ export class ArticleService {
 
   constructor() {
     this.originalArticles = [
+      article29,
+      article28,
+      article27,
+      article26,
+      article25,
+      article24,
       article23,
       article22,
       article21,

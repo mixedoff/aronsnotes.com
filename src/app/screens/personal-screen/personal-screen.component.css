@@ -75,7 +75,7 @@ p {
   width: 100%;
   justify-content: space-between;
   white-space: nowrap;
-  cursor: pointer;
+  cursor: none !important;
   background: none;
   gap: 16px;
   @media (max-width: 768px) {

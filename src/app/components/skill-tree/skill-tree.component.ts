@@ -44,6 +44,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   isTouching: boolean = false;
   lastTouchX: number = 0;
   lastTouchY: number = 0;
+  isMobile: boolean = false;
+  
+  // Mobile active node tracking
+  activeMobileNode: string | null = null;
   
   // Pinch zoom properties
   isPinching: boolean = false;
@@ -62,6 +66,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   constructor(private articleService: ArticleService) {}
 
   ngOnInit() {
+    // Detect mobile device
+    this.isMobile = window.innerWidth <= 768;
+    console.log('Initial mobile detection:', this.isMobile, 'window width:', window.innerWidth);
+    
     this.initializeSkillTree();
     this.loadArticles();
     
@@ -76,6 +84,8 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     
     // Add resize listener for responsive layout
     this.resizeListener = () => {
+      this.isMobile = window.innerWidth <= 768;
+      console.log('Resize detected - mobile:', this.isMobile, 'width:', window.innerWidth);
       this.calculateAllPositions();
       this.centerSkillTree();
     };
@@ -554,7 +564,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     // Base the layout on a 1200px width for optimal spacing
     const baseWidth = 1200;
     const centerX = baseWidth / 2;
-    const centerY = 400; // Fixed center Y position
+    const centerY = 500; // Fixed center Y position
     
     // Group nodes by level
     const mainFolders = this.skillNodes.filter(node => node.id.startsWith('folder-'));
@@ -652,14 +662,105 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   onNodeClick(node: SkillNode) {
-    if (node.articles.length > 0) {
-      // If node has articles, show the first one or emit for selection
-      this.articleClicked.emit(node.articles[0]);
+    console.log('Node clicked:', node.title, 'isMobile:', this.isMobile, 'articles:', node.articles.length);
+    
+    if (this.isMobile) {
+      // On mobile, toggle the active state to show/hide content like hover
+      if (node.articles.length > 0 || (this.currentView === 'projects' && node.project)) {
+        if (this.activeMobileNode === node.id) {
+          // If already active, deactivate it
+          this.activeMobileNode = null;
+          console.log('Deactivated mobile node:', node.title);
+        } else {
+          // Activate this node
+          this.activeMobileNode = node.id;
+          console.log('Activated mobile node:', node.title);
+        }
+      } else {
+        console.log('Node has no content to show');
+      }
+    } else {
+      // On desktop, emit the first article if available
+      if (node.articles.length > 0) {
+        this.articleClicked.emit(node.articles[0]);
+      }
+    }
+  }
+
+  onNodeTouchEnd(node: SkillNode, event: TouchEvent) {
+    // Prevent default touch behavior and handle the touch
+    if (this.isMobile) {
+      event.preventDefault();
+      event.stopPropagation();
+      console.log('Node touched:', node.title, 'isMobile:', this.isMobile);
+      this.onNodeClick(node);
     }
   }
 
   onArticleClick(article: Article) {
     this.articleClicked.emit(article);
+    // Close mobile overlay when article is clicked
+    if (this.isMobile) {
+      this.activeMobileNode = null;
+    }
+  }
+
+  isMobileNodeActive(nodeId: string): boolean {
+    return this.isMobile && this.activeMobileNode === nodeId;
+  }
+
+  isMainNode(node: SkillNode): boolean {
+    const mainFolders = ['design', 'development', 'writing'];
+    return mainFolders.includes(node.title.toLowerCase());
+  }
+
+  onContainerClick(event: MouseEvent) {
+    console.log('Container clicked:', event.target);
+    
+    // On mobile, if clicking on the container (not on a node), close any active mobile nodes
+    if (this.isMobile) {
+      const target = event.target as Element;
+      console.log('Target classes:', target.className);
+      console.log('Target tag:', target.tagName);
+      console.log('Is tree-container:', target.classList.contains('tree-container'));
+      console.log('Has skill-node ancestor:', !!target.closest('.skill-node'));
+      console.log('Active mobile node:', this.activeMobileNode);
+      
+      // Check if we clicked on the container itself or any of its children that aren't skill nodes
+      if (target.classList.contains('tree-container') || 
+          (target.closest('.tree-container') && !target.closest('.skill-node'))) {
+        this.activeMobileNode = null;
+        console.log('✅ Closed mobile node by clicking outside');
+      } else {
+        console.log('❌ Did not close - click was on skill node or its children');
+      }
+    }
+  }
+
+  onContainerTouchEnd(event: TouchEvent) {
+    console.log('Container touched:', event.target);
+    
+    // On mobile, if touching the container (not on a node), close any active mobile nodes
+    if (this.isMobile) {
+      const target = event.target as Element;
+      console.log('Touch target classes:', target.className);
+      console.log('Touch target tag:', target.tagName);
+      console.log('Touch - Is tree-container:', target.classList.contains('tree-container'));
+      console.log('Touch - Has skill-node ancestor:', !!target.closest('.skill-node'));
+      console.log('Touch - Active mobile node:', this.activeMobileNode);
+      
+      // Only close if we didn't just drag/pan
+      if (!this.isTouching) {
+        // Check if we touched the container itself or any of its children that aren't skill nodes
+        if (target.classList.contains('tree-container') || 
+            (target.closest('.tree-container') && !target.closest('.skill-node'))) {
+          this.activeMobileNode = null;
+          console.log('✅ Closed mobile node by touching outside');
+        } else {
+          console.log('❌ Did not close - touch was on skill node or its children');
+        }
+      }
+    }
   }
 
   onProjectClick(project: Project) {
@@ -744,7 +845,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       this.isPinching = false;
       this.lastTouchX = event.touches[0].clientX;
       this.lastTouchY = event.touches[0].clientY;
-      event.preventDefault();
+      // Don't prevent default on touch start to allow click events to work
     } else if (event.touches.length === 2) {
       // Two touches - start pinch zoom
       this.isTouching = false;
@@ -760,17 +861,21 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
   onTouchMove(event: TouchEvent): void {
     if (this.isTouching && event.touches.length === 1) {
-      // Single touch dragging
+      // Single touch dragging - only prevent default if we're actually dragging
       const deltaX = event.touches[0].clientX - this.lastTouchX;
       const deltaY = event.touches[0].clientY - this.lastTouchY;
       
-      this.translateX += deltaX;
-      this.translateY += deltaY;
-      
-      this.lastTouchX = event.touches[0].clientX;
-      this.lastTouchY = event.touches[0].clientY;
-      
-      event.preventDefault();
+      // Only consider it dragging if movement is significant
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      if (distance > 10) {
+        this.translateX += deltaX;
+        this.translateY += deltaY;
+        
+        this.lastTouchX = event.touches[0].clientX;
+        this.lastTouchY = event.touches[0].clientY;
+        
+        event.preventDefault();
+      }
     } else if (this.isPinching && event.touches.length === 2) {
       // Two touches - pinch zoom
       const currentDistance = this.getDistance(
@@ -811,7 +916,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     const containerWidth = window.innerWidth;
     const containerHeight = window.innerHeight - 40; // Account for top margin
     const treeWidth = 1200;
-    const treeHeight = 800;
+    const treeHeight = 1000;
     
     // Center the skill tree in the viewport
     this.translateX = (containerWidth - treeWidth) / 2;

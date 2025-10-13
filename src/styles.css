@@ -19,7 +19,7 @@
 
 /* More specific cursor hiding for all elements */
 html, body, div, span, button, a, input, textarea, select, img, svg,
-[class*=""], [id*=""], [data-*], form, label, p, h1, h2, h3, h4, h5, h6,
+[class*=""], [id*=""], [data], form, label, p, h1, h2, h3, h4, h5, h6,
 ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
 main, section, article, aside, canvas, video, audio, iframe, embed, object,
 app-root, app-custom-cursor {
@@ -50,7 +50,7 @@ textarea, select, option, optgroup, fieldset, legend {
 }
 
 /* Ensure Angular components also have no cursor */
-[ng-version], [ng-reflect-*], [ng-reflect-routerlink], [ng-reflect-routerlinkactive] {
+[ng-version], [ng-reflect], [ng-reflect-routerlink], [ng-reflect-routerlinkactive] {
   cursor: none !important;
 }
 
@@ -348,11 +348,10 @@ code {
   letter-spacing: 0.02rem;
   color: #6ffa1e;
   padding: 0.2rem 0.4rem;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  word-break: break-all;
-  overflow-wrap: break-word;
-  box-sizing: border-box;
+}
+
+code .comment {
+  color: #4ECDC4;
 }
 
 code::selection {

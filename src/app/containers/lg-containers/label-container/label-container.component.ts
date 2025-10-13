@@ -14,7 +14,7 @@ export class LabelContainerComponent {
   skipLoadingScreen() {
     console.log('skipLoadingScreen');
     this.skipLoadingScreenEvent.emit(true);
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/about']);
   }
   @Input() message: string = '';
   @Input() content: string = '';

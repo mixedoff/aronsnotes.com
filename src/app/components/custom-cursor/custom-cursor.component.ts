@@ -68,7 +68,7 @@ import { DOCUMENT } from '@angular/common';
 
       /* Ensure no cursor shows anywhere - more specific selectors */
       html, body, div, span, button, a, input, textarea, select, img, svg, 
-      [class*=""], [id*=""], [data-*], form, label, p, h1, h2, h3, h4, h5, h6,
+      [class*=""], [id*=""], [data], form, label, p, h1, h2, h3, h4, h5, h6,
       ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
       main, section, article, aside, canvas, video, audio, iframe, embed, object {
         cursor: none !important;

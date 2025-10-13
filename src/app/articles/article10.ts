@@ -3,7 +3,7 @@ export const article10 = {
   date: '13.11.2024',
   folder: ['development'],
   subFolder: ['git'],
-  subSubFolder: ['git-reset'],
+  subSubFolder: [''],
   project: 'aronsnotes',
   title: 'git reset',
   subtitle: 'Different types of git reset and when to use them',

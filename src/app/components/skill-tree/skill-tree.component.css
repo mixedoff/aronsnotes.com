@@ -13,7 +13,7 @@
   height: 100%;
   background: rgba(8, 10, 25, 0.5);
   overflow: hidden;
-  cursor: grab;
+  cursor: none !important;
   touch-action: none; /* Prevent default touch behaviors like scrolling */
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -22,12 +22,12 @@
 }
 
 .tree-container:active {
-  cursor: grabbing;
+  cursor: none !important;
 }
 
 .tree-content {
   width: 1200px;
-  height: 800px;
+  height: 1000px;
   transform-origin: 0 0;
   transition: transform 0.1s ease;
   position: relative;
@@ -47,7 +47,7 @@
   border: none;
   color: #6ffa1e;
   padding: 8px 16px;
-  cursor: pointer;
+  cursor: none !important;
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -82,7 +82,7 @@
   top: 0;
   left: 0;
   width: 1200px;
-  height: 800px;
+  height: 1000px;
   pointer-events: none;
   z-index: 1;
   transition: filter 0.3s ease;
@@ -95,7 +95,7 @@
 .skill-node {
   position: absolute;
   z-index: 2;
-  cursor: pointer;
+  cursor: none !important;
   transition: all 0.3s ease;
   text-align: center;
 
@@ -121,6 +121,10 @@
   padding: 8px 12px;
   backdrop-filter: blur(5px); 
   border: 2px solid currentColor;
+}
+
+.main-node .node-title {
+  border: none;
 }
 
 .skill-node:hover .node-title {
@@ -259,18 +263,18 @@
 
 /* JavaScript-based flicker will handle the animation */
 
-/* Responsive design - keep consistent layout but adjust font sizes for readability */
+/* Mobile-specific styles for touch interactions */
 @media (max-width: 768px) {
   .skill-tree-container {
     height: calc(100vh - 40px);
   }
   
   .tree-container {
-    cursor: grab;
+    cursor: none !important;
   }
   
   .tree-container:active {
-    cursor: grabbing;
+    cursor: none !important;
   }
   
   .node-title {
@@ -278,20 +282,53 @@
     padding: 6px 10px;
   }
   
-  .articles-hover,
-  .project-hover {
-    min-width: 150px;
-    font-size: 0.8rem;
+  /* Hide hover content by default on mobile */
+  .skill-node .articles-hover,
+  .skill-node .project-hover {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+  }
+  
+  /* Show hover content when mobile node is active (tapped) */
+  .skill-node.mobile-active .articles-hover,
+  .skill-node.mobile-active .project-hover {
+    opacity: 1;
+    max-height: 400px;
+  }
+
+  /* Dim background and other nodes when mobile node is active */
+  .skill-tree-container:has(.skill-node.mobile-active) .connections-svg {
+    filter: brightness(0.4) blur(5px);
+  }
+
+  .skill-tree-container:has(.skill-node.mobile-active) .skill-node:not(.mobile-active) {
+    filter: brightness(0.4) blur(5px);
+  }
+
+  /* Keep the active mobile node bright and apply hover effects */
+  .skill-node.mobile-active {
+    filter: brightness(1) blur(0);
+    transform: translate(-50%, -50%) scale(1.1);
+    z-index: 1000;
+  }
+
+  .skill-node.mobile-active .node-title {
+    transform: scale(1.05);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
   }
   
   .project-description {
     font-size: 0.75rem;
-    max-width: 200px;
+    max-width: 400px;
   }
   
   .article-item {
     font-size: 0.7rem;
     padding: 0.4rem 0.6rem;
+    cursor: none !important;
   }
   
   .view-controls {
@@ -319,7 +356,8 @@
   
   .project-description {
     font-size: 0.65rem;
-    max-width: 150px;
+    max-width: 300px;
+    min-width: 200px;
   }
   
   .article-item {

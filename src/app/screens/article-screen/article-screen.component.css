@@ -95,7 +95,7 @@
   color: white;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: none !important;
 }
 
 .article-actions button:hover {
@@ -120,6 +120,6 @@
   color: white;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: none !important;
   margin-top: 20px;
 }

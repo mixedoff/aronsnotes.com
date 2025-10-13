@@ -7,7 +7,7 @@ p {
 }
 
 .pointer {
-  cursor: pointer;
+  cursor: none !important;
 }
 
 .outer-container {

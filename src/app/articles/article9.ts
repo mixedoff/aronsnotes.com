@@ -3,7 +3,7 @@ export const article9 = {
   date: '08.11.2024',
   folder: ['development'],
   subFolder: ['deployment'],
-  subSubFolder: ['server-update'],
+  subSubFolder: ['server'],
   project: 'aronsnotes',
   title: 'updating angular app on nginx server',
   subtitle: 'Quick guide to deploy updates to your Angular application',

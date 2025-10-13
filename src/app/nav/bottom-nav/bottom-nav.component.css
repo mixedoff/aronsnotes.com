@@ -27,7 +27,7 @@
 
 .grey-div p {
   color: var(--nav-color, white);
-  cursor: pointer;
+  cursor: none !important;
   font-weight: var(--font-weight, 500);
 }
 

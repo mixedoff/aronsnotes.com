@@ -124,7 +124,7 @@ import { CommonModule } from '@angular/common';
         font-size: 1rem;
         margin: 0;
         text-transform: lowercase;
-        cursor: pointer;
+        cursor: none !important;
         pointer-events: auto;
       }
 
@@ -298,7 +298,7 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   private ctx!: CanvasRenderingContext2D;
   private animationId: number = 0;
   private inactivityTimer: any;
-  readonly INACTIVITY_TIMEOUT = 20000*60; // 20 seconds * 60 = 1200 seconds
+  readonly INACTIVITY_TIMEOUT = 20000*2; // 20 seconds * 2 = 40 seconds
   
   isActive = false;
   

@@ -74,6 +74,11 @@ export class ArticleContainerComponent
         } else {
           this.removeGameOfLifeComponent();
         }
+
+        // Process code blocks for comment styling when article changes
+        setTimeout(() => {
+          this.styleCodeComments();
+        }, 0);
       })
     );
 
@@ -94,6 +99,9 @@ export class ArticleContainerComponent
         this.addGameOfLifeComponent();
       }, 0);
     }
+
+    // Process code blocks to add comment styling
+    this.styleCodeComments();
   }
 
   ngOnDestroy() {
@@ -139,7 +147,11 @@ export class ArticleContainerComponent
 
   clickClose(sourceScreen?: string) {
     this.goBack.emit(sourceScreen || this.sourceScreen);
-    this.articleService.resetToOriginal();
+    // Only reset the filter if we're closing from the articles or main-menu screens
+    // For booknotes, about, personal screens, maintain the filter
+    if (this.sourceScreen === 'articles' || this.sourceScreen === 'main-menu') {
+      this.articleService.resetToOriginal();
+    }
   }
 
   clickNext() {
@@ -151,9 +163,14 @@ export class ArticleContainerComponent
     // Update the state service
     this.articleStateService.setSelectedArticle(nextArticle);
 
-    // Navigate to the next article's route
-    const route = this.getRouteForArticle(nextArticle);
-    this.router.navigate([route]);
+    // Only navigate via router if we're on the articles screen
+    // For other screens (booknotes, about, personal), stay in the overlay
+    if (this.sourceScreen === 'articles' || this.sourceScreen === 'main-menu') {
+      const route = this.getRouteForArticle(nextArticle);
+      this.router.navigate([route]);
+    }
+    // For booknotes, about, personal screens, the state update above is enough
+    // The article container will automatically update via the observable
   }
 
   private getRouteForArticle(article: Article): string {
@@ -187,5 +204,35 @@ export class ArticleContainerComponent
   // Method to get the container styles based on the component's sourceScreen
   getContainerStyles(): string {
     return this.themeService.getArticleContainerStyles(this.sourceScreen);
+  }
+
+  // Automatically style comments in code blocks
+  private styleCodeComments() {
+    setTimeout(() => {
+      if (!this.innerContainer) return;
+
+      const codeBlocks = this.innerContainer.nativeElement.querySelectorAll('code');
+      
+      codeBlocks.forEach((codeBlock) => {
+        // Skip if already processed
+        if (codeBlock.hasAttribute('data-comments-styled')) return;
+        
+        // Get the text content
+        let html = codeBlock.innerHTML;
+        
+        // Skip if there's no # character
+        if (!html.includes('#')) return;
+        
+        // Skip if already has span.comment (manually added)
+        if (html.includes('class="comment"')) return;
+        
+        // Replace text after # with styled span
+        // Match # and everything after it until the end of line or end of content
+        html = html.replace(/(#[^<]*?)(<|$)/g, '<span class="comment">$1</span>$2');
+        
+        codeBlock.innerHTML = html;
+        codeBlock.setAttribute('data-comments-styled', 'true');
+      });
+    }, 100);
   }
 }

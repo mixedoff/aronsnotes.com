@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
 import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
 import { SkillTreeComponent } from '../../components/skill-tree/skill-tree.component';
 import { Article } from '../../article.service';
@@ -33,7 +33,7 @@ interface Book {
   templateUrl: './booknotes-screen.component.html',
   styleUrl: './booknotes-screen.component.css',
 })
-export class BooknotesScreenComponent implements OnInit {
+export class BooknotesScreenComponent implements OnInit, OnDestroy {
   @Output() menuClickedOnChild = new EventEmitter<boolean>();
   @Output() closeArticlesClicked = new EventEmitter<void>();
   @Output() articleClickedOnChild = new EventEmitter<Article>();
@@ -55,6 +55,12 @@ export class BooknotesScreenComponent implements OnInit {
     // Ensure articles are filtered when component initializes
     console.log('BooknotesScreenComponent initialized - filtering for writing articles');
     this.articleService.filterArticles('writing');
+  }
+
+  ngOnDestroy() {
+    // Reset the article filter when leaving the booknotes screen
+    console.log('BooknotesScreenComponent destroyed - resetting article filter');
+    this.articleService.resetToOriginal();
   }
 
   clickArticleOnChild(article: Article) {

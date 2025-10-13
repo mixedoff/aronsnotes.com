@@ -7,7 +7,7 @@ p {
 }
 
 .svg-quit {
-  cursor: pointer;
+  cursor: none !important;
 }
 
 .outer-container {

@@ -34,12 +34,14 @@
     (touchstart)="onTouchStart($event)"
     (touchmove)="onTouchMove($event)"
     (touchend)="onTouchEnd($event)"
+    (click)="onContainerClick($event)"
+    (touchend)="onContainerTouchEnd($event)"
   >
     <div 
       class="tree-content"
       [style.transform]="getTransform()"
     >
-      <svg class="connections-svg" viewBox="0 0 1200 800" preserveAspectRatio="none">
+      <svg class="connections-svg" viewBox="0 0 1200 1000" preserveAspectRatio="none">
         <!-- Draw straight line connections between nodes -->
         @for (node of skillNodes; track node.id) {
           @for (connectionId of node.connections; track connectionId) {
@@ -62,12 +64,17 @@
       @for (node of skillNodes; track node.id) {
         <div 
           class="skill-node" 
+          [class.main-node]="isMainNode(node)"
           [style]="getNodeStyle(node)"
           [style.color]="node.color"
+          [attr.data-node-id]="node.id"
+          [class.mobile-active]="isMobileNodeActive(node.id)"
           (click)="onNodeClick(node)"
+          (touchend)="onNodeTouchEnd(node, $event)"
         >
           <h3 class="node-title" 
-              [style.color]="node.color">
+              [style.color]="isMainNode(node) ? '#000000' : node.color"
+              [style.backgroundColor]="isMainNode(node) ? node.color : 'transparent'">
             {{ node.title }}
           </h3>
           @if (currentView === 'projects' && node.project) {
@@ -82,7 +89,7 @@
                 }
               </div>
               @if (node.project.link) {
-                <button class="project-link small" (click)="onProjectClick(node.project); $event.stopPropagation()">
+                <button class="project-link small" (click)="onProjectClick(node.project); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
                   {{ node.project.buttonText || '🔗 Visit Project' }}
                 </button>
               }
@@ -91,7 +98,7 @@
           } @else if (node.articles.length > 0) {
             <div class="articles-list articles-hover">
               @for (article of node.articles; track article.id) {
-                <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()">
+                <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
                   {{ article.title }}
                 </div>
               }
@@ -101,4 +108,5 @@
       }
     </div>
   </div>
+  
 </div>

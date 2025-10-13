@@ -53,7 +53,7 @@ export class BottomNavComponent implements OnInit, OnDestroy {
 
   clickMenu() {
     this.menuClicked.emit(true);
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/about']);
   }
 
   // Method to get the nav styles based on the component's sourceScreen
