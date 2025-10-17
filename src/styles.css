@@ -216,6 +216,10 @@ p.highlight {
   margin: 2rem 0;
 }
 
+p.highlight a {
+  color: #3A94DE;
+}
+
 mark {
   color: #000000;
   background: rgba(111, 250, 30, 0.6);

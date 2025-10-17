@@ -75,7 +75,7 @@ Figma, Angular, Hetzner Cloud, Nginx
 </p>
 
 <h2>Let's connect</h2>
-<p>Feel free to reach out through my <strong>socials</strong> below!</p>
+<p>Reach out through my <strong>socials</strong> below!</p>
 
   `;
 

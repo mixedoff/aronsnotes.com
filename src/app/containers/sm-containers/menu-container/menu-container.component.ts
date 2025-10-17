@@ -31,7 +31,7 @@ export class MenuContainerComponent implements OnInit {
     private articleStateService: ArticleStateService,
     private router: Router
   ) {
-    this.articles = this.articleService.getArticles();
+    this.articles = [];
   }
 
   ngOnInit() {

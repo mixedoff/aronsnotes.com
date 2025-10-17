@@ -28,7 +28,7 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.articles = this.articleService.getArticles();
+    this.articles = [];
 
     // Subscribe to router events to track navigation
     this.routerSubscription = this.router.events
@@ -42,32 +42,41 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Check if we're on a specific route and apply appropriate filtering
     this.checkRouteAndApplyFilter();
-    
-    this.articles = this.articleService.getArticles();
   }
 
   private checkRouteAndApplyFilter() {
     const currentUrl = this.router.url;
+    console.log('ArticlesContainerComponent - Current URL:', currentUrl);
     
     if (currentUrl.includes('/theory')) {
       // We're on the theory/booknotes screen - show writing articles
+      console.log('Filtering for writing articles...');
       this.articleService.filterArticles('writing');
     } else if (currentUrl.includes('/practice')) {
       // We're on the practice screen - show all articles
+      console.log('Resetting to original articles...');
       this.articleService.resetToOriginal();
     } else if (currentUrl.includes('/creative')) {
       // We're on the creative/personal screen - show writing articles (creative writing)
+      console.log('Filtering for writing articles...');
       this.articleService.filterArticles('writing');
     } else if (currentUrl.includes('/design')) {
       // We're on a design screen - show design articles
+      console.log('Filtering for design articles...');
       this.articleService.filterArticles('design');
     } else if (currentUrl.includes('/note/')) {
       // We're viewing an article - keep showing all articles (stay on practice page)
+      console.log('Resetting to original articles...');
       this.articleService.resetToOriginal();
     } else {
       // Default fallback - show all articles
+      console.log('Default fallback - resetting to original articles...');
       this.articleService.resetToOriginal();
     }
+    
+    // Update the articles array after filtering
+    this.articles = this.articleService.getArticles();
+    console.log('ArticlesContainerComponent - Loaded articles:', this.articles.length);
   }
 
   selectArticle(article: Article) {

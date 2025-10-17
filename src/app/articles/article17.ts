@@ -13,7 +13,7 @@ export const article17 = {
   author: 'Mitchell Waldrop',
   published: '1992',
   size: '14KB',
-  gameOfLifeComponent: GameOfLifeComponent,
+  visualizationComponent: GameOfLifeComponent,
   content: `
 <h2>Life is the game of all games</h2>
 <p class="article mb-2">I have long been haunted by this question: </p>

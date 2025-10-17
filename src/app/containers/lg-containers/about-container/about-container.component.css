@@ -166,6 +166,8 @@ p {
 
 .social-icons img {
   margin: 10px 0px;
+  width: 24px;
+  height: 24px;
 }
 
 #email-icon:hover {

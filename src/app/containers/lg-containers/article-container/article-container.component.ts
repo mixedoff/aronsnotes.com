@@ -20,7 +20,6 @@ import { ArticleStateService } from '../../../article.service.state';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../../theme.service';
 import { Router } from '@angular/router';
-import { GameOfLifeComponent } from '../../../animations/game-of-life.component';
 
 @Component({
   selector: 'app-article-container',
@@ -45,8 +44,7 @@ export class ArticleContainerComponent
   selectedArticle: Article | undefined = undefined;
   showArticleContent: boolean = false;
   private subscriptions: Subscription = new Subscription();
-  private gameOfLifeComponentRef: ComponentRef<GameOfLifeComponent> | null =
-    null;
+  private visualizationComponentRef: ComponentRef<any> | null = null;
 
   articles: Article[];
 
@@ -57,7 +55,7 @@ export class ArticleContainerComponent
     public themeService: ThemeService,
     private injector: EnvironmentInjector
   ) {
-    this.articles = this.articleService.getArticles();
+    this.articles = [];
   }
 
   ngOnInit() {
@@ -68,11 +66,11 @@ export class ArticleContainerComponent
         this.selectedArticle = article;
         this.scrollInnerContainerToTop();
 
-        // Check if we need to add the Game of Life component
-        if (article && 'gameOfLifeComponent' in article) {
-          this.addGameOfLifeComponent();
+        // Check if we need to add a visualization component
+        if (article && article.visualizationComponent) {
+          this.addVisualizationComponent();
         } else {
-          this.removeGameOfLifeComponent();
+          this.removeVisualizationComponent();
         }
 
         // Process code blocks for comment styling when article changes
@@ -93,10 +91,10 @@ export class ArticleContainerComponent
     // Initial scroll if needed
     this.scrollInnerContainerToTop();
 
-    // If the selected article has the game of life, add it
-    if (this.selectedArticle && 'gameOfLifeComponent' in this.selectedArticle) {
+    // If the selected article has a visualization component, add it
+    if (this.selectedArticle && this.selectedArticle.visualizationComponent) {
       setTimeout(() => {
-        this.addGameOfLifeComponent();
+        this.addVisualizationComponent();
       }, 0);
     }
 
@@ -105,39 +103,44 @@ export class ArticleContainerComponent
   }
 
   ngOnDestroy() {
-    this.removeGameOfLifeComponent();
+    this.removeVisualizationComponent();
     this.subscriptions.unsubscribe();
   }
 
-  private addGameOfLifeComponent() {
-    if (!this.articleBodyContainer) return;
+  private addVisualizationComponent() {
+    if (!this.articleBodyContainer || !this.selectedArticle?.visualizationComponent) return;
 
     // Remove any existing component
-    this.removeGameOfLifeComponent();
+    this.removeVisualizationComponent();
 
     // Create a new component
     setTimeout(() => {
       if (this.articleBodyContainer) {
         this.articleBodyContainer.clear();
-        this.gameOfLifeComponentRef = createComponent(GameOfLifeComponent, {
+        this.visualizationComponentRef = createComponent(this.selectedArticle!.visualizationComponent, {
           environmentInjector: this.injector,
           hostElement: document.createElement('div'),
         });
 
-        // Configure the component
-        this.gameOfLifeComponentRef.instance.width = 300;
-        this.gameOfLifeComponentRef.instance.height = 300;
+        // Configure the component with default dimensions
+        // Individual components can override these if they have width/height properties
+        if (this.visualizationComponentRef.instance.width !== undefined) {
+          this.visualizationComponentRef.instance.width = 400;
+        }
+        if (this.visualizationComponentRef.instance.height !== undefined) {
+          this.visualizationComponentRef.instance.height = 300;
+        }
 
         // Add it to the view
-        this.articleBodyContainer.insert(this.gameOfLifeComponentRef.hostView);
+        this.articleBodyContainer.insert(this.visualizationComponentRef.hostView);
       }
     }, 100);
   }
 
-  private removeGameOfLifeComponent() {
-    if (this.gameOfLifeComponentRef) {
-      this.gameOfLifeComponentRef.destroy();
-      this.gameOfLifeComponentRef = null;
+  private removeVisualizationComponent() {
+    if (this.visualizationComponentRef) {
+      this.visualizationComponentRef.destroy();
+      this.visualizationComponentRef = null;
     }
 
     if (this.articleBodyContainer) {
@@ -158,7 +161,9 @@ export class ArticleContainerComponent
     const currentIndex = this.articles.findIndex(
       (a) => a === this.selectedArticle
     );
-    const nextArticle = this.articles[currentIndex + 1] || this.articles[0]; // Wrap to first if at end
+    // Since articles are sorted in descending order (newest first), 
+    // "next" chronologically means going to the previous index (higher ID number)
+    const nextArticle = this.articles[currentIndex - 1] || this.articles[this.articles.length - 1]; // Wrap to last if at beginning
 
     // Update the state service
     this.articleStateService.setSelectedArticle(nextArticle);
