@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
+import { Router } from '@angular/router';
 import { Article, ArticleService } from '../../article.service';
 import { Project, PROJECTS } from '../../data/projects.data';
 
@@ -63,15 +64,32 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   // Resize listener
   private resizeListener: (() => void) | null = null;
 
-  constructor(private articleService: ArticleService) {}
+  constructor(
+    private articleService: ArticleService,
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit() {
     // Detect mobile device
     this.isMobile = window.innerWidth <= 768;
     console.log('Initial mobile detection:', this.isMobile, 'window width:', window.innerWidth);
     
+    // Detect view from URL if available
+    const url = this.location.path();
+    const segments = url.split('/');
+    if (segments.length > 1 && ['folders', 'technologies', 'projects'].includes(segments[segments.length - 1])) {
+      this.currentView = segments[segments.length - 1] as 'folders' | 'technologies' | 'projects';
+    } else if (segments.includes('theory')) {
+      // Already on /theory, default to folders
+      this.currentView = 'folders';
+    }
+    
     this.initializeSkillTree();
     this.loadArticles();
+    
+    // Set the initial URL to reflect the current view
+    this.location.go(`/theory/${this.currentView}`);
     
     // Center the skill tree in the viewport initially
     this.centerSkillTree();
@@ -108,6 +126,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     this.currentView = view;
     this.initializeSkillTree();
     this.loadArticles();
+    
+    // Update the URL to reflect the current view
+    this.location.go(`/theory/${view}`);
   }
 
   private initializeSkillTree() {

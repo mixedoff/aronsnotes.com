@@ -6,6 +6,16 @@ p {
   color: #080a19;
 }
 
+.read-more-link {
+  color: #ef5747;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.read-more-link:hover {
+  color: #6F7A83;
+}
+
 .pointer {
   cursor: none !important;
 }
@@ -117,7 +127,7 @@ p {
   height: auto;
   /* height: 100%; */
   max-height: 512px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 
   @media (min-width: 650px) {
     position: sticky;
@@ -208,3 +218,26 @@ p {
     content: url("/assets/img/profile-picture/default.svg");
   }
 } */
+
+/* Typing animation effect */
+#about-text.typing-animation::after {
+  content: '|';
+  animation: blink-cursor 1s infinite;
+}
+
+@keyframes blink-cursor {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Remove "big" class styling on mobile */
+@media (max-width: 768px) {
+  .inner-container button.big {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+}

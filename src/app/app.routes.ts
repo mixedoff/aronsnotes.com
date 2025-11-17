@@ -17,6 +17,7 @@ export const routes: Routes = [
   { path: 'welcome', component: WelcomeScreenComponent },
   { path: 'select-mode', component: SelectModeScreenComponent },
   { path: 'main-menu', component: MainMenuScreenComponent },
+  { path: 'theory/:view', component: BooknotesScreenComponent },
   { path: 'theory', component: BooknotesScreenComponent },
   { path: 'note/:id', component: ArticleScreenComponent },
   { path: 'practice', component: ArticlesScreenComponent },

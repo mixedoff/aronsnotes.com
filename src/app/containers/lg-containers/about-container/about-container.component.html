@@ -41,7 +41,6 @@
           cy="6"
           r="20"
           fill="transparent"
-          (click)="clickHiddenScreen()"
           class="hit-area"
         />
       </svg>
@@ -52,11 +51,61 @@
   <div class="inner-container">
     <div class="row">
       <div class="column">
-        <div
-          id="about-text"
-          [innerHTML]="aboutText"
-          style="background: none"
-        ></div>
+        <div id="about-text" [class.typing-animation]="isTyping">
+          <button class="big" (click)="changeProfileImageToPowerUp()">superpower</button>
+          <button class="big" (click)="changeProfileImageToPowerDown()">weak spot</button>
+          <h1 class="mt-1">aron kovacs</h1>
+
+          <p><strong>creative developer (tank)</strong></p>
+
+          <blockquote>
+            Tanks are designed to absorb damage by forging ahead into the unknown.
+          </blockquote>
+
+          <p><strong>superpower: crossing the chasm</strong></p> 
+          <p>Bridging the gap between ambitious promises and extraordinary results.</p><br>
+          <p>As a visionary, I see opportunities others might overlook—and sometimes, I have the knack to bring those visions to life, summoning solutions from the unknown.</p><br>
+          <p>Imagine tackling every challenge as if rolling a dice, with four possible approaches: over or under-promising paired with over or under-delivering. My default mode is daring—overpromising and then exceeding expectations. Occasionally, this means pulling off the miraculous and turning bold ideas into reality.</p>
+          <br>
+          <p><strong>weak spot: swallowed by the abyss</strong></p>
+          <p>But sometimes my bold approach meets the limits of reality. The space between expectation and outcome can close swiftly—on those occasions, I find myself swallowed by the abyss.</p>
+          <br>
+          <p><strong>core competencies</strong><br> Product Management, Product Design, Front-end Development, Content Creation</p><br>
+
+          <p><strong>current tools</strong><br>  
+          Figma, Angular, Hetzner, Cursor IDE, Google Workspace
+          </p><br>
+          <button class="big" (click)="navigateToSkills()">go to skills</button>
+
+          <h2>Featured projects</h2>
+          <h3 class="mt-0"> <a href="https://careeverz.com" target="_blank" rel="noopener noreferrer">CareeVerz.com</a></h3>
+          <p><strong>Vision:</strong> Gamifying work.</p>
+          <p><strong>Role:</strong> Founder, Research & Development, Product Manager, Product Designer, Front-end Developer</p>
+          <p><strong>Milestones:</strong></p>
+          <p>- Launched a complex AI-driven career counseling app</p>
+          <p>- Led research & development</p>
+          <p>- Recruited and led a multidisciplinary team of 4</p>
+          <p>- Designed and executed the UX/UI process</p>
+          <p>- Helped to develop the front-end</p>
+
+          <p><strong>Tech stack:</strong>  
+          Figma, Angular, .NET, Azure, Docker, Harness ML, Hetzner, Google OAuth, Stripe, Brevo  
+          </p>
+
+          <h3> <a href="https://aronsnotes.com" target="_blank" rel="noopener noreferrer">aronsnotes.com</a></h3>
+          <p><strong>Vision:</strong> Gamifying my character development.</p>
+          <p><strong>Role:</strong> Solopreneur, Product Designer, Front-end Developer, Back-end Developer, Content Creator
+          </p>
+
+          <p><strong>Tech stack:</strong>  
+          Figma, Angular, Hetzner Cloud, Nginx  
+          </p>
+
+          <button class="big" (click)="navigateToProjects()">go to projects</button>
+
+          <h2>Let's connect</h2>
+          <p>Reach out through my <strong>socials</strong> below!</p>
+        </div>
         <div class="social-icons">
           <a
           href="mailto:aron.peter.kovacs@gmail.com"
@@ -66,7 +115,7 @@
           src="assets/img/socials/emailNoColor.svg"
           id="email-icon"
           alt="email"
-          title="shoot me an email"
+          title="shoot me an email for general inquiries or to hire me"
           /></a>
     
           <a
@@ -77,7 +126,7 @@
           src="assets/img/socials/instagramNoColor.svg"
           id="instagram-icon"
           alt="instagram"
-          title="i post some of my designs and personal stuff here"
+          title="i post my pretty visuals and some personal stuff here"
           /></a>
           <a
           href="https://github.com/mixedoff/aronsnotes.com"
@@ -111,14 +160,18 @@
           /></a>
     
         </div>
-        <button class="big light" style="margin-top: 40px; align-self: flex-start;" (click)="navigateToSkills()">go to skills</button>
       </div>
       <div class="img-column">
         <img
           class="profile-picture"
-          src="assets/img/profile-picture/looking-left.png"
+          [src]="currentProfileImage"
           alt="profile picture"
         />
+        <!-- <img
+          class="profile-picture"
+          src="assets/img/profile-picture/blinking-long2.gif"
+          alt="profile picture"
+        /> -->
       </div>
     </div>
   </div>

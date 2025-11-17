@@ -9,13 +9,13 @@
 }
 
 /* Enhanced cursor hiding for screen recording compatibility */
-* {
+/* * {
   cursor: none !important;
   -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
   user-select: none !important;
-}
+} */
 
 /* More specific cursor hiding for all elements */
 html, body, div, span, button, a, input, textarea, select, img, svg,
@@ -24,10 +24,10 @@ ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
 main, section, article, aside, canvas, video, audio, iframe, embed, object,
 app-root, app-custom-cursor {
   cursor: none !important;
-  -webkit-user-select: none !important;
+  /* -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
-  user-select: none !important;
+  user-select: none !important; */
 }
 
 /* Force cursor hiding on all interactive elements and their states */
@@ -269,6 +269,11 @@ button {
   letter-spacing: -0.0125rem;
   transition: all 0.2s ease;
   width: auto;
+  color: #080a19;
+}
+
+button:hover {
+  transform: translateY(-1px);
 }
 
 /* Big button for articles */
@@ -352,6 +357,9 @@ code {
   letter-spacing: 0.02rem;
   color: #6ffa1e;
   padding: 0.2rem 0.4rem;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 code .comment {

@@ -60,10 +60,10 @@ import { DOCUMENT } from '@angular/common';
       /* Enhanced cursor hiding for screen recording compatibility */
       * {
         cursor: none !important;
-        -webkit-user-select: none;
+        /* -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        user-select: none;
+        user-select: none; */
       }
 
       /* Ensure no cursor shows anywhere - more specific selectors */
@@ -72,10 +72,18 @@ import { DOCUMENT } from '@angular/common';
       ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
       main, section, article, aside, canvas, video, audio, iframe, embed, object {
         cursor: none !important;
-        -webkit-user-select: none;
+        /* -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        user-select: none;
+        user-select: none; */
+      }
+
+      /* Allow text selection in article body */
+      .article-body, .article-body * {
+        -webkit-user-select: text !important;
+        -moz-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
       }
 
       /* Force cursor hiding on all interactive elements */
@@ -288,10 +296,21 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
       const htmlElement = element as HTMLElement;
       if (htmlElement.style) {
         this.renderer.setStyle(htmlElement, 'cursor', 'none');
-        this.renderer.setStyle(htmlElement, '-webkit-user-select', 'none');
-        this.renderer.setStyle(htmlElement, '-moz-user-select', 'none');
-        this.renderer.setStyle(htmlElement, '-ms-user-select', 'none');
-        this.renderer.setStyle(htmlElement, 'user-select', 'none');
+        
+        // Check if element is inside article body - if so, allow text selection
+        const isInArticleBody = htmlElement.closest('.article-body');
+        if (!isInArticleBody) {
+          this.renderer.setStyle(htmlElement, '-webkit-user-select', 'none');
+          this.renderer.setStyle(htmlElement, '-moz-user-select', 'none');
+          this.renderer.setStyle(htmlElement, '-ms-user-select', 'none');
+          this.renderer.setStyle(htmlElement, 'user-select', 'none');
+        } else {
+          // Allow text selection in article body
+          this.renderer.setStyle(htmlElement, '-webkit-user-select', 'text');
+          this.renderer.setStyle(htmlElement, '-moz-user-select', 'text');
+          this.renderer.setStyle(htmlElement, '-ms-user-select', 'text');
+          this.renderer.setStyle(htmlElement, 'user-select', 'text');
+        }
       }
     });
 

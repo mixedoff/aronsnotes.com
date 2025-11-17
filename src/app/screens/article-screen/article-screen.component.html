@@ -1,4 +1,4 @@
-<div class="heroDiv">
+<div class="heroDiv" (click)="onOverlayClick($event)">
   @if (currentArticle) {
   <!-- <div
     class="articles-background"
@@ -17,12 +17,13 @@
     [sourceScreen]="sourceScreen"
     [style]="themeService.getBottomNavStyles(sourceScreen)"
   ></app-bottom-nav>
-  <div class="blackened-background"></div>
+  <div class="blackened-background" (click)="onOverlayClick($event)"></div>
   <app-article-container
     [style]="themeService.getArticleContainerStyles(sourceScreen)"
     [sourceScreen]="sourceScreen"
     (goBack)="handleGoBack($event)"
     class="article"
+    (click)="$event.stopPropagation()"
   ></app-article-container>
   <app-articles-container
     [sourceScreen]="sourceScreen"

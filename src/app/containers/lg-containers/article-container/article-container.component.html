@@ -74,9 +74,20 @@
   <div class="small-div">
     <small id="upvotes">upvotes: 2</small>
     <div class="tag-holder">
-      @for (technology of selectedArticle?.technologies ?? []; track technology) {
-      <small>#{{ technology }}</small>
-      } @empty {
+      @for (folder of selectedArticle?.folder ?? []; track folder) {
+      <small>{{ folder }}</small>
+      }
+      @for (subFolder of selectedArticle?.subFolder ?? []; track subFolder) {
+        @if (subFolder) {
+        <small>{{ subFolder }}</small>
+        }
+      }
+      @for (subSubFolder of selectedArticle?.subSubFolder ?? []; track subSubFolder) {
+        @if (subSubFolder) {
+        <small>{{ subSubFolder }}</small>
+        }
+      }
+      @if ((selectedArticle?.folder?.length ?? 0) === 0 && (selectedArticle?.subFolder?.length ?? 0) === 0 && (selectedArticle?.subSubFolder?.length ?? 0) === 0) {
       <small>N/A</small>
       }
       <!-- <small>{{

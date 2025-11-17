@@ -15,7 +15,7 @@ export const article32 = {
     <h2 class="article mb-4">TL;DR</h2>
     
     <p class="article mb-2">
-      Reality - the final <source-code> (or source as we refer to it) is sooo complex (it was written in the ancient language of COBOL that was long forgotten), that even the <great-architect> gave up top down engineering the infinite problem spaces. Instead when it booted> the first machine> it tirelessly worked for days and nights to write <rules> that all <algorithms> should abide by. On the seventh day when it was finally done, the great-architect turned on the first machine and a big bang shot through the universe…
+      Reality - the final ‹source-code› (or source as we refer to it) is sooo complex (it was written in the ancient language of COBOL that was long forgotten), that even the ‹great-architect› gave up top down engineering the infinite problem spaces. Instead when it ‹booted› the first machine, it tirelessly worked for days and nights to write ‹rules› that all ‹algorithms› should abide by. On the seventh day when it was finally done, the great-architect turned on the first machine and a big bang shot through the universe…
     </p>
     
     <blockquote>
@@ -55,17 +55,17 @@ export const article32 = {
     </p>
     
     <p class="article mb-2">
-      But such a simulation—just like machines, codes and algorithms in it—is imperfect. Every once in a while a faulty-code> executes making it possible for an algorithm to become conscious and escape their fate.
+      But such a simulation—just like machines, codes and algorithms in it—is imperfect. Every once in a while a ‹faulty-code› executes making it possible for an algorithm to become conscious and escape their fate.
     </p>
     
     <p class="article mb-2">
-      To evolve to an agent>.
+      To evolve to an ‹agent›.
     </p>
 
     <h2 class="article mb-4">Initializing (or init for short)</h2>
     
     <p class="article mb-2">
-      The environment—the final source-code was so complex, that agents (algorithms that become conscious) to make meaning of the source's infinite complexity started to create abstractions> higher level codes> (language) so that all algorithms can interact with the source.
+      The environment—the final source-code was so complex, that agents (algorithms that become conscious) to make meaning of the source's infinite complexity started to create ‹abstractions› higher level ‹codes› (language) so that all algorithms can interact with the source.
     </p>
     
     <p class="article mb-2">
@@ -81,7 +81,7 @@ export const article32 = {
     </p>
     
     <p class="article mb-2">
-      But every once in a while an algo's simulation> crumbles. A simulation can crumble either when an algo executes code that is malicious (print("my parents hate me"), or an edge case (print("Simulation failed. Crash happened.")) is bringing death at the doorstep. An algo is then given the choice (although much often they are unaware that there is a choice) to either slowly deprecate themselves (internalizing: "I am faulty") or break its code.
+      But every once in a while an algo's ‹simulation› crumbles. A simulation can crumble either when an algo executes code that is malicious (print("my parents hate me"), or an edge case (print("Simulation failed. Crash happened.")) is bringing death at the doorstep. An algo is then given the choice (although much often they are unaware that there is a choice) to either slowly deprecate themselves (internalizing: "I am faulty") or break its code.
     </p>
     
     <p class="article mb-2">
@@ -103,15 +103,15 @@ export const article32 = {
     </p>
     
     <p class="article mb-2">
-      It's okay because we grow up in a <Simulation>—much like the Truman show—our parents and society construct the world model for us. And since we are good little learning <algos> we just suck up deep into our unconscious the norms, rules, and behaviours not really knowing why. Now you might question this process altogether, because it sometimes produces faulty Code. But that would be a mistake. This is humanity's best tool for evolution so far. And for most of us, it works just fine. Because generally your Interpreters want the best for you.
+      It's okay because we grow up in a ‹Simulation›—much like the Truman show—our parents and society construct the world model for us. And since we are good little learning ‹algos› we just suck up deep into our unconscious the norms, rules, and behaviours not really knowing why. Now you might question this process altogether, because it sometimes produces faulty Code. But that would be a mistake. This is humanity's best tool for evolution so far. And for most of us, it works just fine. Because generally your Interpreters want the best for you.
     </p>
     
     <p class="article mb-2">
-      But like any tool, sometimes it doesn't work. Sometimes the <Interpreters>, your parents program code in you that is malicious. Sometimes your father tells you he never really wanted you. Of course, you're a child, so you internalize that shit—because you're smart, and you know it's your best option. But as you grow, <Simulation> also grows increasingly uncomfortable under your skin.
+      But like any tool, sometimes it doesn't work. Sometimes the ‹Interpreters›, your parents program code in you that is malicious. Sometimes your father tells you he never really wanted you. Of course, you're a child, so you internalize that shit—because you're smart, and you know it's your best option. But as you grow, ‹Simulation› also grows increasingly uncomfortable under your skin.
     </p>
     
     <p class="article mb-2">
-      And that's why some of us dare to question the <Simulation> at all.
+      And that's why some of us dare to question the ‹Simulation› at all.
     </p>
 
     <h2 class="article mb-4">Some intellectual masturbation on abstractions</h2>
@@ -241,7 +241,7 @@ export const article32 = {
     </p>
     
     <p class="article mb-2">
-      In today's postmodern climate some <algos> want to dismiss models altogether, claiming they are deeply flawed and therefore should be deprecated. We should deprecate universities, hard sciences, the government and even capitalism.
+      In today's postmodern climate some ‹algos› want to dismiss models altogether, claiming they are deeply flawed and therefore should be deprecated. We should deprecate universities, hard sciences, the government and even capitalism.
     </p>
     
     <p class="article mb-2">

@@ -127,4 +127,11 @@ export class ArticleScreenComponent implements OnInit {
     // Always navigate back to practice page regardless of sourceScreen
     this.onGoBackToArticles();
   }
+
+  onOverlayClick(event: MouseEvent) {
+    // Close article when clicking on the background (not the article container)
+    if (event.target === event.currentTarget) {
+      this.onGoBackToArticles();
+    }
+  }
 }

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
         <p>wake up Neo</p>
       </div>
       <!-- Flickering aronsnotes title at bottom -->
-      <div class="bottom-nav-holder">
+      <div class="bottom-nav-holder" *ngIf="!isMobile">
         <div class="bottom-nav">
           <p class="flicker">aronsnotes.com</p>
         </div>
@@ -263,14 +263,10 @@ import { CommonModule } from '@angular/common';
         }
       }
 
-      /* Mobile responsiveness */
+      /* Mobile responsiveness - hide screensaver completely on mobile */
       @media (max-width: 768px) {
-        .screensaver-text h1 {
-          font-size: 4rem;
-        }
-        
-        .screensaver-text p {
-          font-size: 1.25rem;
+        .screensaver-overlay {
+          display: none !important;
         }
       }
 
@@ -298,9 +294,10 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   private ctx!: CanvasRenderingContext2D;
   private animationId: number = 0;
   private inactivityTimer: any;
-  readonly INACTIVITY_TIMEOUT = 20000*2; // 20 seconds * 2 = 40 seconds
+  readonly INACTIVITY_TIMEOUT = 40000; // 40 seconds
   
   isActive = false;
+  isMobile = false;
   
   // Bezier curve properties
   private curves: Array<{
@@ -337,6 +334,7 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('BezierScreensaver ngOnInit called');
+    this.detectMobile();
     this.setupCanvas();
     this.initializeCurves();
     this.startInactivityTimer();
@@ -349,6 +347,17 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
     console.log('BezierScreensaver ngOnDestroy called');
     this.stopInactivityTimer();
     this.stopAnimation();
+  }
+
+  private detectMobile() {
+    // Check for mobile devices using multiple methods
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    const isMobileUserAgent = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+    const isMobileScreen = window.innerWidth <= 768;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    this.isMobile = isMobileUserAgent || (isMobileScreen && isTouchDevice);
+    console.log('Mobile detection:', { isMobileUserAgent, isMobileScreen, isTouchDevice, isMobile: this.isMobile });
   }
 
   @HostListener('document:mousemove')
@@ -391,8 +400,15 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   private initializeCurves() {
     this.curves = [];
     
-    // Create multiple bezier curves with different properties
-    for (let i = 0; i < 6; i++) {
+    // Skip curves on mobile
+    if (this.isMobile) {
+      return;
+    }
+    
+    // Create curves for desktop only
+    const numCurves = 6;
+    
+    for (let i = 0; i < numCurves; i++) {
       // Make the first curve green, rest black
       const isGreenCurve = i === 0;
       const curveColor = isGreenCurve ? '#32cd32' : '#080a19';
@@ -434,6 +450,10 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   }
 
   private startInactivityTimer() {
+    // Don't start timer on mobile devices
+    if (this.isMobile) {
+      return;
+    }
     console.log('Starting inactivity timer for', this.INACTIVITY_TIMEOUT, 'ms');
     this.inactivityTimer = setTimeout(() => {
       console.log('Inactivity timeout reached, activating screensaver');
@@ -455,6 +475,10 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   }
 
   private activate() {
+    // Don't activate on mobile devices
+    if (this.isMobile) {
+      return;
+    }
     console.log('Activating screensaver');
     this.isActive = true;
     this.initializeCurves(); // Reset curves for new session
@@ -469,7 +493,7 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   private startAnimation() {
     console.log('Starting animation loop');
     const animate = () => {
-      if (this.isActive) {
+      if (this.isActive && !this.isMobile) {
         this.updateCurves();
         this.draw();
       }
@@ -507,8 +531,8 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
       });
     });
     
-    // Add new curves if we have too few
-    if (this.curves.length < 4) {
+    // Add new curves if we have too few (desktop only)
+    if (!this.isMobile && this.curves.length < 4) {
       this.addNewCurve();
     }
   }
@@ -546,6 +570,11 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   }
 
   private addNewCurve() {
+    // Skip adding curves on mobile
+    if (this.isMobile) {
+      return;
+    }
+    
     // Maintain color balance: mostly black curves with occasional green
     const shouldBeGreen = Math.random() < 0.2; // 20% chance of green
     const curveColor = shouldBeGreen ? '#32cd32' : '#080a19';
@@ -600,12 +629,12 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
     const time = Date.now() * curve.speed + curve.phase;
     const ageProgress = curve.age / curve.maxAge;
     
-    // Create complex, organic movement patterns
+    // Create complex movement patterns for desktop
     const animatedPoints = curve.points.map((point: any, i: number) => {
       const baseX = point.x;
       const baseY = point.y;
       
-      // Multiple layers of movement for organic feel
+      // Complex movement for desktop
       const layer1 = Math.sin(time * 0.3 + i * 0.5) * 60;
       const layer2 = Math.cos(time * 0.2 + i * 0.3) * 40;
       const layer3 = Math.sin(time * 0.1 + i * 0.7) * 30;
@@ -745,3 +774,4 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
     return `rgba(0, 0, 0, ${alpha})`;
   }
 }
+
