@@ -18,6 +18,7 @@ p {
   display: inline-flex;
   flex-shrink: 0;
   background: var(--nav-bg, #c6c8c8);
+  cursor: none !important;
 }
 
 .traffic-lights {

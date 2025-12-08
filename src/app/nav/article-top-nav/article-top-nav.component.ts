@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   ChangeDetectionStrategy,
+  ElementRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -62,7 +63,8 @@ export class ArticleTopNavComponent implements OnInit {
   constructor(
     private router: Router,
     private articleStateService: ArticleStateService,
-    public themeService: ThemeService
+    public themeService: ThemeService,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit() {}
@@ -104,7 +106,7 @@ export class ArticleTopNavComponent implements OnInit {
     this.router.navigate(['/about']);
     // Force cursor to none for the host element after 300ms
     setTimeout(() => {
-    const hostElement = document.querySelector('app-article-top-nav');
+    const hostElement = this.elementRef.nativeElement;
       if (hostElement) {
         (hostElement as HTMLElement).style.cursor = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'transparent\'/></svg>") 0 0, none';
       }

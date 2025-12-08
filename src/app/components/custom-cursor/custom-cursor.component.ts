@@ -331,7 +331,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
 
     // 2. Focus events
     this.ngZone.runOutsideAngular(() => {
-        this.document.addEventListener('focusin', (event) => {
+        this.removeFocusInListener = this.renderer.listen('document', 'focusin', (event) => {
           const target = event.target as HTMLElement;
           if (target) {
             target.style.cursor = cursorStyle;
