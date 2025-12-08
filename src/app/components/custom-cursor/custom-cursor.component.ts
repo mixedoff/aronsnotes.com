@@ -142,7 +142,9 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
   private movementTimer: any;
   private cursorHideInterval: any;
   private removeMouseMoveListener: (() => void) | null = null;
+  private removeFocusInListener: (() => void) | null = null;
   private animationFrameId: number | null = null;
+  private observer: MutationObserver | null = null;
   
   // Configuration
   private readonly animationSpeed: number = 100;
@@ -308,7 +310,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     const cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'transparent\'/></svg>") 0 0, none';
     
     // 1. Monitor for DOM changes (Optimized: only sets style if needed)
-    const observer = new MutationObserver((mutations) => {
+    this.observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
           mutation.addedNodes.forEach((node) => {
@@ -322,7 +324,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
       });
     });
 
-    observer.observe(this.document.body, {
+    this.observer.observe(this.document.body, {
       childList: true,
       subtree: true
     });
@@ -335,13 +337,6 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
             target.style.cursor = cursorStyle;
           }
         });
-        
-        this.document.addEventListener('mouseover', (event) => {
-           const target = event.target as HTMLElement;
-           if (target) {
-             target.style.cursor = cursorStyle;
-           }
-        });
     });
   }
 
@@ -350,6 +345,8 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     if (this.movementTimer) clearTimeout(this.movementTimer);
     if (this.cursorHideInterval) clearInterval(this.cursorHideInterval); // Not used anymore but good practice
     if (this.removeMouseMoveListener) this.removeMouseMoveListener();
+    if (this.removeFocusInListener) this.removeFocusInListener();
     if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
+    if (this.observer) this.observer.disconnect();
   }
 }
