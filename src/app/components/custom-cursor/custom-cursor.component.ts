@@ -7,7 +7,7 @@ import { DOCUMENT } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div #cursorContainer class="custom-cursor" [class.clickable]="isOverClickable" [class.hidden]="!isCursorVisible">
+    <div #cursorContainer class="custom-cursor" [class.clickable]="isOverClickable" [class.hidden]="!isCursorVisible" [class.moving]="isMoving">
       <img 
         #cursorImage
         [src]="currentCursorImage" 
@@ -31,6 +31,12 @@ import { DOCUMENT } from '@angular/common';
         transform: translate(-50%, -50%);
         background: transparent !important;
         will-change: transform;
+        transition: width 0.2s ease-out, height 0.2s ease-out;
+      }
+
+      .custom-cursor.moving {
+        width: 48px;
+        height: 48px;
       }
 
       .custom-cursor.hidden {
@@ -46,6 +52,8 @@ import { DOCUMENT } from '@angular/common';
         width: 100%;
         height: 100%;
         object-fit: contain;
+        transform-origin: center center;
+        transition: transform 0.1s ease-out;
       }
 
       .custom-cursor.animated .cursor-image {
@@ -127,6 +135,18 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
   private currentX: number = 0;
   private currentY: number = 0;
   
+  // Track previous mouse position for rotation calculation
+  private previousMouseX: number = 0;
+  private previousMouseY: number = 0;
+  
+  // Rotation angle in degrees
+  private rotationAngle: number = 0;
+  private targetRotationAngle: number = 0;
+  
+  // Smoothed velocity for rotation
+  private velocityX: number = 0;
+  private velocityY: number = 0;
+  
   isOverClickable: boolean = false;
   isCursorVisible: boolean = true;
   
@@ -134,7 +154,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
   private readonly totalFrames: number = 4;
   private readonly slurpingFrames: number = 18;
   
-  private isMoving: boolean = true;
+  isMoving: boolean = true;
   private useLegRubbing: boolean = false;
   
   // Animation and loop references
@@ -180,11 +200,15 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     this.mouseY = window.innerHeight / 2;
     this.currentX = this.mouseX;
     this.currentY = this.mouseY;
+    this.previousMouseX = this.mouseX;
+    this.previousMouseY = this.mouseY;
     
     // Run high-frequency updates outside Angular to avoid change detection cycles
     this.ngZone.runOutsideAngular(() => {
       // 1. Mouse move listener
       this.removeMouseMoveListener = this.renderer.listen('document', 'mousemove', (event: MouseEvent) => {
+        this.previousMouseX = this.mouseX;
+        this.previousMouseY = this.mouseY;
         this.mouseX = event.clientX;
         this.mouseY = event.clientY;
         
@@ -201,16 +225,53 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
 
       // 2. Animation Loop (60fps) for position
       const loop = () => {
-        // Linear interpolation for smooth movement (0.2 factor)
-        // Adjust factor: 1.0 = instant, 0.1 = very smooth/slow
+        // Calculate instantaneous velocity
+        const instantVelocityX = this.mouseX - this.previousMouseX;
+        const instantVelocityY = this.mouseY - this.previousMouseY;
+        
+        // Smooth velocity for stable rotation
+        const velocityLerp = 0.5;
+        this.velocityX += (instantVelocityX - this.velocityX) * velocityLerp;
+        this.velocityY += (instantVelocityY - this.velocityY) * velocityLerp;
+        
+        // Calculate rotation angle based on smoothed velocity
+        // Image points at top (0,0) by default, which means it points up (towards negative Y)
+        const speed = Math.sqrt(this.velocityX * this.velocityX + this.velocityY * this.velocityY);
+        if (speed > 0.1) {
+          // Calculate angle in radians
+          // atan2(velocityY, velocityX) gives angle from positive x-axis
+          // 0° = right, 90° = down, -90° = up, 180°/-180° = left
+          // Since image points up (towards -90°), we add 90° to align with movement direction
+          const angleRad = Math.atan2(this.velocityY, this.velocityX) + Math.PI / 2;
+          this.targetRotationAngle = angleRad * (180 / Math.PI) + 30;
+        }
+        
+        // Smooth rotation interpolation to prevent jitter
+        const rotationLerp = 0.3;
+        let angleDiff = this.targetRotationAngle - this.rotationAngle;
+        
+        // Normalize angle difference to shortest path (-180 to 180)
+        while (angleDiff > 180) angleDiff -= 360;
+        while (angleDiff < -180) angleDiff += 360;
+        
+        this.rotationAngle += angleDiff * rotationLerp;
+        
+        // Update previous mouse position for next frame
+        this.previousMouseX = this.mouseX;
+        this.previousMouseY = this.mouseY;
+        
+        // Linear interpolation for smooth movement
         const lerp = 0.2; 
         this.currentX += (this.mouseX - this.currentX) * lerp;
         this.currentY += (this.mouseY - this.currentY) * lerp;
         
-        if (this.cursorContainer) {
-          // Rounding pixels can prevent sub-pixel blurring, but floats are smoother
+        if (this.cursorContainer && this.cursorImage) {
+          // Apply position transform
           this.cursorContainer.nativeElement.style.transform = 
             `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%)`;
+          
+          // Apply rotation to the image
+          this.cursorImage.nativeElement.style.transform = `rotate(${this.rotationAngle}deg)`;
         }
         
         this.animationFrameId = requestAnimationFrame(loop);
