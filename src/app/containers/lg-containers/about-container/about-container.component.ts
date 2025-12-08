@@ -35,6 +35,8 @@ export class AboutContainerComponent implements OnInit {
   currentProfileImage = 'assets/img/profile-picture/blinking-long2.gif';
   isSuperpowerExpanded = false;
   isWeakspotExpanded = false;
+  isPowerUpAnimating = false;
+  isPowerDownAnimating = false;
 
   ngOnInit() {
     this.typeText();
@@ -57,16 +59,22 @@ export class AboutContainerComponent implements OnInit {
   }
 
   changeProfileImageToPowerUp() {
+    this.isPowerUpAnimating = true;
     this.currentProfileImage = 'assets/img/profile-picture/power-up4.gif';
+
     setTimeout(() => {
       this.currentProfileImage = 'assets/img/profile-picture/blinking-long2.gif';
+      this.isPowerUpAnimating = false;
     }, 5700);
   }
 
   changeProfileImageToPowerDown() {
+    this.isPowerDownAnimating = true;
     this.currentProfileImage = 'assets/img/profile-picture/power-down5.gif';
+    
     setTimeout(() => {
       this.currentProfileImage = 'assets/img/profile-picture/blinking-long2.gif';
+      this.isPowerDownAnimating = false;
     }, 5700);
   }
 

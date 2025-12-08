@@ -52,8 +52,8 @@
     <div class="row">
       <div class="column">
         <div id="about-text" [class.typing-animation]="isTyping">
-          <button class="big" (click)="changeProfileImageToPowerUp()">superpower</button>
-          <button class="big" (click)="changeProfileImageToPowerDown()">weak spot</button>
+          <button class="primary" [class.active]="isPowerUpAnimating" (click)="changeProfileImageToPowerUp()">superpower</button>
+          <button [class.active]="isPowerDownAnimating" (click)="changeProfileImageToPowerDown()">weak spot</button>
           <h1 class="mt-1">aron kovacs</h1>
 
           <p><strong>creative developer (tank)</strong></p>

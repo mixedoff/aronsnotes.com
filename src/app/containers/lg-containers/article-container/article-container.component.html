@@ -67,8 +67,8 @@
       <div class="article-body" [innerHtml]="selectedArticle?.content"></div>
     </div>
     <div class="article-footer">
-      <button class="back big" [class.light]="sourceScreen === 'articles'" (click)="clickClose(sourceScreen)">close ✕</button>
-      <button class="next big" [class.light]="sourceScreen === 'articles'" (click)="clickNext()">next &rsaquo;</button>
+      <button  (click)="clickClose(sourceScreen)">close ✕</button>
+      <button class="primary" (click)="clickNext()">next &rsaquo;</button>
     </div>
   </div>
   <div class="small-div">
