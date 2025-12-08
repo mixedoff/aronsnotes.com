@@ -91,11 +91,24 @@ export class ArticleTopNavComponent implements OnInit {
     }
   }
 
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    // Ensure cursor remains hidden when leaving the nav
+    document.body.style.cursor = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'transparent\'/></svg>") 0 0, none';
+  }
+
   onConnect() {
     this.clickConnect.emit(true);
     console.log('clickConnect emitted');
     this.sourceScreen = 'about';
     this.router.navigate(['/about']);
+    // Force cursor to none for the host element after 300ms
+    setTimeout(() => {
+    const hostElement = document.querySelector('app-article-top-nav');
+      if (hostElement) {
+        (hostElement as HTMLElement).style.cursor = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'transparent\'/></svg>") 0 0, none';
+      }
+    }, 300);
   }
 
   onMenu() {

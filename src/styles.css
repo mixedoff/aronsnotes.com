@@ -9,21 +9,21 @@
 }
 
 /* Enhanced cursor hiding for screen recording compatibility */
-/* * {
-  cursor: none !important;
-  -webkit-user-select: none !important;
+* {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
+  /* -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
-  user-select: none !important;
-} */
+  user-select: none !important; */
+}
 
 /* More specific cursor hiding for all elements */
 html, body, div, span, button, a, input, textarea, select, img, svg,
 [class*=""], [id*=""], [data], form, label, p, h1, h2, h3, h4, h5, h6,
 ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
 main, section, article, aside, canvas, video, audio, iframe, embed, object,
-app-root, app-custom-cursor {
-  cursor: none !important;
+app-root, app-custom-cursor, app-article-top-nav {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
   /* -webkit-user-select: none !important;
   -moz-user-select: none !important;
   -ms-user-select: none !important;
@@ -35,7 +35,7 @@ button:hover, a:hover, input:hover, textarea:hover, select:hover,
 button:focus, a:focus, input:focus, textarea:focus, select:focus,
 button:active, a:active, input:active, textarea:active, select:active,
 button:visited, a:visited, input:visited, textarea:visited, select:visited {
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 /* Additional hiding for form elements */
@@ -43,7 +43,7 @@ input[type="text"], input[type="password"], input[type="email"],
 input[type="number"], input[type="search"], input[type="tel"], 
 input[type="url"], input[type="button"], input[type="submit"], input[type="reset"],
 textarea, select, option, optgroup, fieldset, legend {
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
@@ -51,7 +51,7 @@ textarea, select, option, optgroup, fieldset, legend {
 
 /* Ensure Angular components also have no cursor */
 [ng-version], [ng-reflect], [ng-reflect-routerlink], [ng-reflect-routerlinkactive] {
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 /* html,

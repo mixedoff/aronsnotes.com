@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener, Renderer2, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, Renderer2, Inject, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 
@@ -7,8 +7,9 @@ import { DOCUMENT } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="custom-cursor" [class.clickable]="isOverClickable" [class.hidden]="!isCursorVisible">
+    <div #cursorContainer class="custom-cursor" [class.clickable]="isOverClickable" [class.hidden]="!isCursorVisible">
       <img 
+        #cursorImage
         [src]="currentCursorImage" 
         alt="cursor"
         class="cursor-image"
@@ -26,9 +27,10 @@ import { DOCUMENT } from '@angular/common';
         height: 32px;
         pointer-events: none;
         z-index: 9999;
-        transition: transform 0.1s ease-out;
+        /* transition: transform 0.1s ease-out; Removed for JS-driven smoothness */
         transform: translate(-50%, -50%);
         background: transparent !important;
+        will-change: transform;
       }
 
       .custom-cursor.hidden {
@@ -59,11 +61,7 @@ import { DOCUMENT } from '@angular/common';
 
       /* Enhanced cursor hiding for screen recording compatibility */
       * {
-        cursor: none !important;
-        /* -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none; */
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
       }
 
       /* Ensure no cursor shows anywhere - more specific selectors */
@@ -71,11 +69,7 @@ import { DOCUMENT } from '@angular/common';
       [class*=""], [id*=""], [data], form, label, p, h1, h2, h3, h4, h5, h6,
       ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
       main, section, article, aside, canvas, video, audio, iframe, embed, object {
-        cursor: none !important;
-        /* -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none; */
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
       }
 
       /* Allow text selection in article body */
@@ -90,14 +84,14 @@ import { DOCUMENT } from '@angular/common';
       button:hover, a:hover, input:hover, textarea:hover, select:hover,
       button:focus, a:focus, input:focus, textarea:focus, select:focus,
       button:active, a:active, input:active, textarea:active, select:active {
-        cursor: none !important;
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
       }
 
       /* Additional hiding for form elements */
       input[type="text"], input[type="password"], input[type="email"], 
       input[type="number"], input[type="search"], input[type="tel"], 
       input[type="url"], textarea, select {
-        cursor: none !important;
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -122,38 +116,51 @@ import { DOCUMENT } from '@angular/common';
   ]
 })
 export class CustomCursorComponent implements OnInit, OnDestroy {
-  cursorX: number = 0;
-  cursorY: number = 0;
-  targetX: number = 0;
-  targetY: number = 0;
+  @ViewChild('cursorContainer') cursorContainer!: ElementRef;
+  @ViewChild('cursorImage') cursorImage!: ElementRef;
+
+  // Track cursor position
+  private mouseX: number = 0;
+  private mouseY: number = 0;
+  
+  // Track interpolated position for smooth movement
+  private currentX: number = 0;
+  private currentY: number = 0;
+  
   isOverClickable: boolean = false;
   isCursorVisible: boolean = true;
-  private animationTimer: any;
+  
   private currentFrame: number = 1;
   private readonly totalFrames: number = 4;
   private readonly slurpingFrames: number = 18;
-  private readonly animationSpeed: number = 100; // milliseconds between frames
-  private readonly cursorDelay: number = 0.15; // seconds of delay
+  
   private isMoving: boolean = true;
+  private useLegRubbing: boolean = false;
+  
+  // Animation and loop references
+  private animationInterval: any;
   private movementTimer: any;
-  private readonly movementTimeout: number = 500; // milliseconds before switching to rubbing
-  private useLegRubbing: boolean = false; // Toggle between regular and leg rubbing
   private cursorHideInterval: any;
+  private removeMouseMoveListener: (() => void) | null = null;
+  private animationFrameId: number | null = null;
+  
+  // Configuration
+  private readonly animationSpeed: number = 100;
+  private readonly movementTimeout: number = 500;
 
   constructor(
     private renderer: Renderer2,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    private ngZone: NgZone
   ) {}
 
   get currentCursorImage(): string {
     if (this.isOverClickable) {
-      // Use slurping animation when over clickable elements (frames 00-14)
       const frameNumber = (this.currentFrame - 1).toString().padStart(2, '0');
       return `/assets/img/cursor/fly_slurping_v5_frame_${frameNumber}.png`;
     }
     
     if (!this.isMoving) {
-      // Use alternating rubbing animations when not moving
       const frameNumber = (this.currentFrame - 1).toString().padStart(2, '0');
       if (this.useLegRubbing) {
         return `/assets/img/cursor/fly_leg_rubbing_v2_frame_${this.currentFrame - 1}.png`;
@@ -162,40 +169,78 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
       }
     }
     
-    // Use wing flap animation when moving (frames 00-03)
     const frameNumber = (this.currentFrame - 1).toString().padStart(2, '0');
     return `/assets/img/cursor/fly_wing_flap_frame_${frameNumber}.png`;
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
-    this.cursorX = event.clientX;
-    this.cursorY = event.clientY;
+  ngOnInit() {
+    this.mouseX = window.innerWidth / 2;
+    this.mouseY = window.innerHeight / 2;
+    this.currentX = this.mouseX;
+    this.currentY = this.mouseY;
     
-    // Show cursor when mouse moves
-    this.isCursorVisible = true;
-    
-    // Reset movement timer
-    const wasMoving = this.isMoving;
-    this.isMoving = true;
-    
-    // Reset frame if switching from stopped to moving
-    if (wasMoving !== this.isMoving) {
-      this.currentFrame = 1;
+    // Run high-frequency updates outside Angular to avoid change detection cycles
+    this.ngZone.runOutsideAngular(() => {
+      // 1. Mouse move listener
+      this.removeMouseMoveListener = this.renderer.listen('document', 'mousemove', (event: MouseEvent) => {
+        this.mouseX = event.clientX;
+        this.mouseY = event.clientY;
+        
+        // Logic that was in onMouseMove
+        this.isCursorVisible = true;
+        const wasMoving = this.isMoving;
+        this.isMoving = true;
+        if (wasMoving !== this.isMoving) {
+          this.currentFrame = 1;
+          this.updateCursorImage(); // Manually update image
+        }
+        this.resetMovementTimer();
+      });
+
+      // 2. Animation Loop (60fps) for position
+      const loop = () => {
+        // Linear interpolation for smooth movement (0.2 factor)
+        // Adjust factor: 1.0 = instant, 0.1 = very smooth/slow
+        const lerp = 0.2; 
+        this.currentX += (this.mouseX - this.currentX) * lerp;
+        this.currentY += (this.mouseY - this.currentY) * lerp;
+        
+        if (this.cursorContainer) {
+          // Rounding pixels can prevent sub-pixel blurring, but floats are smoother
+          this.cursorContainer.nativeElement.style.transform = 
+            `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%)`;
+        }
+        
+        this.animationFrameId = requestAnimationFrame(loop);
+      };
+      loop();
+
+      // 3. Sprite Animation Interval
+      this.animationInterval = setInterval(() => {
+        const maxFrames = this.isOverClickable ? this.slurpingFrames : this.totalFrames;
+        this.currentFrame = (this.currentFrame % maxFrames) + 1;
+        this.updateCursorImage();
+      }, this.animationSpeed);
+    });
+
+    this.forceHideSystemCursor();
+    this.setupCursorHiding();
+  }
+
+  // Manually update image source to avoid change detection
+  private updateCursorImage() {
+    if (this.cursorImage) {
+      this.cursorImage.nativeElement.src = this.currentCursorImage;
     }
-    
-    this.resetMovementTimer();
   }
 
   @HostListener('document:mouseenter')
   onMouseEnter() {
-    // Show cursor when mouse enters the page
     this.isCursorVisible = true;
   }
 
   @HostListener('document:mouseleave')
   onMouseLeave() {
-    // Hide cursor when mouse leaves the page
     this.isCursorVisible = false;
   }
 
@@ -205,13 +250,12 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     const wasOverClickable = this.isOverClickable;
     this.isOverClickable = this.isClickableElement(target);
     
-    // Reset frame if switching between different animation states
     if (wasOverClickable !== this.isOverClickable) {
       this.currentFrame = 1;
+      this.updateCursorImage();
     }
     
-    // Always start animation, it will handle the correct frame count based on isOverClickable
-    this.startAnimation();
+    // Ensure animation logic is correct (it runs continuously now, but frame limits change)
   }
 
   @HostListener('document:mouseout', ['$event'])
@@ -219,37 +263,20 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     const wasOverClickable = this.isOverClickable;
     this.isOverClickable = false;
     
-    // Reset frame if switching from clickable to non-clickable
     if (wasOverClickable !== this.isOverClickable) {
       this.currentFrame = 1;
+      this.updateCursorImage();
     }
-    
-    this.startAnimation();
   }
 
   private isClickableElement(element: HTMLElement): boolean {
     const clickableSelectors = [
-      'button',
-      'a',
-      '[role="button"]',
-      '.icon-holder',
-      '.traffic-lights-svg',
-      'input',
-      'textarea',
-      'select'
+      'button', 'a', '[role="button"]', '.icon-holder',
+      '.traffic-lights-svg', 'input', 'textarea', 'select'
     ];
-    
     return clickableSelectors.some(selector => 
       element.matches(selector) || element.closest(selector)
     );
-  }
-
-  private startAnimation() {
-    this.stopAnimation();
-    this.animationTimer = setInterval(() => {
-      const maxFrames = this.isOverClickable ? this.slurpingFrames : this.totalFrames;
-      this.currentFrame = (this.currentFrame % maxFrames) + 1;
-    }, this.animationSpeed);
   }
 
   private resetMovementTimer() {
@@ -258,168 +285,71 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
     }
     
     this.movementTimer = setTimeout(() => {
-      const wasMoving = this.isMoving;
-      this.isMoving = false;
-      
-      // Reset frame if switching from moving to stopped
-      if (wasMoving !== this.isMoving) {
-        this.currentFrame = 1;
-        // Toggle between regular and leg rubbing
-        this.useLegRubbing = !this.useLegRubbing;
-      }
+      this.ngZone.runOutsideAngular(() => { // Ensure this runs outside too
+        const wasMoving = this.isMoving;
+        this.isMoving = false;
+        
+        if (wasMoving !== this.isMoving) {
+          this.currentFrame = 1;
+          this.useLegRubbing = !this.useLegRubbing;
+          this.updateCursorImage();
+        }
+      });
     }, this.movementTimeout);
   }
 
-  private stopAnimation() {
-    if (this.animationTimer) {
-      clearInterval(this.animationTimer);
-      this.animationTimer = null;
-    }
-    if (this.movementTimer) {
-      clearTimeout(this.movementTimer);
-      this.movementTimer = null;
-    }
-  }
-
-  private updateCursorPosition() {
-    // Update the cursor element position directly without delay
-    const cursorElement = this.document.querySelector('.custom-cursor') as HTMLElement;
-    if (cursorElement) {
-      this.renderer.setStyle(cursorElement, 'transform', `translate(${this.cursorX}px, ${this.cursorY}px) translate(-50%, -50%)`);
-    }
-  }
-
   private forceHideSystemCursor() {
-    // Aggressively hide system cursor on all elements
-    const allElements = this.document.querySelectorAll('*');
-    allElements.forEach((element: Element) => {
-      const htmlElement = element as HTMLElement;
-      if (htmlElement.style) {
-        this.renderer.setStyle(htmlElement, 'cursor', 'none');
-        
-        // Check if element is inside article body - if so, allow text selection
-        const isInArticleBody = htmlElement.closest('.article-body');
-        if (!isInArticleBody) {
-          this.renderer.setStyle(htmlElement, '-webkit-user-select', 'none');
-          this.renderer.setStyle(htmlElement, '-moz-user-select', 'none');
-          this.renderer.setStyle(htmlElement, '-ms-user-select', 'none');
-          this.renderer.setStyle(htmlElement, 'user-select', 'none');
-        } else {
-          // Allow text selection in article body
-          this.renderer.setStyle(htmlElement, '-webkit-user-select', 'text');
-          this.renderer.setStyle(htmlElement, '-moz-user-select', 'text');
-          this.renderer.setStyle(htmlElement, '-ms-user-select', 'text');
-          this.renderer.setStyle(htmlElement, 'user-select', 'text');
-        }
-      }
-    });
-
-    // Also set on document body and html
-    this.renderer.setStyle(this.document.body, 'cursor', 'none');
-    this.renderer.setStyle(this.document.documentElement, 'cursor', 'none');
+    const cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'transparent\'/></svg>") 0 0, none';
+    this.renderer.setStyle(this.document.body, 'cursor', cursorStyle);
+    this.renderer.setStyle(this.document.documentElement, 'cursor', cursorStyle);
   }
 
   private setupCursorHiding() {
-    // Set up multiple layers of cursor hiding
+    const cursorStyle = 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'1\' height=\'1\'><rect width=\'1\' height=\'1\' fill=\'transparent\'/></svg>") 0 0, none';
     
-    // 1. Continuous monitoring
-    this.cursorHideInterval = setInterval(() => {
-      this.forceHideSystemCursor();
-    }, 50); // Check every 50ms for maximum effectiveness
-
-    // 2. Monitor for DOM changes and hide cursor on new elements
+    // 1. Monitor for DOM changes (Optimized: only sets style if needed)
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === 'childList') {
           mutation.addedNodes.forEach((node) => {
             if (node.nodeType === Node.ELEMENT_NODE) {
               const element = node as HTMLElement;
-              this.renderer.setStyle(element, 'cursor', 'none');
-              this.renderer.setStyle(element, '-webkit-user-select', 'none');
-              this.renderer.setStyle(element, '-moz-user-select', 'none');
-              this.renderer.setStyle(element, '-ms-user-select', 'none');
-              this.renderer.setStyle(element, 'user-select', 'none');
-              
-              // Also hide cursor on all child elements
-              const childElements = element.querySelectorAll('*');
-              childElements.forEach((child) => {
-                const childElement = child as HTMLElement;
-                if (childElement.style) {
-                  this.renderer.setStyle(childElement, 'cursor', 'none');
-                  this.renderer.setStyle(childElement, '-webkit-user-select', 'none');
-                  this.renderer.setStyle(childElement, '-moz-user-select', 'none');
-                  this.renderer.setStyle(childElement, '-ms-user-select', 'none');
-                  this.renderer.setStyle(childElement, 'user-select', 'none');
-                }
-              });
+              // Only set if not already set (though setting it again is cheap)
+              this.renderer.setStyle(element, 'cursor', cursorStyle);
             }
           });
         }
       });
     });
 
-    // Start observing
     observer.observe(this.document.body, {
       childList: true,
       subtree: true
     });
 
-    // 3. Monitor for focus events and ensure cursor stays hidden
-    this.document.addEventListener('focusin', (event) => {
-      const target = event.target as HTMLElement;
-      if (target) {
-        this.renderer.setStyle(target, 'cursor', 'none');
-        this.renderer.setStyle(target, '-webkit-user-select', 'none');
-        this.renderer.setStyle(target, '-moz-user-select', 'none');
-        this.renderer.setStyle(target, '-ms-user-select', 'none');
-        this.renderer.setStyle(target, 'user-select', 'none');
-      }
+    // 2. Focus events
+    this.ngZone.runOutsideAngular(() => {
+        this.document.addEventListener('focusin', (event) => {
+          const target = event.target as HTMLElement;
+          if (target) {
+            target.style.cursor = cursorStyle;
+          }
+        });
+        
+        this.document.addEventListener('mouseover', (event) => {
+           const target = event.target as HTMLElement;
+           if (target) {
+             target.style.cursor = cursorStyle;
+           }
+        });
     });
-
-    // 4. Monitor for mouse events and ensure cursor stays hidden
-    this.document.addEventListener('mouseover', (event) => {
-      const target = event.target as HTMLElement;
-      if (target) {
-        this.renderer.setStyle(target, 'cursor', 'none');
-        this.renderer.setStyle(target, '-webkit-user-select', 'none');
-        this.renderer.setStyle(target, '-moz-user-select', 'none');
-        this.renderer.setStyle(target, '-ms-user-select', 'none');
-        this.renderer.setStyle(target, 'user-select', 'none');
-      }
-    });
-  }
-
-  ngOnInit() {
-    // Initialize cursor position to center of screen
-    this.cursorX = window.innerWidth / 2;
-    this.cursorY = window.innerHeight / 2;
-    
-    // Start the animated cursor
-    this.startAnimation();
-    
-    // Start movement timer
-    this.resetMovementTimer();
-
-    // Start the position update loop
-    this.updateCursorPosition();
-    setInterval(() => {
-      this.updateCursorPosition();
-    }, 16); // ~60fps update rate
-
-    // Force hide system cursor immediately
-    this.forceHideSystemCursor();
-
-    // Set up continuous cursor hiding to prevent system cursor from reappearing
-    this.setupCursorHiding();
   }
 
   ngOnDestroy() {
-    // Stop animation when component is destroyed
-    this.stopAnimation();
-    
-    // Clear the cursor hiding interval
-    if (this.cursorHideInterval) {
-      clearInterval(this.cursorHideInterval);
-    }
+    if (this.animationInterval) clearInterval(this.animationInterval);
+    if (this.movementTimer) clearTimeout(this.movementTimer);
+    if (this.cursorHideInterval) clearInterval(this.cursorHideInterval); // Not used anymore but good practice
+    if (this.removeMouseMoveListener) this.removeMouseMoveListener();
+    if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId);
   }
-} 
+}

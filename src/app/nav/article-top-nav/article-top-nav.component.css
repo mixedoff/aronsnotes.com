@@ -2,13 +2,13 @@ p {
   color: var(--nav-color, #000);
   font-weight: var(--font-weight, 500);
   transition: all 0.2s ease;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 p:hover,
 p:active,
 p:focus {
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 /* [data-text]::before {
@@ -34,11 +34,11 @@ p:focus {
   display: inline-flex;
   flex-shrink: 0;
   background: var(--nav-bg, #c6c8c8);
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .outer-div * {
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-articles {
@@ -48,13 +48,13 @@ p:focus {
   display: flex;
   align-items: center;
   padding: 16px;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-articles:hover {
   background: #6ffa1e;
   color: #000;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-reads {
@@ -64,13 +64,13 @@ p:focus {
   display: flex;
   align-items: center;
   padding: 16px;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-reads:hover {
   background: #6ffa1e;
   color: #000;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-connect {
@@ -80,13 +80,13 @@ p:focus {
   display: flex;
   align-items: center;
   padding: 16px;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-connect:hover {
   background: #6ffa1e;
   color: #000;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-menu {
@@ -96,13 +96,13 @@ p:focus {
   display: flex;
   align-items: center;
   padding: 16px;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-menu:hover {
   background: #6ffa1e;
   color: #000;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-quit {
@@ -112,13 +112,13 @@ p:focus {
   display: flex;
   align-items: center;
   padding: 16px;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 .nav-quit:hover {
   background: #6ffa1e;
   color: #000;
-  cursor: none !important;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
 }
 
 @media (max-width: 512px) {
