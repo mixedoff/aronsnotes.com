@@ -258,19 +258,19 @@ button {
   background: #6f7a83;
   padding: 8px 16px;
   margin: 10px 5px;
-  box-shadow: 4px 4px 0px 0px white;
+  box-shadow: 4px 4px 0px 0px #555e65;
   /* border: 2px solid black; */
   border: none;
   border-radius: 0;
   font-family: "IBM Plex Mono";
   font-size: 1.25rem;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.75rem;
   letter-spacing: -0.0125rem;
   transition: none;
   width: auto;
-  color: #ffffff;
+  color: white;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -278,42 +278,48 @@ button {
 
 button:hover {
   transform: translateY(-2px) translateZ(0);
-  box-shadow: 4px 6px 0px 0px white;
+  box-shadow: 4px 6px 0px 0px #555e65;
 }
 
 button:active {
   transform: translateY(2px) translateZ(0);
-  box-shadow: 2px 2px 0px 0px white;
+  box-shadow: 2px 2px 0px 0px #080a19;
   background: #555e65;
+  color: #c6c8c8;
 }
 
 /* Active class during animations */
 button.active {
   transform: translateY(2px) translateZ(0);
-  box-shadow: 2px 2px 0px 0px white;
+  box-shadow: 2px 2px 0px 0px #080a19;
   background: #555e65;
+  color: #c6c8c8;
 }
 
 button.primary {
-  color: #6ffa1e;
-  box-shadow: 4px 4px 0px 0px #6ffa1e;
+  font-weight: 500;
+  background: #6ffa1e;
+  color: #000000;
+  box-shadow: 4px 4px 0px 0px #51b815;
 }
 
 button.primary:hover {
   transform: translateY(-2px) translateZ(0);
-  box-shadow: 4px 6px 0px 0px #6ffa1e;
+  box-shadow: 4px 6px 0px 0px #51b815;
 }
 
 button.primary:active {
   transform: translateY(2px) translateZ(0);
-  box-shadow: 2px 2px 0px 0px #6ffa1e;
+  box-shadow: 2px 2px 0px 0px #409211;
+  color: #555e65;
   background: #51b815;
 }
 
 /* Active class during animations */
 button.primary.active {
   transform: translateY(2px) translateZ(0);
-  box-shadow: 2px 2px 0px 0px #6ffa1e;
+  box-shadow: 2px 2px 0px 0px #409211;
+  color: #555e65;
   background: #51b815;
 }
 
