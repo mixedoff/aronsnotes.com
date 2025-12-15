@@ -47,13 +47,13 @@
         @for (article of articles; track article.title) {
         <div class="article-item" (click)="selectArticle(article)" role="button">
           <div class="article-holder">
-            <p class="article-title">{{ article.title.toLowerCase() }}</p>
+            <p class="article-title" [ngClass]="getChipClass(article)">{{ article.title.toLowerCase() }}</p>
           </div>
           <div class="hr"></div>
           <div class="article-details">
-            <!-- <p class="article-tags">{{ article.technologies }}</p>
-            <p class="article-date">{{ article.date }}</p> -->
-            <p class="article-folder">{{ article.folder[0] }}</p>
+            <p class="article-subfolder" [ngClass]="getChipClass(article)">{{ article.subFolder[0] }}</p>
+            <p class="article-subsubfolder" [ngClass]="article.subSubFolder[0] ? getChipClass(article) : {}">{{ article.subSubFolder[0] }}</p>
+            <p class="article-date" [ngClass]="getChipClass(article)">{{ article.date }}</p>
           </div>
         </div>
         }

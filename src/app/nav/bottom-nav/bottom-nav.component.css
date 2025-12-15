@@ -11,6 +11,7 @@
   flex-direction: column;
   align-items: flex-end;
   background: none;
+  z-index: 9999;
 }
 
 .grey-div {

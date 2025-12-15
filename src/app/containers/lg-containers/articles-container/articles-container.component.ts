@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { Article, ArticleService } from '../../../article.service';
 import { ArticleStateService } from '../../../article.service.state';
 import { OnInit, OnDestroy } from '@angular/core';
@@ -8,7 +9,7 @@ import { filter, Subscription } from 'rxjs';
 @Component({
   selector: 'app-articles-container',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './articles-container.component.html',
   styleUrl: './articles-container.component.css',
 })
@@ -95,6 +96,17 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
 
     // Navigate to the appropriate route
     this.router.navigate([routePath, article.id]);
+  }
+
+  getChipClass(article: Article): { [key: string]: boolean } {
+    if (article.folder.includes('design')) {
+      return { 'blue-chip-big': true };
+    } else if (article.folder.includes('development')) {
+      return { 'green-chip-big': true };
+    } else if (article.folder.includes('writing')) {
+      return { 'cyan-chip-big': true };
+    }
+    return {}; // Default: no chip class
   }
 
   closeArticles() {

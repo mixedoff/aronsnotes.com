@@ -1,4 +1,4 @@
-<div class="outer-container">
+<div class="outer-container" [class.expanded]="isExpanded">
   <div class="small-div">
     <div class="traffic-lights">
       <svg
@@ -25,16 +25,42 @@
           class="hit-area"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
-          fill="#6F7A83"
-        />
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
+        fill="#6f7a83"
+        class="pointer"
+      />
+      <circle
+        cx="26"
+        cy="6"
+        r="20"
+        fill="transparent"
+      />
+      <!-- <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
+      fill="#f6da0f"
+      class="pointer"
+      (click)="clickHiddenScreen()"
+    />
+    <circle
+      cx="26"
+      cy="6"
+      r="20"
+      fill="transparent"
+      (click)="clickHiddenScreen()"
+      class="hit-area"
+    /> -->
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
-          fill="#6F7A83"
+          [attr.fill]="isLargeScreen ? '#409211' : '#6f7a83'"
+          [class.pointer]="isLargeScreen"
+          [class.disabled]="!isLargeScreen"
+          (click)="toggleFullscreen()"
         />
         <circle
           cx="46"
@@ -42,6 +68,9 @@
           r="20"
           fill="transparent"
           class="hit-area"
+          [class.pointer]="isLargeScreen"
+          [class.disabled]="!isLargeScreen"
+          (click)="toggleFullscreen()"
         />
       </svg>
     </div>
@@ -51,13 +80,13 @@
   <div class="inner-container">
     <div class="row">
       <div class="column">
-        <div id="about-text" [class.typing-animation]="isTyping">
+        <div id="about-text">
           <button class="primary" [class.active]="isPowerUpAnimating" (click)="changeProfileImageToPowerUp()">superpower</button>
           <button [class.active]="isPowerDownAnimating" (click)="changeProfileImageToPowerDown()">weak spot</button>
           <h1 id="about-name-text" class="mt-1">aron kovacs</h1>
 
-          <p><strong>creative developer (tank)</strong></p>
-
+          <p class="mt-0"><strong>creative developer (tank)</strong></p>
+ 
           <blockquote>
             Tanks are designed to absorb damage by forging ahead into the unknown.
           </blockquote>
@@ -69,36 +98,86 @@
           <p>But if I am not conscious, my default feeling is frustration and being overwhelmed. And even if the product is feasible, I have to keep reminding myself to also factor in timing and ROI. To compensate, I keep running a script to consciously override my default mode to underpromising and overdelivering.
           </p>
           <br>
-          <p><strong>core competencies</strong><br> Product Management, Product Design, Graphic Design, Front-end Development, Writing</p><br>
 
-          <p><strong>current tools</strong><br>  
-          Figma, Angular, Hetzner, Cursor IDE, Google Workspace
+          <p class="mt-0"><strong>skills:</strong></p>
+          <p>
+            <span class="blue-chip-big" style="margin-right: 16px">design</span>
+            <span class="green-chip-big" style="margin-right: 16px">development</span>
+            <span class="cyan-chip-big" style="margin-right: 16px">writing</span>
           </p><br>
-          <button class="big" (click)="navigateToSkills()">go to skills</button>
+  
+          <button style="margin-left: 0px;" (click)="navigateToSkills()">see all skills</button>
 
-          <h2>Featured projects</h2>
-          <h3 class="mt-0"> <a href="https://careeverz.com" target="_blank" rel="noopener noreferrer">CareeVerz.com</a></h3>
-          <p><strong>Vision:</strong> Gamifying work.</p>
-          <p><strong>Role:</strong> Founder, Research & Development, Product Manager, Product Designer, Front-end Developer</p>
-          <p><strong>Milestones:</strong></p>
-          <p>- Launched a complex AI-driven career counseling app</p>
-          <p>- Led research & development</p>
-          <p>- Recruited and led a multidisciplinary team of 4</p>
-          <p>- Designed and executed the UX/UI process</p>
-          <p>- Helped to develop the front-end</p>
-
-          <p><strong>Tech stack:</strong>  
-          Figma, Angular, .NET, Azure, Docker, Harness ML, Hetzner, Google OAuth, Stripe, Brevo  
-          </p>
-
-          <h3> <a href="https://aronsnotes.com" target="_blank" rel="noopener noreferrer">aronsnotes.com</a></h3>
-          <p><strong>Vision:</strong> Gamifying my character development.</p>
-          <p><strong>Role:</strong> Solopreneur, Product Designer, Front-end Developer, Back-end Developer, Content Creator
-          </p>
-
-          <p><strong>Tech stack:</strong>  
-          Figma, Angular, Hetzner Cloud, Nginx  
-          </p>
+          <div class="featured-projects-container">
+            <h2>Featured projects</h2>
+            
+            <div class="project-cards-stack">
+            @for (project of featuredProjects; track project.id; let i = $index) {
+              <div 
+                class="project-card" 
+                [style.z-index]="featuredProjects.length - i"
+                [style.transform]="getCardTransform(i)"
+                [style.background]="getCardBackgroundColor(project)"
+                (click)="onCardClick($event)"
+                >
+                <div 
+                  class="status-chip-container"
+                  [style.color]="getCardTextColor(project)"
+                >
+                  @if (project.status === 'live') {
+                    <p><strong>Status:</strong> Live</p>
+                  } @else if (project.status === 'in progress') {
+                    <p><strong>Status:</strong> In Progress</p>
+                  } @else if (project.status === 'archived') {
+                    <p><strong>Status:</strong> Archived</p>
+                  }
+                </div>
+              <div 
+                class="project-card-inner"
+                [style.--card-text-color]="getCardTextColor(project)"
+                [style.color]="getCardTextColor(project)"
+                [style.border-color]="getCardBorderColor(project)"
+              >
+                @if (project.animationGif) {
+                  <img [src]="getAnimationPath(project)" [alt]="project.name + ' animation'" class="project-animation-gif" />
+                }
+                <h3 [class.mt-0]="$first">
+                  @if (project.link) {
+                    <a [href]="project.link" target="_blank" rel="noopener noreferrer">{{ project.name }}</a>
+                  } @else {
+                    {{ project.name }}
+                  }
+                </h3>
+                @if (getRolesWithClasses(project).length > 0) {
+                  <p>
+                    @for (roleItem of getRolesWithClasses(project); track roleItem.role) {
+                      <span 
+                        [class.blue-chip]="roleItem.chipClass === 'blue-chip'"
+                        [class.green-chip]="roleItem.chipClass === 'green-chip'"
+                        [class.cyan-chip]="roleItem.chipClass === 'cyan-chip'"
+                        [class.white-chip]="roleItem.chipClass === 'white-chip'"
+                      >{{ capitalizeFirst(roleItem.role) }}</span>
+                    }
+                  </p>
+                }
+                @if (project.description) {
+                  <p><strong>Description:</strong> {{ project.description }}</p>
+                }
+                @if(project.link) {
+                  <div class="align-button">
+                    <button class="button small" (click)="navigateToProjectLink(project)">{{ project.buttonText }}</button>
+                  </div>
+                }
+              </div>
+              @if (project.techStack && project.techStack.length > 0) {
+                <div class="tech-stack-container">
+                  <p class="tech-stack-text" [attr.data-text]="getTechStackString(project.techStack)">{{ getTechStackString(project.techStack) }} • {{ getTechStackString(project.techStack) }}</p>
+                </div>
+              }
+              </div>
+            }
+            </div>
+          </div>
 
           <button class="big" (click)="navigateToProjects()">go to projects</button>
 

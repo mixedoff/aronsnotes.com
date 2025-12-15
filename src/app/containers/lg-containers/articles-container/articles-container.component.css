@@ -134,9 +134,8 @@ p {
   background: none;
   display: flex;
   justify-content: space-between;
-  gap: 16px;
   width: fit-content;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 }
@@ -150,6 +149,7 @@ p {
 
 .article-date {
   text-align: right;
+  margin-left: 16px;
 
   @media (max-width: 1023px) {
     display: none;
