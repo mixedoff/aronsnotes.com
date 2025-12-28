@@ -7,11 +7,11 @@
 }
 
 small {
-  color: var(--text-color, #ffffff);
+  color: var(--text-color, rgba(111, 250, 30, 0.5));
 }
 
 p {
-  color: var(--text-color, #ffffff);
+  color: var(--text-color, rgba(111, 250, 30, 0.5));
   font-weight: var(--font-weight, 500);
 }
 
@@ -42,8 +42,34 @@ p {
   align-items: flex-start;
   flex: 1 0 0;
   align-self: stretch;
-  border: 2px solid white;
+  border: 2px solid rgba(111, 250, 30, 0.5);
   background: var(--inner-container-bg, #6f7a83);
+}
+
+/* Custom scrollbar styling for dark theme */
+.inner-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.inner-container::-webkit-scrollbar-track {
+  background: #091522;
+  border-radius: 6px;
+}
+
+.inner-container::-webkit-scrollbar-thumb {
+  background: rgba(111, 250, 30, 0.5);
+  border-radius: 6px;
+  border: 2px solid #091522;
+}
+
+.inner-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(111, 250, 30, 0.7);
+}
+
+/* Firefox scrollbar styling */
+.inner-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(111, 250, 30, 0.5) #091522;
 }
 
 .small-div {
@@ -55,7 +81,7 @@ p {
 
 .article-container {
   background: none;
-  color: #ffffff;
+  color: rgba(111, 250, 30, 0.5);
   width: 100%;
 }
 
@@ -121,7 +147,7 @@ p {
 
 .hr {
   border: none;
-  border-bottom: 2px dashed white;
+  border-bottom: 2px dashed rgba(111, 250, 30, 0.5);
   margin: 6px 0px;
   width: 100%;
   background: none;
@@ -135,6 +161,7 @@ p {
   display: flex;
   justify-content: space-between;
   width: fit-content;
+  gap: 8px;
   @media (max-width: 1024px) {
     display: none;
   }

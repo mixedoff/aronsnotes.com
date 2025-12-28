@@ -29,17 +29,17 @@
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
-          fill="white"
+          fill="rgba(111, 250, 30, 0.5)"
         />
         <path
           fill-rule="evenodd"
           clip-rule="evenodd"
           d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
-          fill="white"
+          fill="rgba(111, 250, 30, 0.5)"
         />
       </svg>
     </div>
-    <small>{{ containerTitle }}</small>
+    <small style="color: rgba(111, 250, 30, 0.5);"> {{ containerTitle }} </small>
   </div>
   <div class="inner-container">
     <div class="article-container">
@@ -47,13 +47,13 @@
         @for (article of articles; track article.title) {
         <div class="article-item" (click)="selectArticle(article)" role="button">
           <div class="article-holder">
-            <p class="article-title" [ngClass]="getChipClass(article)">{{ article.title.toLowerCase() }}</p>
+            <p class="article-title" [style.color]="getArticleColor(article)">{{ article.title.toLowerCase() }}</p>
           </div>
           <div class="hr"></div>
           <div class="article-details">
-            <p class="article-subfolder" [ngClass]="getChipClass(article)">{{ article.subFolder[0] }}</p>
-            <p class="article-subsubfolder" [ngClass]="article.subSubFolder[0] ? getChipClass(article) : {}">{{ article.subSubFolder[0] }}</p>
-            <p class="article-date" [ngClass]="getChipClass(article)">{{ article.date }}</p>
+            <p class="article-subfolder" [style.color]="getArticleColor(article)">{{ article.subFolder[0] }}</p>
+            <p class="article-subsubfolder" [style.color]="getArticleColor(article)">{{ article.subSubFolder[0] }}</p>
+            <p class="article-date" [style.color]="getArticleColor(article)">{{ article.date }}</p>
           </div>
         </div>
         }

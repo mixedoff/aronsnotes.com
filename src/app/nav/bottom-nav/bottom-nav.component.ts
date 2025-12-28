@@ -9,6 +9,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../theme.service';
 import { Router } from '@angular/router';
+import { ArticleStateService } from '../../article.service.state';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bottom-nav',
@@ -18,6 +20,7 @@ import { Router } from '@angular/router';
   styleUrl: './bottom-nav.component.css',
   host: {
     '[style]': 'getNavStyles()',
+    '[class.article-open]': 'isArticleOpen',
   },
 })
 export class BottomNavComponent implements OnInit, OnDestroy {
@@ -26,16 +29,30 @@ export class BottomNavComponent implements OnInit, OnDestroy {
     'articles';
   displayText: string = 'aronsnotes.com';
   private textInterval: any;
+  isArticleOpen: boolean = false;
+  private articleContentSubscription?: Subscription;
 
-  constructor(public themeService: ThemeService, private router: Router) {}
+  constructor(
+    public themeService: ThemeService,
+    private router: Router,
+    private articleStateService: ArticleStateService
+  ) {}
 
   ngOnInit() {
     this.startTextCycle();
+    this.articleContentSubscription = this.articleStateService.showArticleContent$.subscribe(
+      (show) => {
+        this.isArticleOpen = show;
+      }
+    );
   }
 
   ngOnDestroy() {
     if (this.textInterval) {
       clearInterval(this.textInterval);
+    }
+    if (this.articleContentSubscription) {
+      this.articleContentSubscription.unsubscribe();
     }
   }
 

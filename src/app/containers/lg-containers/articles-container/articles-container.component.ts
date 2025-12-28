@@ -98,15 +98,15 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     this.router.navigate([routePath, article.id]);
   }
 
-  getChipClass(article: Article): { [key: string]: boolean } {
+  getArticleColor(article: Article): string {
     if (article.folder.includes('design')) {
-      return { 'blue-chip-big': true };
+      return '#3A94DE'; // blue
     } else if (article.folder.includes('development')) {
-      return { 'green-chip-big': true };
+      return '#6ffa1e'; // green
     } else if (article.folder.includes('writing')) {
-      return { 'cyan-chip-big': true };
+      return '#4ECDC4'; // teal
     }
-    return {}; // Default: no chip class
+    return '#ffffff'; // Default: white
   }
 
   closeArticles() {

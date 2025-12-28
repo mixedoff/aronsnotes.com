@@ -81,6 +81,32 @@ p {
   }
 }
 
+/* Custom scrollbar styling for dark theme */
+.inner-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.inner-container::-webkit-scrollbar-track {
+  background: #091522;
+  border-radius: 6px;
+}
+
+.inner-container::-webkit-scrollbar-thumb {
+  background: rgba(111, 250, 30, 0.5);
+  border-radius: 6px;
+  border: 2px solid #091522;
+}
+
+.inner-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(111, 250, 30, 0.7);
+}
+
+/* Firefox scrollbar styling */
+.inner-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(111, 250, 30, 0.5) #091522;
+}
+
 .inner-container p {
   color: var(--text-color, #080a19);
 }
