@@ -79,11 +79,18 @@
           </h3>
           @if (currentView === 'projects' && node.project) {
             <div class="project-info project-hover">
-              @if (node.project.link) {
-                <button class="button primary small" (click)="onProjectClick(node.project); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
-                  {{ node.project.buttonText || '🔗 Visit Project' }}
-                </button>
-              }
+              <div class="project-buttons">
+                @if (node.project.link) {
+                  <button class="button primary small" (click)="onProjectClick(node.project); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
+                    {{ node.project.buttonText || '🔗 Visit Project' }}
+                  </button>
+                }
+                @if (hasProjectArticle(node.project)) {
+                  <button class="button small" (click)="navigateToProjectArticle(node.project); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
+                    project details
+                  </button>
+                }
+              </div>
               <div class="project-description">{{ node.project.description }}</div>
               @if (node.articles.length > 0) {
                 <div class="articles-list">

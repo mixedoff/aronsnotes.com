@@ -185,8 +185,10 @@ p {
   background: none;
 }
 
-#upvotes {
-  opacity: 0;
+.date-holder {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 
 .desktop-only-title {

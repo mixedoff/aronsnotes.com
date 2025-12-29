@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Project, PROJECTS } from '../../../data/projects.data';
+import { ArticleService } from '../../../article.service';
 
 @Component({
   selector: 'app-about-container',
@@ -13,7 +14,10 @@ import { Project, PROJECTS } from '../../../data/projects.data';
 export class AboutContainerComponent implements OnInit, OnDestroy {
   @Output() closeSubmenuEvent = new EventEmitter<boolean>();
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private articleService: ArticleService
+  ) {}
 
   clickHiddenScreen() {
     this.router.navigate(['/hidden']);
@@ -31,6 +35,18 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
     if (project.link) {
       window.open(project.link, '_blank', 'noopener,noreferrer');
     }
+  }
+
+  navigateToProjectArticle(project: Project) {
+    const article = this.articleService.getArticleByProject(project.id, project.name);
+    if (article) {
+      this.router.navigate(['/note', article.id]);
+    }
+  }
+
+  hasProjectArticle(project: Project): boolean {
+    const article = this.articleService.getArticleByProject(project.id, project.name);
+    return !!article;
   }
 
   closeSubmenu() {

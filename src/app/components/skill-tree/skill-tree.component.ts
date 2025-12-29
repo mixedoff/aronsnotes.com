@@ -1002,6 +1002,18 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     }
   }
 
+  navigateToProjectArticle(project: Project) {
+    const article = this.articleService.getArticleByProject(project.id, project.name);
+    if (article) {
+      this.onArticleClick(article);
+    }
+  }
+
+  hasProjectArticle(project: Project): boolean {
+    const article = this.articleService.getArticleByProject(project.id, project.name);
+    return !!article;
+  }
+
   getAllRoles(project: Project): string[] {
     const allRoles: string[] = [];
     if (project.designRoles) {
@@ -1180,14 +1192,21 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   private centerSkillTree(): void {
-    const containerWidth = window.innerWidth;
-    const containerHeight = window.innerHeight - 40; // Account for top margin
+    // Use document dimensions for more accurate viewport size
+    const containerWidth = document.documentElement.clientWidth || window.innerWidth;
+    const containerHeight = (document.documentElement.clientHeight || window.innerHeight) - 40; // Account for top margin
     const treeWidth = 1200;
     const treeHeight = 1000;
     
     // Center the skill tree in the viewport
-    this.translateX = (containerWidth - treeWidth) / 2;
-    this.translateY = (containerHeight - treeHeight) / 2;
+    // For X: center horizontally - account for transform origin at (0, 0)
+    // The tree content starts at top-left, so we center it by positioning the left edge
+    // Add a small offset to compensate for visual center vs geometric center
+    this.translateX = (containerWidth - treeWidth) / 2 - 200; // Small offset to compensate for left tilt
+    
+    // For Y: center vertically - account for the transform origin at (0, 0)
+    // The tree content starts at top-left, so we need to center it properly
+    this.translateY = (containerHeight - treeHeight) / 2 - 200; // Small offset to compensate for top tilt
     
     // Ensure we don't go too far off-screen
     this.translateX = Math.max(-treeWidth + 100, Math.min(containerWidth - 100, this.translateX));

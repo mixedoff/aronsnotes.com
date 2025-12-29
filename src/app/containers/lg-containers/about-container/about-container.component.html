@@ -163,11 +163,14 @@
                 @if (project.description) {
                   <p><strong>Description:</strong> {{ project.description }}</p>
                 }
-                @if(project.link) {
-                  <div class="align-button">
-                    <button class="button small" (click)="navigateToProjectLink(project)">{{ project.buttonText }}</button>
-                  </div>
-                }
+                <div class="align-button">
+                  @if(hasProjectArticle(project)) {
+                    <button class="button small" (click)="navigateToProjectArticle(project)">read more</button>
+                  }
+                  @if(project.link) {
+                    <button class="button primary small" (click)="navigateToProjectLink(project)">{{ project.buttonText }}</button>
+                  }
+                </div>
               </div>
               @if (project.techStack && project.techStack.length > 0) {
                 <div class="tech-stack-container">

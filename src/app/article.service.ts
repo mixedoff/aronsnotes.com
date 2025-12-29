@@ -76,6 +76,42 @@ export class ArticleService {
     return this.articles.find((article) => article.id === id);
   }
 
+  getArticleByProject(projectId: string, projectName?: string): Article | undefined {
+    // Ensure articles are loaded before searching
+    if (this.articles.length === 0) {
+      this.loadArticles();
+    }
+    
+    // Search in original articles to find all matches
+    const allArticles = [...this.originalArticles];
+    
+    // Match by project id (case-insensitive) or project name (case-insensitive, with/without .com)
+    return allArticles.find((article) => {
+      if (!article.project) return false;
+      
+      const articleProjectLower = article.project.toLowerCase().trim();
+      const projectIdLower = projectId.toLowerCase();
+      
+      // Match by project id
+      if (articleProjectLower === projectIdLower) {
+        return true;
+      }
+      
+      // Match by project name if provided
+      if (projectName) {
+        const projectNameLower = projectName.toLowerCase();
+        const projectNameNoCom = projectNameLower.replace(/\.com$/, '');
+        
+        if (articleProjectLower === projectNameLower || 
+            articleProjectLower === projectNameNoCom) {
+          return true;
+        }
+      }
+      
+      return false;
+    });
+  }
+
   filterArticles(folders: string | string[]) {
     // Ensure articles are loaded before filtering
     if (this.articles.length === 0) {
