@@ -11,6 +11,7 @@ export const article37 = {
   size: null,
   author: null,
   published: null,
+  projectNote: true,
   content: `
 <h2>Overview</h2>
 <p class="article">self-ware is a book that serves as a manual for carbon-based algorithms (humans) to rebuild their broken world models and identities. This work addresses the fundamental challenge of understanding and reconstructing who we are.</p>

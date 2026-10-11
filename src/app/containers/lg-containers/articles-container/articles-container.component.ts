@@ -76,7 +76,9 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     }
     
     // Update the articles array after filtering
-    this.articles = this.articleService.getArticles();
+    this.articles = this.articleService
+      .getArticles()
+      .filter((article) => !article.projectNote);
     console.log('ArticlesContainerComponent - Loaded articles:', this.articles.length);
   }
 
@@ -105,6 +107,8 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
       return '#6ffa1e'; // green
     } else if (article.folder.includes('writing')) {
       return '#4ECDC4'; // teal
+    } else if (article.folder.includes('marketing')) {
+      return '#8AB8FF'; // light blue
     }
     return '#ffffff'; // Default: white
   }

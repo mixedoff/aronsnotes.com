@@ -11,6 +11,7 @@ export const article36 = {
   size: null,
   author: null,
   published: null,
+  projectNote: true,
   content: `
 <h2>Overview</h2>
 <p class="article">aronsnotes.com is a personal knowledge management system and portfolio website showcasing my work as if it were a retro game. This platform serves as both a creative portfolio and a tool for tracking personal development and progress.</p>

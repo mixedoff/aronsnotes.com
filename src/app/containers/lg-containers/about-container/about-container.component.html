@@ -85,7 +85,7 @@
           <button [class.active]="isPowerDownAnimating" (click)="changeProfileImageToPowerDown()">weak spot</button>
           <h1 id="about-name-text" class="mt-1">aron kovacs</h1>
 
-          <p class="mt-0"><strong>creative developer (tank)</strong></p>
+          <p class="mt-0"><strong>founder marketer (tank)</strong></p>
  
           <blockquote>
             Tanks are designed to absorb damage by forging ahead into the unknown.
@@ -101,6 +101,7 @@
 
           <p class="mt-0"><strong>skills:</strong></p>
           <p>
+            <span class="light-blue-chip-big" style="margin-right: 16px">marketing</span>
             <span class="blue-chip-big" style="margin-right: 16px">design</span>
             <span class="green-chip-big" style="margin-right: 16px">development</span>
             <span class="cyan-chip-big" style="margin-right: 16px">writing</span>
@@ -155,6 +156,7 @@
                         [class.blue-chip]="roleItem.chipClass === 'blue-chip'"
                         [class.green-chip]="roleItem.chipClass === 'green-chip'"
                         [class.cyan-chip]="roleItem.chipClass === 'cyan-chip'"
+                        [class.light-blue-chip]="roleItem.chipClass === 'light-blue-chip'"
                         [class.white-chip]="roleItem.chipClass === 'white-chip'"
                       >{{ capitalizeFirst(roleItem.role) }}</span>
                     }

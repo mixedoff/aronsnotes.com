@@ -11,6 +11,7 @@ export const article35 = {
   size: null,
   author: null,
   published: null,
+  projectNote: true,
   content: `
 <h2>Overview</h2>
 <p class="article">CareeVerz is a career matching AI web application that helps career starters make informed career choices through personality assessment and with a massive database of career paths.</p>

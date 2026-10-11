@@ -14,6 +14,8 @@ export interface Article {
   author: string | null;
   published: string | null;
   content: string;
+  /** Project overview notes; reachable from project cards and the skill tree, but left out of the notes list */
+  projectNote?: boolean;
   /** Optional p5js or other visualization component to display at the top of the article */
   visualizationComponent?: any;
 }

@@ -137,6 +137,8 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
         return '#6ffa1e';
       case 'writing':
         return '#4ecdc4';
+      case 'marketing':
+        return '#8ab8ff';
       default:
         return '#010689'; // Default color
     }
@@ -144,9 +146,9 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
 
   shouldUseDarkText(project: Project): boolean {
     const bgColor = this.getCardBackgroundColor(project);
-    // Return true if background is green (#6ffa1e) or cyan (#4ecdc4)
+    // Return true if background is green (#6ffa1e), cyan (#4ecdc4) or light blue (#8ab8ff)
     // Design cards (blue #3a94de) always use white text
-    return bgColor === '#6ffa1e' || bgColor === '#4ecdc4';
+    return bgColor === '#6ffa1e' || bgColor === '#4ecdc4' || bgColor === '#8ab8ff';
   }
 
   getCardTextColor(project: Project): string {
@@ -164,6 +166,7 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
     if (project.designRoles) allRoles.push(...project.designRoles);
     if (project.developmentRoles) allRoles.push(...project.developmentRoles);
     if (project.writingRoles) allRoles.push(...project.writingRoles);
+    if (project.marketingRoles) allRoles.push(...project.marketingRoles);
     if (project.otherRoles) allRoles.push(...project.otherRoles);
     return allRoles;
   }
@@ -178,6 +181,9 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
     }
     if (project.writingRoles) {
       project.writingRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'cyan-chip'}));
+    }
+    if (project.marketingRoles) {
+      project.marketingRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'light-blue-chip'}));
     }
     if (project.otherRoles) {
       project.otherRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'white-chip'}));

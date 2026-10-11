@@ -584,11 +584,12 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   private calculateAllPositions() {
-    const mainFolders = ['design', 'development', 'writing'];
+    const mainFolders = ['design', 'development', 'writing', 'marketing'];
     const colors = {
       'design': '#3A94DE',
       'development': '#6ffa1e',
-      'writing': '#4ECDC4'
+      'writing': '#4ECDC4',
+      'marketing': '#8AB8FF'
     };
     
     // First pass: assign colors to main folders
@@ -943,7 +944,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   isMainNode(node: SkillNode): boolean {
-    const mainFolders = ['design', 'development', 'writing'];
+    const mainFolders = ['design', 'development', 'writing', 'marketing'];
     return mainFolders.includes(node.title.toLowerCase());
   }
 
@@ -1025,6 +1026,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     if (project.writingRoles) {
       allRoles.push(...project.writingRoles);
     }
+    if (project.marketingRoles) {
+      allRoles.push(...project.marketingRoles);
+    }
     if (project.otherRoles) {
       allRoles.push(...project.otherRoles);
     }
@@ -1041,6 +1045,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     }
     if (project.writingRoles) {
       project.writingRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'cyan-chip'}));
+    }
+    if (project.marketingRoles) {
+      project.marketingRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'light-blue-chip'}));
     }
     if (project.otherRoles) {
       project.otherRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'white-chip'}));
@@ -1233,10 +1240,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       return '#95A5A6'; // Default fallback color
     }
     
-    const mainFolders = ['design', 'development', 'writing'];
+    const mainFolders = ['design', 'development', 'writing', 'marketing'];
     const targetName = targetNode.title.toLowerCase();
     
-    // If the target is a main folder (design, development, writing), use its color
+    // If the target is a main folder (design, development, writing, marketing), use its color
     // This handles the case where projects connect to main folders
     if (mainFolders.includes(targetName)) {
       return targetNode.color || '#95A5A6';

@@ -4,10 +4,11 @@ export interface Project {
   description: string;
   link?: string;
   buttonText?: string;
-  category: ('design' | 'development' | 'writing')[];
+  category: ('design' | 'development' | 'writing' | 'marketing')[];
   designRoles?: ('ux/ui designer' | 'ux researcher' | 'brand designer' | 'graphic designer' | 'animator' | 'copywriter' | 'content creator')[];
   developmentRoles?: ('frontend developer' | 'backend developer' | 'full stack developer' | 'co-founder' | 'product manager' | 'market researcher')[];
   writingRoles?: ('writer' | 'copywriter' | 'ux writer' | 'technical writer' | 'non-fiction writer')[];
+  marketingRoles?: ('founder marketer' | 'market researcher')[];
   otherRoles?: ('co-founder' | 'founder'| 'product manager' | 'market researcher')[];
   startDate?: string;
   endDate?: string;
@@ -39,8 +40,9 @@ export const PROJECTS: Project[] = [
     buttonText: 'visit CareeVerz',
     designRoles: ['ux/ui designer', 'ux researcher'],
     writingRoles: ['ux writer'],
-    otherRoles: ['co-founder', 'product manager', 'market researcher'],
-    category: ['design'],
+    marketingRoles: ['founder marketer', 'market researcher'],
+    otherRoles: ['co-founder', 'product manager'],
+    category: ['design', 'marketing'],
     startDate: '2023-01-01',
     endDate: '2024-12-31',
     animationGif: 'sun.gif'

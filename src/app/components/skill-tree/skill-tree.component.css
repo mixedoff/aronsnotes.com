@@ -119,13 +119,16 @@
   position: absolute;
   z-index: 2;
   cursor: none !important;
-  transition: all 0.3s ease;
+  /* filter is left out on purpose: while a node has any filter, its title's
+     backdrop-filter blur is not drawn, so the dimming must clear instantly */
+  transition: transform 0.3s ease;
   text-align: center;
 
 }
 
 .skill-tree-container:has(.skill-node:hover) .skill-node:not(:hover) {
     filter: brightness(0.4) blur(5px);
+    transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .skill-tree-container:has(.skill-node:hover) .connections-svg {
@@ -158,7 +161,9 @@
 }
 
 .articles-list {
-  margin-top: 0.75rem;
+  /* transparent border instead of margin, so the mouse can move from a node
+     into its hover panel without leaving the node */
+  border-top: 0.75rem solid transparent;
   text-align: left;
   z-index: 100;
 }
@@ -183,19 +188,25 @@
   left: -5%;
   z-index: 1000;
   min-width: 200px;
+  /* hidden panels keep their size (.project-info sets max-height), so they
+     must not catch the mouse over neighbouring nodes */
+  pointer-events: none;
 }
 
 .skill-node:hover .articles-hover,
 .skill-node:hover .project-hover {
   opacity: 1;
   max-height: 1000px;
+  pointer-events: auto;
 }
 
 .project-info {
   text-align: left;
   background: #091522;
   padding: 10px;
-  margin-top: 10px;
+  /* transparent border instead of margin, same reason as .articles-list */
+  border-top: 10px solid transparent;
+  background-clip: padding-box;
   max-height: 1000px;
 }
 
@@ -295,6 +306,7 @@
   .skill-node.mobile-active .project-hover {
     opacity: 1;
     max-height: 400px;
+    pointer-events: auto;
   }
 
   /* Dim background and other nodes when mobile node is active */
@@ -308,7 +320,7 @@
 
   /* Keep the active mobile node bright and apply hover effects */
   .skill-node.mobile-active {
-    filter: brightness(1) blur(0);
+    filter: none;
     transform: translate(-50%, -50%) scale(1.1);
     z-index: 1000;
   }
