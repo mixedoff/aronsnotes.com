@@ -46,14 +46,6 @@ export class AppComponent {
 
   constructor(private articleService: ArticleService, private router: Router) {}
 
-  onGrandchildEnterPressed() {
-    this.router.navigate(['/about']);
-  }
-
-  onGrandchildButtonClick() {
-    this.router.navigate(['/about']);
-  }
-
   onGrandchildInputSubmitted() {
     this.router.navigate(['/main-menu']);
   }

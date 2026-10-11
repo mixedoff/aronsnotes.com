@@ -14,6 +14,8 @@ export const routes: Routes = [
   { path: '', redirectTo: 'loading', pathMatch: 'full' },
   { path: 'loading', component: LoadingScreenComponent },
   { path: 'welcome', component: WelcomeScreenComponent },
+  // select mode screen was removed but might be used again in the future;
+  // until then, old /select-mode links go to about
   { path: 'select-mode', redirectTo: 'about' },
   { path: 'main-menu', component: MainMenuScreenComponent },
   { path: 'theory/:view', component: BooknotesScreenComponent },

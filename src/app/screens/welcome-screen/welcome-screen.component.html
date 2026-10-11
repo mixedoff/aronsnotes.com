@@ -1,10 +1,10 @@
 <div class="welcome-screen">
   <app-label-container
-    (skipLoadingScreenEvent)="forwardToMainMenuScreen()"
+    (skipLoadingScreenEvent)="goToAbout()"
     message="product activation"
   ></app-label-container>
 
   <app-start-container
-    (enterPressed)="onChildEnterPressed()"
+    (enterPressed)="goToAbout()"
   ></app-start-container>
 </div>

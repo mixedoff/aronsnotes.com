@@ -14,7 +14,7 @@ export class StartContainerComponent {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.code === 'Enter') {
+    if (event.code === 'Enter' && !event.repeat) {
       console.log('Enter');
       this.enterPressed.emit();
     }

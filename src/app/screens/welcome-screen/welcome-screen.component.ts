@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { LabelContainerComponent } from '../../containers/lg-containers/label-container/label-container.component';
 import { StartContainerComponent } from '../../containers/sm-containers/start-container/start-container.component';
 import { Router } from '@angular/router';
@@ -11,14 +11,7 @@ import { Router } from '@angular/router';
 })
 export class WelcomeScreenComponent {
   constructor(private router: Router) {}
-  @Output() forwardToMainMenuScreenEvent = new EventEmitter<boolean>();
-  forwardToMainMenuScreen() {
-    console.log('forwardToMainMenuScreen');
-    this.forwardToMainMenuScreenEvent.emit(true);
-    this.router.navigate(['/about']);
-  }
-  @Output() childEnterPressed = new EventEmitter<void>();
-  onChildEnterPressed() {
+  goToAbout() {
     this.router.navigate(['/about']);
   }
 }

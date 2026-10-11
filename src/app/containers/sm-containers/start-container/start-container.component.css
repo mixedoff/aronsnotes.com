@@ -33,8 +33,16 @@ p {
   background: none;
 }
 
+.mobile-text {
+  display: none;
+}
+
 @media (max-width: 768px) {
-  .enter-text {
+  .desktop-text {
     display: none;
+  }
+
+  .mobile-text {
+    display: inline;
   }
 }
