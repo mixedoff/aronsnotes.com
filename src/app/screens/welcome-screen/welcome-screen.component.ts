@@ -19,6 +19,6 @@ export class WelcomeScreenComponent {
   }
   @Output() childEnterPressed = new EventEmitter<void>();
   onChildEnterPressed() {
-    this.router.navigate(['/select-mode']);
+    this.router.navigate(['/about']);
   }
 }

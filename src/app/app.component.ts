@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { LoadingScreenComponent } from './screens/loading-screen/loading-screen.component';
 import { WelcomeScreenComponent } from './screens/welcome-screen/welcome-screen.component';
 import { MainMenuScreenComponent } from './screens/main-menu-screen/main-menu-screen.component';
-import { SelectModeScreenComponent } from './screens/select-mode-screen/select-mode-screen.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ArticleScreenComponent } from './screens/article-screen/article-screen.component';
 import { AboutScreenComponent } from './screens/about-screen/about-screen.component';
@@ -26,7 +25,6 @@ import { HireMeComponent } from './components/hire-me/hire-me.component';
     LoadingScreenComponent,
     WelcomeScreenComponent,
     MainMenuScreenComponent,
-    SelectModeScreenComponent,
     ReactiveFormsModule,
     ArticleScreenComponent,
     AboutScreenComponent,
@@ -49,7 +47,7 @@ export class AppComponent {
   constructor(private articleService: ArticleService, private router: Router) {}
 
   onGrandchildEnterPressed() {
-    this.router.navigate(['/select-mode']);
+    this.router.navigate(['/about']);
   }
 
   onGrandchildButtonClick() {
