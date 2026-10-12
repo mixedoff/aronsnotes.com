@@ -84,8 +84,12 @@ export class ArticleService {
       this.loadArticles();
     }
     
-    // Search in original articles to find all matches
-    const allArticles = [...this.originalArticles];
+    // Search in original articles to find all matches.
+    // Project notes come first, so a newer note about the same project
+    // doesn't replace the project's own overview note.
+    const allArticles = [...this.originalArticles].sort(
+      (a, b) => Number(!!b.projectNote) - Number(!!a.projectNote)
+    );
     
     // Match by project id (case-insensitive) or project name (case-insensitive, with/without .com)
     return allArticles.find((article) => {
