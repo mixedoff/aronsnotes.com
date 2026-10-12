@@ -1,9 +1,9 @@
 export const article8 = {
   id: 8,
   date: '08.11.2024',
-  folder: ['development'],
-  subFolder: ['deployment'],
-  subSubFolder: ['server'],
+  folder: ['technology'],
+  subFolder: ['devops'],
+  subSubFolder: [''],
   project: 'aronsnotes',
   title: 'deploying angular app with nginx on rocky linux',
   subtitle: 'step by step guide to deploy an angular application',

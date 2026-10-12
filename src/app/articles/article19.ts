@@ -1,8 +1,8 @@
 export const article19 = {
   id: 19,
   date: '04.07.2025',
-  folder: ['development'],
-  subFolder: ['frontend', 'animation'],
+  folder: ['technology'],
+  subFolder: ['front-end'],
   subSubFolder: [''],
   project: 'aronsnotes',
   title: 'aronsnotes quit page flickering animation',

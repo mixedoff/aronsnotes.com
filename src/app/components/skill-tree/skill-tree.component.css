@@ -126,7 +126,7 @@
 
 }
 
-.skill-tree-container:has(.skill-node:hover) .skill-node:not(:hover) {
+.skill-tree-container:has(.skill-node:hover) .skill-node:not(:hover):not(.in-path) {
     filter: brightness(0.4) blur(5px);
     transition: transform 0.3s ease, filter 0.3s ease;
 }
@@ -151,6 +151,17 @@
 
 .main-node .node-title {
   border: none;
+}
+
+/* sits on top of the dimmed connections; only has lines while a node is hovered */
+.path-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14800px;
+  height: 12400px;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .skill-node:hover .node-title {
@@ -272,6 +283,17 @@
   transform: translateX(4px);
 }
 
+.article-item .article-title {
+  margin-right: 0.5rem;
+}
+
+/* technologies used in the note, as hashtags next to its title */
+.tech-tag {
+  font-size: 0.75rem;
+  margin-right: 0.4rem;
+  opacity: 0.6;
+}
+
 /* JavaScript-based flicker will handle the animation */
 
 /* Mobile-specific styles for touch interactions */
@@ -314,7 +336,7 @@
     filter: brightness(0.4) blur(5px);
   }
 
-  .skill-tree-container:has(.skill-node.mobile-active) .skill-node:not(.mobile-active) {
+  .skill-tree-container:has(.skill-node.mobile-active) .skill-node:not(.mobile-active):not(.in-path) {
     filter: brightness(0.4) blur(5px);
   }
 

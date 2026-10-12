@@ -54,7 +54,7 @@ export class BooknotesScreenComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Ensure articles are filtered when component initializes
     console.log('BooknotesScreenComponent initialized - filtering for writing articles');
-    this.articleService.filterArticles('writing');
+    this.articleService.filterArticles('communications');
   }
 
   ngOnDestroy() {

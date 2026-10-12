@@ -1,7 +1,7 @@
 export const article18 = {
   id: 18,
   date: '04.07.2025',
-  folder: ['design'],
+  folder: ['ux/ui'],
   subFolder: ['brand-identity', 'logo-design'],
   subSubFolder: [],
   project: 'CodingMindTech',

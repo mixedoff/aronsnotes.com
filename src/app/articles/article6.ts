@@ -1,9 +1,9 @@
 export const article6 = {
   id: 6,
   date: '05.11.2024',
-  folder: ['development'],
-  subFolder: ['deployment'],
-  subSubFolder: ['domain'],
+  folder: ['technology'],
+  subFolder: ['devops'],
+  subSubFolder: [''],
   project: 'aronsnotes',
   title: 'connect godaddy domain with hetzner cloud',
   subtitle: 'Connect your purchased GoDaddy domain with a Hetzner server',

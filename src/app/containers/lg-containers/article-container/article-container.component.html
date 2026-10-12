@@ -40,6 +40,20 @@
       </svg>
     </div>
     <div class="title-holder">
+      @if (selectedArticle?.paths; as paths) {
+        <!-- a note filed in more than one place shows each of its paths -->
+        @for (path of paths; track $index; let firstPath = $first) {
+          @if (!firstPath) {
+          <small>&middot;</small>
+          }
+          @for (part of path; track $index; let firstPart = $first) {
+            @if (!firstPart) {
+            <small>&#47;</small>
+            }
+            <small>{{ part }}</small>
+          }
+        }
+      } @else {
       @for (folder of selectedArticle?.folder ?? []; track folder) {
         <small>{{ folder }}</small>
         }
@@ -55,6 +69,7 @@
           <small>{{ subSubFolder }}</small>
           }
         }
+      }
     </div>
   </div>
   <div class="inner-container" #innerContainer>

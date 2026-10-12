@@ -1,8 +1,8 @@
 export const article28 = {
   id: 28,
   date: '13.10.2025',
-  folder: ['development'],
-  subFolder: ['git'],
+  folder: ['technology'],
+  subFolder: ['devops'],
   subSubFolder: [''],
   project: 'general',
   title: 'resetting and redownloading a git repository',

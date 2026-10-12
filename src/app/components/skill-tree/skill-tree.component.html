@@ -10,13 +10,6 @@
     </button>
     <button 
       class="view-btn" 
-      [class.active]="currentView === 'technologies'"
-      (click)="toggleView('technologies')"
-    >
-      <span *ngIf="currentView === 'technologies'" class="triangle">▶ </span>technologies
-    </button>
-    <button 
-      class="view-btn" 
       [class.active]="currentView === 'projects'"
       (click)="toggleView('projects')"
     >
@@ -60,17 +53,40 @@
         }
       </svg>
 
+      <!-- The hovered node's way back to the root stays sharp while the rest dims -->
+      <svg class="path-svg" viewBox="0 0 14800 12400" preserveAspectRatio="none">
+        @for (node of skillNodes; track node.id) {
+          @if (isInHoveredPath(node)) {
+            @for (connectionId of node.connections; track connectionId) {
+              @if (hoveredPath.has(connectionId) && getConnectedNodePosition(connectionId)) {
+                <line
+                  [attr.x1]="node.position.x"
+                  [attr.y1]="node.position.y"
+                  [attr.x2]="getConnectedNodePosition(connectionId)!.x"
+                  [attr.y2]="getConnectedNodePosition(connectionId)!.y"
+                  [attr.stroke]="getConnectionColor(node, connectionId)"
+                  stroke-width="3"
+                />
+              }
+            }
+          }
+        }
+      </svg>
+
       <!-- Skill Nodes -->
       @for (node of skillNodes; track node.id) {
         <div 
           class="skill-node" 
           [class.main-node]="isMainNode(node)"
+          [class.in-path]="isInHoveredPath(node)"
           [style]="getNodeStyle(node)"
           [style.color]="node.color"
           [attr.data-node-id]="node.id"
           [class.mobile-active]="isMobileNodeActive(node.id)"
           (click)="onNodeClick(node)"
           (touchend)="onNodeTouchEnd(node, $event)"
+          (mouseenter)="onNodeEnter(node)"
+          (mouseleave)="onNodeLeave()"
         >
           <h3 class="node-title" 
               [style.color]="isMainNode(node) ? '#000000' : node.color"
@@ -97,7 +113,10 @@
                   <div class="articles-title">Articles:</div>
                   @for (article of node.articles; track article.id) {
                     <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
-                      {{ article.title }}
+                      <span class="article-title">{{ article.title }}</span>
+                      @for (tech of getArticleTechnologies(article); track tech) {
+                        <span class="tech-tag">#{{ tech }}</span>
+                      }
                     </div>
                   }
                 </div>
@@ -107,7 +126,10 @@
             <div class="articles-list articles-hover">
               @for (article of node.articles; track article.id) {
                 <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
-                  {{ article.title }}
+                  <span class="article-title">{{ article.title }}</span>
+                  @for (tech of getArticleTechnologies(article); track tech) {
+                    <span class="tech-tag">#{{ tech }}</span>
+                  }
                 </div>
               }
             </div>

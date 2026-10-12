@@ -1,9 +1,9 @@
 export const article1 = {
   id: 1,
   date: '05.08.2023',
-  folder: ['design'],
-  subFolder: ['ux', 'market-research'],
-  subSubFolder: ['ux-research'],
+  folder: ['ux/ui'],
+  subFolder: ['market-research', 'ux-research'],
+  subSubFolder: [''],
   project: 'CareeVerz',
   title: 'CareeVerz UX and market research',
   subtitle: 'The making of CareeVerz.com a career planning AI webapp',

@@ -3,7 +3,7 @@ import { SingularityVisualizationComponent } from '../animations/singularity-vis
 export const article30 = {
   id: 30,
   date: '13.10.2025',
-  folder: ['writing'],
+  folder: ['communications'],
   subFolder: ['reading'],
   subSubFolder: [''],
   project: 'aronsnotes',

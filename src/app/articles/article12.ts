@@ -1,7 +1,7 @@
 export const article12 = {
   id: 12,
   date: '19.02.2025',
-  folder: ['design'],
+  folder: ['ux/ui'],
   subFolder: ['logo-design'],
   subSubFolder: [],
   project: 'CareeVerz',

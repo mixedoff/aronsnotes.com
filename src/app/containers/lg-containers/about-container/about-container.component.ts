@@ -131,11 +131,11 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
     
     const firstCategory = project.category[0];
     switch (firstCategory) {
-      case 'design':
+      case 'ux/ui':
         return '#3a94de';
-      case 'development':
+      case 'technology':
         return '#6ffa1e';
-      case 'writing':
+      case 'communications':
         return '#4ecdc4';
       case 'marketing':
         return '#8ab8ff';

@@ -1,8 +1,8 @@
 export const article10 = {
   id: 10,
   date: '13.11.2024',
-  folder: ['development'],
-  subFolder: ['git'],
+  folder: ['technology'],
+  subFolder: ['devops'],
   subSubFolder: [''],
   project: 'aronsnotes',
   title: 'git reset',

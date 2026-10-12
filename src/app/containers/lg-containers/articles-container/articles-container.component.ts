@@ -52,7 +52,7 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     if (currentUrl.includes('/theory')) {
       // We're on the theory/booknotes screen - show writing articles
       console.log('Filtering for writing articles...');
-      this.articleService.filterArticles('writing');
+      this.articleService.filterArticles('communications');
     } else if (currentUrl.includes('/practice')) {
       // We're on the practice screen - show all articles
       console.log('Resetting to original articles...');
@@ -60,11 +60,11 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     } else if (currentUrl.includes('/creative')) {
       // We're on the creative/personal screen - show writing articles (creative writing)
       console.log('Filtering for writing articles...');
-      this.articleService.filterArticles('writing');
+      this.articleService.filterArticles('communications');
     } else if (currentUrl.includes('/design')) {
       // We're on a design screen - show design articles
       console.log('Filtering for design articles...');
-      this.articleService.filterArticles('design');
+      this.articleService.filterArticles('ux/ui');
     } else if (currentUrl.includes('/note/')) {
       // We're viewing an article - keep showing all articles (stay on practice page)
       console.log('Resetting to original articles...');
@@ -101,11 +101,11 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
   }
 
   getArticleColor(article: Article): string {
-    if (article.folder.includes('design')) {
+    if (article.folder.includes('ux/ui')) {
       return '#3A94DE'; // blue
-    } else if (article.folder.includes('development')) {
+    } else if (article.folder.includes('technology')) {
       return '#6ffa1e'; // green
-    } else if (article.folder.includes('writing')) {
+    } else if (article.folder.includes('communications')) {
       return '#4ECDC4'; // teal
     } else if (article.folder.includes('marketing')) {
       return '#8AB8FF'; // light blue

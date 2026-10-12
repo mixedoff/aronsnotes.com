@@ -4,7 +4,7 @@ export interface Project {
   description: string;
   link?: string;
   buttonText?: string;
-  category: ('design' | 'development' | 'writing' | 'marketing')[];
+  category: ('ux/ui' | 'technology' | 'communications' | 'marketing')[];
   designRoles?: ('ux/ui designer' | 'ux researcher' | 'brand designer' | 'graphic designer' | 'animator' | 'copywriter' | 'content creator')[];
   developmentRoles?: ('frontend developer' | 'backend developer' | 'full stack developer' | 'co-founder' | 'product manager' | 'market researcher')[];
   writingRoles?: ('writer' | 'copywriter' | 'ux writer' | 'technical writer' | 'non-fiction writer')[];
@@ -42,7 +42,7 @@ export const PROJECTS: Project[] = [
     writingRoles: ['ux writer'],
     marketingRoles: ['founder marketer', 'market researcher'],
     otherRoles: ['co-founder', 'product manager'],
-    category: ['design', 'marketing'],
+    category: ['ux/ui', 'marketing'],
     startDate: '2023-01-01',
     endDate: '2024-12-31',
     animationGif: 'sun.gif'
@@ -58,7 +58,7 @@ export const PROJECTS: Project[] = [
     designRoles: ['ux/ui designer', 'animator'],
     writingRoles: ['ux writer', 'technical writer', 'copywriter'],
     otherRoles: ['founder'],
-    category: ['development', 'design', 'writing'],
+    category: ['technology', 'ux/ui', 'communications'],
     vision: 'Gamifying my character development.',
     mission: 'To help me keep track of my character development and progress.',
     techStack: ['Figma', 'Angular', 'Hetzner Cloud', 'Nginx'],
@@ -86,7 +86,7 @@ export const PROJECTS: Project[] = [
     developmentRoles: ['full stack developer'],
     designRoles: ['graphic designer'],
     otherRoles: ['founder'],
-    category: ['writing', 'development', 'design'],
+    category: ['communications', 'technology', 'ux/ui'],
     startDate: '2024-06-01',
     animationGif: 'magic_book2.gif'
   }

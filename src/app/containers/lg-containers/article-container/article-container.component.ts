@@ -179,11 +179,11 @@ export class ArticleContainerComponent
   }
 
   private getRouteForArticle(article: Article): string {
-    if (article.folder.includes('writing')) {
+    if (article.folder.includes('communications')) {
       return `/note/${article.id}`;
     } else if (
-      article.folder.includes('development') ||
-      article.folder.includes('design') ||
+      article.folder.includes('technology') ||
+      article.folder.includes('ux/ui') ||
       article.folder.includes('miscellaneous')
     ) {
       return `/note/${article.id}`;

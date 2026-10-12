@@ -1,7 +1,7 @@
 export const article34 = {
   id: 34,
   date: '28.12.2025',
-  folder: ['writing'],
+  folder: ['communications'],
   subFolder: ['reading'],
   subSubFolder: [''],
   project: 'BookNotes',

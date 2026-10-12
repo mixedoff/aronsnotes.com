@@ -17,6 +17,17 @@ export interface SkillNode {
   level?: number; // Add level for graph positioning
 }
 
+// marketing is the root of the tree; the main folders branch out of it
+const ROOT_FOLDER = 'marketing';
+const ROOT_NODE_ID = `root-${ROOT_FOLDER}`;
+const MAIN_FOLDERS = ['technology', 'ux/ui', 'communications'];
+const FOLDER_COLORS: { [folder: string]: string } = {
+  'marketing': '#8AB8FF',
+  'technology': '#6ffa1e',
+  'ux/ui': '#3A94DE',
+  'communications': '#4ECDC4'
+};
+
 @Component({
   selector: 'app-skill-tree',
   standalone: true,
@@ -31,7 +42,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
   skillNodes: SkillNode[] = [];
   filteredArticles: Article[] = [];
-  currentView: 'folders' | 'technologies' | 'projects' = 'folders';
+  currentView: 'folders' | 'projects' = 'folders';
+  // Node under the mouse and the nodes on its way back to the root
+  hoveredPath = new Set<string>();
   
   // Zoom and pan properties
   scale: number = 1;
@@ -47,8 +60,20 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   lastTouchY: number = 0;
   isMobile: boolean = false;
   
-  // Mobile active node tracking
-  activeMobileNode: string | null = null;
+  // Mobile active node tracking; a tapped node lights up like a hovered one
+  private _activeMobileNode: string | null = null;
+  get activeMobileNode(): string | null {
+    return this._activeMobileNode;
+  }
+  set activeMobileNode(nodeId: string | null) {
+    this._activeMobileNode = nodeId;
+    const node = nodeId ? this.skillNodes.find(n => n.id === nodeId) : undefined;
+    if (node) {
+      this.onNodeEnter(node);
+    } else {
+      this.hoveredPath = new Set();
+    }
+  }
   
   // Pinch zoom properties
   isPinching: boolean = false;
@@ -78,10 +103,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     // Detect view from URL if available
     const url = this.location.path();
     const segments = url.split('/');
-    if (segments.length > 1 && ['folders', 'technologies', 'projects'].includes(segments[segments.length - 1])) {
-      this.currentView = segments[segments.length - 1] as 'folders' | 'technologies' | 'projects';
+    if (segments.length > 1 && ['folders', 'projects'].includes(segments[segments.length - 1])) {
+      this.currentView = segments[segments.length - 1] as 'folders' | 'projects';
     } else if (segments.includes('theory')) {
-      // Already on /theory, default to folders
+      // Already on /theory (or an old /theory/technologies link), default to folders
       this.currentView = 'folders';
     }
     
@@ -122,14 +147,16 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleView(view: 'folders' | 'technologies' | 'projects') {
+  toggleView(view: 'folders' | 'projects') {
     this.currentView = view;
     this.initializeSkillTree();
     this.loadArticles();
     
     // Update the URL to reflect the current view
     this.location.go(`/theory/${view}`);
+    this.centerSkillTree();
   }
+
 
   private initializeSkillTree() {
     // Get all articles first to extract categories
@@ -139,15 +166,40 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     console.log('All articles:', allArticles.length);
     
     // Create skill nodes dynamically from the extracted data
-    this.skillNodes = [];
+    this.skillNodes = [{
+      id: ROOT_NODE_ID,
+      title: this.capitalizeFirst(ROOT_FOLDER),
+      category: 'Root Category',
+      articles: [],
+      unlocked: true,
+      position: { x: 0, y: 0 },
+      connections: []
+    }];
     
-    if (this.currentView === 'technologies') {
-      this.initializeTechnologyView(allArticles);
-    } else if (this.currentView === 'projects') {
+    if (this.currentView === 'projects') {
       this.initializeProjectView(allArticles);
     } else {
       this.initializeFolderView(allArticles);
     }
+    
+    // Articles filed directly under the root folder belong to the root node,
+    // not to a second main folder with the same name
+    const rootFolderIds = this.skillNodes
+      .filter(node => node.id.startsWith(`folder-${ROOT_FOLDER}-`))
+      .map(node => node.id);
+    this.skillNodes = this.skillNodes.filter(node => !rootFolderIds.includes(node.id));
+    this.skillNodes.forEach(node => {
+      node.connections = Array.from(new Set(
+        node.connections.map(id => rootFolderIds.includes(id) ? ROOT_NODE_ID : id)
+      ));
+    });
+    
+    // Every main folder branches out of the root
+    this.skillNodes.forEach(node => {
+      if (node.id.startsWith('folder-')) {
+        node.connections = [ROOT_NODE_ID];
+      }
+    });
     
     // Clean up: Remove any nodes with empty titles
     this.skillNodes = this.skillNodes.filter(node => 
@@ -217,9 +269,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         // Find which main folders this subfolder should connect to
         const mainFoldersForThisSubFolder = new Set<string>();
         articlesWithThisSubFolder.forEach(article => {
-          article.folder.forEach(folder => {
-            if (folder && folder.trim() !== '') {
-              mainFoldersForThisSubFolder.add(folder);
+          this.articleService.getFolderPaths(article).forEach(path => {
+            if (path[1] === subFolder && path[0]) {
+              mainFoldersForThisSubFolder.add(path[0]);
             }
           });
         });
@@ -269,9 +321,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         // Find which subfolders this sub-subfolder should connect to
         const subFoldersForThisSubSubFolder = new Set<string>();
         articlesWithThisSubSubFolder.forEach(article => {
-          article.subFolder.forEach(subFolder => {
-            if (subFolder && subFolder.trim() !== '') {
-              subFoldersForThisSubSubFolder.add(subFolder);
+          this.articleService.getFolderPaths(article).forEach(path => {
+            if (path[2] === subSubFolder && path[1]) {
+              subFoldersForThisSubSubFolder.add(path[1]);
             }
           });
         });
@@ -308,95 +360,36 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initializeTechnologyView(allArticles: Article[]) {
-    // Extract all unique technologies
-    const allTechnologies = new Set<string>();
-    
-    allArticles.forEach(article => {
-      article.technologies.forEach(tech => {
-        if (tech && tech.trim() !== '') {
-          allTechnologies.add(tech);
-        }
+  onNodeEnter(node: SkillNode) {
+    // Walk the connections back to the root
+    const path = new Set<string>([node.id]);
+    const queue = [node];
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      current.connections.forEach(id => {
+        if (path.has(id)) return;
+        path.add(id);
+        const parent = this.skillNodes.find(n => n.id === id);
+        if (parent) queue.push(parent);
       });
-    });
-    
-    console.log('Technologies:', Array.from(allTechnologies));
-    
-    // Keep main folders as they are
-    const allFolders = new Set<string>();
-    allArticles.forEach(article => {
-      article.folder.forEach(f => {
-        if (f && f.trim() !== '') {
-          allFolders.add(f);
-        }
-      });
-    });
-    
-    // Create main folder nodes
-    allFolders.forEach((folder, index) => {
-      if (folder && folder.trim() !== '') {
-        this.skillNodes.push({
-          id: `folder-${folder}-${index}`,
-          title: this.capitalizeFirst(folder),
-          category: 'Main Category',
-          articles: [],
-          unlocked: true,
-          position: { x: 0, y: 0 },
-          connections: []
-        });
-      }
-    });
-    
-    // Create technology nodes that connect to main folders
-    const technologyArray = Array.from(allTechnologies);
-    technologyArray.forEach((technology, index) => {
-      if (technology && technology.trim() !== '') {
-        const connections: string[] = [];
-        
-        // Find which main folders this technology should connect to
-        const articlesWithThisTech = allArticles.filter(article => 
-          article.technologies.includes(technology)
-        );
-        
-        const mainFoldersForThisTech = new Set<string>();
-        articlesWithThisTech.forEach(article => {
-          article.folder.forEach(folder => {
-            if (folder && folder.trim() !== '') {
-              mainFoldersForThisTech.add(folder);
-            }
-          });
-        });
-        
-        // Connect to the actual main folder nodes
-        mainFoldersForThisTech.forEach(folder => {
-          const mainFolderNode = this.skillNodes.find(node => 
-            node.id.startsWith(`folder-${folder}-`)
-          );
-          if (mainFolderNode) {
-            connections.push(mainFolderNode.id);
-          }
-        });
-        
-        // If no connections found, connect to all main folders as fallback
-        if (connections.length === 0) {
-          this.skillNodes.forEach(node => {
-            if (node.id.startsWith('folder-')) {
-              connections.push(node.id);
-            }
-          });
-        }
-        
-        this.skillNodes.push({
-          id: `technology-${technology}-${index}`,
-          title: this.capitalizeFirst(technology),
-          category: 'Technology',
-          articles: [],
-          unlocked: true,
-          position: { x: 0, y: 0 },
-          connections: connections
-        });
-      }
-    });
+    }
+    this.hoveredPath = path;
+  }
+
+  onNodeLeave() {
+    // A tapped node on mobile keeps its path lit
+    if (!this.activeMobileNode) {
+      this.hoveredPath = new Set();
+    }
+  }
+
+  /** Technologies a note uses, shown as hashtags next to its title */
+  getArticleTechnologies(article: Article): string[] {
+    return article.technologies.filter(tech => tech && tech.trim() !== '');
+  }
+
+  isInHoveredPath(node: SkillNode): boolean {
+    return this.hoveredPath.has(node.id);
   }
 
   private initializeProjectView(allArticles: Article[]) {
@@ -432,7 +425,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       // Connect to the main folder based on project categories (now an array)
       project.category.forEach(cat => {
         const mainFolderNode = this.skillNodes.find(node => 
-          node.id.startsWith(`folder-${cat}-`)
+          cat === ROOT_FOLDER ? node.id === ROOT_NODE_ID : node.id.startsWith(`folder-${cat}-`)
         );
         if (mainFolderNode && !connections.includes(mainFolderNode.id)) {
           connections.push(mainFolderNode.id);
@@ -476,18 +469,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   private categorizeArticles() {
     this.skillNodes.forEach(node => {
       node.articles = this.filteredArticles.filter(article => {
-        if (this.currentView === 'technologies') {
-          // Technology view: match based on folder and technology
-          if (node.id.startsWith('folder-')) {
-            // Extract folder name by removing 'folder-' prefix and any trailing index
-            const folderName = node.id.replace(/^folder-/, '').replace(/-\d+$/, '');
-            return article.folder.includes(folderName);
-          } else if (node.id.startsWith('technology-')) {
-            // Extract technology name by removing 'technology-' prefix and any trailing index
-            const technologyName = node.id.replace(/^technology-/, '').replace(/-\d+$/, '');
-            return article.technologies.includes(technologyName);
-          }
-        } else if (this.currentView === 'projects') {
+        if (node.id === ROOT_NODE_ID) {
+          return article.folder.includes(ROOT_FOLDER);
+        }
+        if (this.currentView === 'projects') {
           // Project view: match based on folder, project, subfolder, and subsubfolder
           if (node.id.startsWith('folder-')) {
             // Extract folder name by removing 'folder-' prefix and any trailing index
@@ -584,20 +569,12 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   private calculateAllPositions() {
-    const mainFolders = ['design', 'development', 'writing', 'marketing'];
-    const colors = {
-      'design': '#3A94DE',
-      'development': '#6ffa1e',
-      'writing': '#4ECDC4',
-      'marketing': '#8AB8FF'
-    };
+    const colors = FOLDER_COLORS;
     
-    // First pass: assign colors to main folders
+    // First pass: assign colors to the root and the main folders
     this.skillNodes.forEach(node => {
-      const nodeName = node.title.toLowerCase();
-      
-      if (mainFolders.includes(nodeName)) {
-        node.color = colors[nodeName as keyof typeof colors];
+      if (this.isMainNode(node)) {
+        node.color = colors[node.title.toLowerCase()];
         node.level = 0;
       }
     });
@@ -609,8 +586,8 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       // For project nodes, use the color of the first category
       if (node.project && node.project.category.length > 0) {
         const firstCategory = node.project.category[0].toLowerCase();
-        if (colors[firstCategory as keyof typeof colors]) {
-          node.color = colors[firstCategory as keyof typeof colors];
+        if (colors[firstCategory]) {
+          node.color = colors[firstCategory];
         } else {
           node.color = '#95A5A6'; // Default fallback
         }
@@ -633,9 +610,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       }
       
       // Set appropriate levels
-      if (this.currentView === 'technologies' && node.id.startsWith('technology-')) {
-        node.level = 1;
-      } else if (this.currentView === 'projects' && node.id.startsWith('project-') && !node.id.includes('subfolder')) {
+      if (this.currentView === 'projects' && node.id.startsWith('project-') && !node.id.includes('subfolder')) {
         node.level = 1;
       } else if (this.currentView === 'projects' && node.id.startsWith('project-subfolder-')) {
         node.level = 2;
@@ -660,9 +635,16 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     const centerY = 500; // Fixed center Y position
     
     // Group nodes by level
-    const mainFolders = this.skillNodes.filter(node => node.id.startsWith('folder-'));
+    const rootNode = this.skillNodes.find(node => node.id === ROOT_NODE_ID);
+    // Keep the main folders in a fixed order around the root
+    const folderOrder = (node: SkillNode) => {
+      const index = MAIN_FOLDERS.indexOf(node.title.toLowerCase());
+      return index === -1 ? MAIN_FOLDERS.length : index;
+    };
+    const mainFolders = this.skillNodes
+      .filter(node => node.id.startsWith('folder-'))
+      .sort((a, b) => folderOrder(a) - folderOrder(b));
     const middleLevelNodes = this.skillNodes.filter(node => {
-      if (this.currentView === 'technologies') return node.id.startsWith('technology-');
       if (this.currentView === 'projects') return node.id.startsWith('project-') && !node.id.includes('subfolder');
       if (this.currentView === 'folders') return node.id.startsWith('subfolder-');
       return false;
@@ -676,14 +658,17 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     // ---------------------------------------------------------
     // UNIVERSAL RAY-BASED LAYOUT (ALL VIEWS)
     // ---------------------------------------------------------
-    const level0Distance = 150; // Center circle
-    const level1Distance = 400; // Level 1 nodes
+    const level0Distance = 220; // Main folders around the root
+    const level1Distance = 470; // Level 1 nodes
     const minNodeDistance = 200; // Increased minimum distance to prevent edge overlaps
 
-    // 1. Position Main Folders in the center circle and assign rays
+    // 1. Position the root in the center, the main folders around it, and assign rays
+    if (rootNode) {
+      rootNode.position = { x: centerX, y: centerY };
+    }
     const folderAngles = new Map<string, number>();
     mainFolders.forEach((node, index) => {
-      const angle = (2 * Math.PI * index) / mainFolders.length;
+      const angle = -Math.PI / 2 + (2 * Math.PI * index) / mainFolders.length;
       folderAngles.set(node.id, angle);
       node.position = {
         x: centerX + level0Distance * Math.cos(angle),
@@ -691,8 +676,12 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       };
     });
 
-    // 2. Position Level 1 nodes (technologies/subfolders/projects) along their parent folder's ray
+    // 2. Position Level 1 nodes (subfolders/projects) along their parent folder's ray
     const level1Angles = new Map<string, number>();
+    // Siblings share their folder's slice of the circle evenly instead of piling up on one ray
+    const sliceWidth = (2 * Math.PI / Math.max(mainFolders.length, 1)) * 0.8;
+    const siblingsOf = (parentId: string) =>
+      middleLevelNodes.filter(sibling => sibling.connections[0] === parentId);
     middleLevelNodes.forEach((node, index) => {
       // Get the first parent connection (first instance)
       const parentId = node.connections[0];
@@ -707,10 +696,22 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         baseAngle = (2 * Math.PI * index) / middleLevelNodes.length;
       }
       
+      // Projects that only belong to the root get their own ray between the folders
+      if (parentId === ROOT_NODE_ID && mainFolders.length > 0) {
+        baseAngle = -Math.PI / 2 + Math.PI / mainFolders.length;
+      }
+      
+      if (parentAngle !== undefined) {
+        const siblings = siblingsOf(parentId);
+        const position = siblings.indexOf(node);
+        baseAngle += sliceWidth * ((position + 0.5) / siblings.length - 0.5);
+      }
+      
+      // Children further out follow this node's own angle
       level1Angles.set(node.id, baseAngle);
       
       // Position with some spread along the ray
-      const angleJitter = (Math.random() - 0.5) * 0.3; // Small jitter for level 1
+      const angleJitter = (Math.random() - 0.5) * 0.1; // Small jitter for level 1
       const finalAngle = baseAngle + angleJitter;
       
       node.position = {
@@ -777,7 +778,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         });
       } else if (this.currentView === 'folders') {
         level2Nodes.forEach(node => {
-          positionAlongRay(node, 500, 800); // Increased from 500-800
+          positionAlongRay(node, 570, 870);
         });
       } else {
         // Technologies view doesn't have level 2, but just in case
@@ -787,21 +788,8 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       }
     }
 
-    // 4. Position Level 3 nodes further out along rays (increased ranges)
-    if (level3Nodes.length > 0) {
-      if (this.currentView === 'projects') {
-        level3Nodes.forEach(node => {
-          positionAlongRay(node, 1000, 1400); // Increased from 1000-1400
-        });
-      } else if (this.currentView === 'folders') {
-        level3Nodes.forEach(node => {
-          positionAlongRay(node, 900, 1300); // Increased from 900-1300
-        });
-      }
-    }
-
     // 5. Final Collision Resolution (Very strong push for mind map spacing)
-    const allNodes = [...mainFolders, ...middleLevelNodes, ...level2Nodes, ...level3Nodes];
+    const allNodes = [...(rootNode ? [rootNode] : []), ...mainFolders, ...middleLevelNodes, ...level2Nodes, ...level3Nodes];
     const maxIterations = 100; // Many more iterations for better resolution
 
     for (let iter = 0; iter < maxIterations; iter++) {
@@ -824,10 +812,24 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
             const pushX = (dx / dist) * overlap * pushStrength;
             const pushY = (dy / dist) * overlap * pushStrength;
 
-            allNodes[i].position.x -= pushX;
-            allNodes[i].position.y -= pushY;
-            allNodes[j].position.x += pushX;
-            allNodes[j].position.y += pushY;
+            // The root and the main folders stay pinned so the branches keep their shape;
+            // the other node takes the whole push
+            const pinnedI = allNodes[i] === rootNode || mainFolders.includes(allNodes[i]);
+            const pinnedJ = allNodes[j] === rootNode || mainFolders.includes(allNodes[j]);
+            if (pinnedI && pinnedJ) {
+              continue;
+            } else if (pinnedI) {
+              allNodes[j].position.x += pushX * 2;
+              allNodes[j].position.y += pushY * 2;
+            } else if (pinnedJ) {
+              allNodes[i].position.x -= pushX * 2;
+              allNodes[i].position.y -= pushY * 2;
+            } else {
+              allNodes[i].position.x -= pushX;
+              allNodes[i].position.y -= pushY;
+              allNodes[j].position.x += pushX;
+              allNodes[j].position.y += pushY;
+            }
           }
         }
       }
@@ -840,16 +842,18 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       if (!hasOverlaps) break;
     }
 
-    // For mind map, allow nodes to extend beyond screen bounds (user can drag/zoom)
-    const margin = 200; // Larger margin to keep some nodes visible
-    // Include margin space in the total canvas size so we don't need negative coordinates
-    const extendedWidth = baseWidth * 12 + margin * 2; // Allow layout to be 12x screen width plus margins
-    const extendedHeight = 1000 * 12 + margin * 2; // Allow layout to be 12x screen height plus margins
+    // Shift the whole map into positive space so the SVG viewBox can start at 0,0.
+    // Shifting (rather than clamping) keeps nodes that reach past the top or left edge
+    // from being squashed into a line.
+    const margin = 200;
+    const minX = Math.min(...this.skillNodes.map(node => node.position.x));
+    const minY = Math.min(...this.skillNodes.map(node => node.position.y));
+    const shiftX = Math.max(margin, margin - minX);
+    const shiftY = Math.max(margin, margin - minY);
 
     this.skillNodes.forEach(node => {
-      // Clamp to non-negative space so the SVG viewBox can start at 0,0
-      node.position.x = Math.max(0, Math.min(extendedWidth, node.position.x + margin));
-      node.position.y = Math.max(0, Math.min(extendedHeight, node.position.y + margin));
+      node.position.x += shiftX;
+      node.position.y += shiftY;
     });
   }
 
@@ -944,8 +948,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   isMainNode(node: SkillNode): boolean {
-    const mainFolders = ['design', 'development', 'writing', 'marketing'];
-    return mainFolders.includes(node.title.toLowerCase());
+    return node.id === ROOT_NODE_ID || node.id.startsWith('folder-');
   }
 
   onContainerClick(event: MouseEvent) {
@@ -1202,22 +1205,12 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     // Use document dimensions for more accurate viewport size
     const containerWidth = document.documentElement.clientWidth || window.innerWidth;
     const containerHeight = (document.documentElement.clientHeight || window.innerHeight) - 40; // Account for top margin
-    const treeWidth = 1200;
-    const treeHeight = 1000;
-    
-    // Center the skill tree in the viewport
-    // For X: center horizontally - account for transform origin at (0, 0)
-    // The tree content starts at top-left, so we center it by positioning the left edge
-    // Add a small offset to compensate for visual center vs geometric center
-    this.translateX = (containerWidth - treeWidth) / 2 - 200; // Small offset to compensate for left tilt
-    
-    // For Y: center vertically - account for the transform origin at (0, 0)
-    // The tree content starts at top-left, so we need to center it properly
-    this.translateY = (containerHeight - treeHeight) / 2 - 200; // Small offset to compensate for top tilt
-    
-    // Ensure we don't go too far off-screen
-    this.translateX = Math.max(-treeWidth + 100, Math.min(containerWidth - 100, this.translateX));
-    this.translateY = Math.max(-treeHeight + 100, Math.min(containerHeight - 100, this.translateY));
+    // Put the root (marketing) in the middle of the viewport; the transform origin is (0, 0)
+    const root = this.skillNodes.find(node => node.id === ROOT_NODE_ID);
+    const rootX = root ? root.position.x : 800;
+    const rootY = root ? root.position.y : 700;
+    this.translateX = containerWidth / 2 - rootX * this.scale;
+    this.translateY = containerHeight / 2 - rootY * this.scale;
   }
 
   getTransform(): string {
@@ -1240,19 +1233,20 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       return '#95A5A6'; // Default fallback color
     }
     
-    const mainFolders = ['design', 'development', 'writing', 'marketing'];
-    const targetName = targetNode.title.toLowerCase();
+    // Branches from a main folder to the root take the folder's color
+    if (targetNode.id === ROOT_NODE_ID && node.id.startsWith('folder-')) {
+      return node.color || '#95A5A6';
+    }
     
-    // If the target is a main folder (design, development, writing, marketing), use its color
+    // If the target is the root or a main folder, use its color
     // This handles the case where projects connect to main folders
-    if (mainFolders.includes(targetName)) {
+    if (this.isMainNode(targetNode)) {
       return targetNode.color || '#95A5A6';
     }
     
     // If the source is a main folder and target is a project,
     // use the source's color (the main folder color)
-    const sourceName = node.title.toLowerCase();
-    if (mainFolders.includes(sourceName)) {
+    if (this.isMainNode(node)) {
       return node.color || '#95A5A6';
     }
     
@@ -1260,7 +1254,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     if (targetNode.connections.length > 0) {
       const categoryNode = this.skillNodes.find(parent => 
         targetNode.connections.includes(parent.id) && 
-        mainFolders.includes(parent.title.toLowerCase())
+        this.isMainNode(parent)
       );
       if (categoryNode) {
         return categoryNode.color || '#95A5A6';
@@ -1274,8 +1268,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
   shouldFlicker(node: SkillNode): boolean {
     // Only flicker subnodes (subFolder and subSubFolder), not main folders
-    const isMainFolder = node.id.startsWith('folder-');
-    return !isMainFolder && this.hasInitialized;
+    return !this.isMainNode(node) && this.hasInitialized;
   }
 
 

@@ -1,9 +1,9 @@
 export const article27 = {
   id: 27,
   date: '13.10.2025',
-  folder: ['development'],
-  subFolder: ['deployment'],
-  subSubFolder: ['server'],
+  folder: ['technology'],
+  subFolder: ['devops'],
+  subSubFolder: [''],
   project: 'aronsnotes',
   title: 'automate Let\'s Encrypt SSL certificate renewal',
   subtitle: 'Keep your HTTPS certificate valid',

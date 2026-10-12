@@ -1,9 +1,10 @@
 export const article39 = {
   id: 39,
   date: '12.10.2026',
-  folder: ['marketing'],
-  subFolder: ['copywriting', 'seo'],
+  folder: ['technology', 'communications'],
+  subFolder: ['seo', 'copywriting'],
   subSubFolder: [''],
+  paths: [['technology', 'seo'], ['communications', 'copywriting']],
   project: 'CareeVerz',
   title: 'new landing page review',
   subtitle: 'An SEO and copy review of the new CareeVerz landing page, with every suggested change',

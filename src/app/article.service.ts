@@ -16,6 +16,12 @@ export interface Article {
   content: string;
   /** Project overview notes; reachable from project cards and the skill tree, but left out of the notes list */
   projectNote?: boolean;
+  /**
+   * Folder paths ([folder, subFolder?, subSubFolder?]) for a note filed in more than one place,
+   * e.g. [['technology', 'seo'], ['communications', 'copywriting']]. When set, folder, subFolder and
+   * subSubFolder are filled in from these on load.
+   */
+  paths?: string[][];
   /** Optional p5js or other visualization component to display at the top of the article */
   visualizationComponent?: any;
 }
@@ -49,6 +55,17 @@ export class ArticleService {
         }
       }
 
+      // Notes with explicit paths get their folder lists from those paths
+      articles.forEach((article) => {
+        if (article.paths) {
+          const level = (i: number) =>
+            Array.from(new Set(article.paths!.map((path) => path[i]).filter(Boolean)));
+          article.folder = level(0);
+          article.subFolder = level(1);
+          article.subSubFolder = level(2);
+        }
+      });
+
       // Sort articles by id in descending order (newest first)
       articles.sort((a, b) => b.id - a.id);
       
@@ -60,6 +77,29 @@ export class ArticleService {
       this.originalArticles = [];
       this.articles = [];
     }
+  }
+
+  /**
+   * Every folder path a note is filed under. Without explicit paths, each of the
+   * note's folders is combined with each of its subfolders (and sub-subfolders).
+   */
+  getFolderPaths(article: Article): string[][] {
+    if (article.paths) {
+      return article.paths.map((path) => path.filter(Boolean));
+    }
+    const orEmpty = (list: string[]) => {
+      const filled = list.filter(Boolean);
+      return filled.length > 0 ? filled : [''];
+    };
+    const paths: string[][] = [];
+    orEmpty(article.folder).forEach((folder) =>
+      orEmpty(article.subFolder).forEach((subFolder) =>
+        orEmpty(article.subSubFolder).forEach((subSubFolder) =>
+          paths.push([folder, subFolder, subSubFolder].filter(Boolean))
+        )
+      )
+    );
+    return paths;
   }
 
   getArticles(): Article[] {
