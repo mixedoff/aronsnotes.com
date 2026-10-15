@@ -1,7 +1,7 @@
 .heroDiv {
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   justify-content: center;
   align-items: center;
 
@@ -22,7 +22,7 @@ p {
   align-items: center;
   width: 100vw;
   max-width: 1240px;
-  height: calc(100vh - 80px);
+  height: calc(100dvh - 80px);
   margin: 40px 0px;
   padding: 0px 20px 20px 20px;
   background: #c6c8c8;
@@ -232,7 +232,7 @@ p {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
   display: flex;

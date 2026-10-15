@@ -1,7 +1,7 @@
 .heroDiv {
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   justify-content: center;
   align-items: center;
   background: url(../../../assets/img/circle-blues.png) lightgray 0% 0% / 300px 300px repeat !important;

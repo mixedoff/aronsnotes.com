@@ -30,7 +30,7 @@ import { CommonModule } from '@angular/common';
         top: 0;
         left: 0;
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         background: #f0f0f0;
         z-index: 99999;
         opacity: 0;

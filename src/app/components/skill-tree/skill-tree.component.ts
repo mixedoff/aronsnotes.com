@@ -374,9 +374,11 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         }
         // Folder view: match articles to skill nodes based on their folder structure
         if (node.id.startsWith('folder-')) {
-          // Extract folder name by removing 'folder-' prefix and any trailing index
-          const folderName = node.id.replace(/^folder-/, '').replace(/-\d+$/, '');
-          return article.folder.includes(folderName);
+          // A main node lists every note filed under its folder, except notes that are
+          // only there through a hidden subfolder
+          return this.articleService.getFolderPaths(article).some(([folder, subFolder]) =>
+            folder === node.folder && !(subFolder && HIDDEN_FOLDERS.has(subFolder))
+          );
         } else if (node.id.startsWith('subfolder-')) {
           // Extract subfolder name by removing 'subfolder-' prefix and any trailing index
           const subFolderName = node.id.replace(/^subfolder-/, '').replace(/-\d+$/, '');

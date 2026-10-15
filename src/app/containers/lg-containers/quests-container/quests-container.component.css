@@ -1,11 +1,15 @@
 .quests {
   width: 100%;
+  /* same centered column as the character page, so titles and cards line up */
+  max-width: 768px;
+  margin: 0 auto;
 }
 
 /* Cards sit side by side in a grid instead of the character page's stacked deck */
 .quest-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  /* cards are as wide as the character card */
+  grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 350px));
   gap: 32px;
   width: 100%;
   margin: 20px 0px 60px 0px;

@@ -27,7 +27,7 @@ p {
   width: 100%;
   max-width: 1240px;
   min-height: 512px;
-  height: calc(100vh - 80px);
+  height: calc(100dvh - 80px);
   /* max-height: 624px; */
   margin: 40px 0px;
   /* overflow: hidden; */
@@ -48,7 +48,7 @@ p {
     transform: translate(-50%, -50%);
   }
   @media (max-width: 1240px) {
-    height: 100vh;
+    height: 100dvh;
     width: 100vw;
     margin: 0;
     position: absolute;
