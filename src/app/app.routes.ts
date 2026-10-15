@@ -8,6 +8,7 @@ import { QuitScreenComponent } from './screens/quit-screen/quit-screen.component
 import { HiddenScreenComponent } from './screens/hidden-screen/hidden-screen.component';
 import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-screen.component';
 import { ArticlesScreenComponent } from './screens/articles-screen/articles-screen.component';
+import { QuestsScreenComponent } from './screens/quests-screen/quests-screen.component';
 import { PersonalScreenComponent } from './screens/personal-screen/personal-screen.component';
 
 export const routes: Routes = [
@@ -18,12 +19,15 @@ export const routes: Routes = [
   // until then, old /select-mode links go to about
   { path: 'select-mode', redirectTo: 'about' },
   { path: 'main-menu', component: MainMenuScreenComponent },
-  { path: 'theory/:view', component: BooknotesScreenComponent },
-  { path: 'theory', component: BooknotesScreenComponent },
+  { path: 'skills', component: BooknotesScreenComponent },
+  // the skills page used to live at /theory (with /folders, /projects and /technologies views)
+  { path: 'theory', redirectTo: 'skills', pathMatch: 'full' },
+  { path: 'theory/:view', redirectTo: 'skills' },
   { path: 'note/:id', component: ArticleScreenComponent },
   { path: 'practice', component: ArticlesScreenComponent },
   { path: 'note/:id', component: ArticleScreenComponent },
   { path: 'about', component: AboutScreenComponent },
+  { path: 'quests', component: QuestsScreenComponent },
   { path: 'quit', component: QuitScreenComponent },
   { path: 'hidden', component: HiddenScreenComponent },
   { path: 'creative', component: PersonalScreenComponent },

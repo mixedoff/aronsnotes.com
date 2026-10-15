@@ -1,10 +1,6 @@
 <div class="outer-div">
-  <p
-    (click)="onConnect()"
-    class="nav-connect"
-    role="button"
-  >
-    character
+  <p (click)="onQuests()" class="nav-quests" role="button">
+    quests
   </p>
   <p (click)="onReads()" class="nav-reads" role="button">
     skills
@@ -23,6 +19,13 @@
     role="button"
   >
     works
+  </p>
+  <p
+    (click)="onConnect()"
+    class="nav-connect"
+    role="button"
+  >
+    character
   </p>
   <p (click)="onQuit()" class="nav-quit" role="button">
     quit

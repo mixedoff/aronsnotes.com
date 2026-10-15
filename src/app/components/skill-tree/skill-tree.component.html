@@ -1,21 +1,4 @@
 <div class="skill-tree-container">
-  <!-- View Toggle Controls -->
-  <div class="view-controls">
-    <button 
-      class="view-btn" 
-      [class.active]="currentView === 'folders'"
-      (click)="toggleView('folders')"
-    >
-      <span *ngIf="currentView === 'folders'" class="triangle">▶ </span>folders
-    </button>
-    <button 
-      class="view-btn" 
-      [class.active]="currentView === 'projects'"
-      (click)="toggleView('projects')"
-    >
-      <span *ngIf="currentView === 'projects'" class="triangle">▶ </span>projects
-    </button>
-  </div>
   
   <div 
     class="tree-container"
@@ -93,36 +76,7 @@
               [style.backgroundColor]="isMainNode(node) ? node.color : 'transparent'">
             {{ node.title }}
           </h3>
-          @if (currentView === 'projects' && node.project) {
-            <div class="project-info project-hover">
-              <div class="project-buttons">
-                @if (node.project.link) {
-                  <button class="button primary small" (click)="onProjectClick(node.project); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
-                    {{ node.project.buttonText || '🔗 Visit Project' }}
-                  </button>
-                }
-                @if (hasProjectArticle(node.project)) {
-                  <button class="button small" (click)="navigateToProjectArticle(node.project); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
-                    project details
-                  </button>
-                }
-              </div>
-              <div class="project-description">{{ node.project.description }}</div>
-              @if (node.articles.length > 0) {
-                <div class="articles-list">
-                  <div class="articles-title">Articles:</div>
-                  @for (article of node.articles; track article.id) {
-                    <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
-                      <span class="article-title">{{ article.title }}</span>
-                      @for (tech of getArticleTechnologies(article); track tech) {
-                        <span class="tech-tag">#{{ tech }}</span>
-                      }
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          } @else if (node.articles.length > 0) {
+          @if (node.articles.length > 0) {
             <div class="articles-list articles-hover">
               @for (article of node.articles; track article.id) {
                 <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()" (touchend)="$event.stopPropagation()">

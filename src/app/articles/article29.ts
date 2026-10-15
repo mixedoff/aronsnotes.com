@@ -1,10 +1,10 @@
 export const article29 = {
   id: 29,
   date: '13.10.2025',
-  folder: ['technology', 'ux/ui'],
+  folder: ['engineering', 'product'],
   subFolder: ['front-end'],
   subSubFolder: [''],
-  paths: [['technology', 'front-end'], ['ux/ui']],
+  paths: [['engineering', 'front-end'], ['product', 'ux-design']],
   project: 'aronsnotes',
   title: 'building an animated custom cursor in angular',
   subtitle: 'Replace the default cursor with a playful animated fly',

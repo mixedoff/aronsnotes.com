@@ -3,7 +3,7 @@ import { GameOfLifeComponent } from '../animations/game-of-life.component';
 export const article17 = {
   id: 17,
   date: '21.04.2025',
-  folder: ['communications'],
+  folder: ['content'],
   subFolder: ['reading', 'essays'],
   subSubFolder: [''],
   project: 'BookNotes',

@@ -1,5 +1,15 @@
 <div class="holder-div">
   <div class="grey-div">
-    <p (click)="clickMenu()" role="button">{{ displayText }}</p>
+    @if (showMessages) {
+      <p (click)="clickMenu()" role="button">{{ displayText }}</p>
+    } @else {
+      <div class="socials">
+        @for (social of socials; track social.id) {
+          <a [href]="social.href" target="_blank" rel="noopener noreferrer"
+            ><img [src]="'assets/img/socials/' + social.id + 'NoColor.svg'" [class]="social.id + '-icon'" [alt]="social.id" [title]="social.title"
+          /></a>
+        }
+      </div>
+    }
   </div>
 </div>

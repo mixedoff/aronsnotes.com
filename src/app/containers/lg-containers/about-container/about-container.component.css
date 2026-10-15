@@ -111,6 +111,17 @@ path.disabled {
   }
 }
 
+.page-header {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* In fullscreen the content is a centered column, so the title lines up with it */
+.outer-container.expanded .page-header {
+  max-width: 768px;
+  margin: 0 auto 20px auto;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -192,6 +203,8 @@ path.disabled {
 
 .outer-container.expanded .img-column {
   order: 1;
+  /* line the card up with the page title, like the quest cards */
+  align-items: flex-start;
   position: relative;
   top: 0;
   left: 0;
@@ -208,6 +221,35 @@ path.disabled {
     max-height: 256px;
     max-width: 180px;
   }
+}
+
+/* The character card reuses the project card styles, but sits in the page flow instead of a deck */
+.img-column .character-card {
+  position: relative;
+  height: auto;
+  min-height: 512px;
+  margin-bottom: 24px;
+  background: #8ab8ff;
+}
+
+.img-column .character-card:hover {
+  transform: none !important;
+  box-shadow: 8px 8px 0px 0px #000;
+}
+
+.img-column .character-card .project-animation-gif {
+  height: 128px;
+  max-height: 128px;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.character-card .tech-stack-container {
+  text-align: right;
+}
+
+.character-card .tech-stack-text {
+  animation: none;
 }
 
 .social-icons {

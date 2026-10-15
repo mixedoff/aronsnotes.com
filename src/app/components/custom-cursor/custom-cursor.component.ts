@@ -21,8 +21,8 @@ import { DOCUMENT } from '@angular/common';
     `
       .custom-cursor {
         position: fixed;
-        top: -15px;
-        left: 15px;
+        top: 0;
+        left: 0;
         width: 32px;
         height: 32px;
         pointer-events: none;
@@ -51,6 +51,8 @@ import { DOCUMENT } from '@angular/common';
       .cursor-image {
         width: 100%;
         height: 100%;
+        /* the global img style adds a 2rem margin, which would draw the fly below the pointer */
+        margin: 0;
         object-fit: contain;
         transform-origin: center center;
         transition: transform 0.1s ease-out;
@@ -168,6 +170,9 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
   
   // Configuration
   private readonly animationSpeed: number = 100;
+  // Where the fly's mouth sits in the sprite (as a share of its size from the top-left);
+  // this point is kept on the real pointer so clicks land where the fly points
+  private readonly hotspot: number = 5 / 32;
   private readonly movementTimeout: number = 500;
 
   constructor(
@@ -266,12 +271,21 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
         this.currentY += (this.mouseY - this.currentY) * lerp;
         
         if (this.cursorContainer && this.cursorImage) {
+          // The sprite rotates around its center, so turn the mouth's offset from the center
+          // the same way and shift the sprite back by it (the size grows while moving)
+          const size = this.cursorContainer.nativeElement.offsetWidth;
+          const offset = (this.hotspot - 0.5) * size;
+          const angle = this.rotationAngle * (Math.PI / 180);
+          const offsetX = offset * Math.cos(angle) - offset * Math.sin(angle);
+          const offsetY = offset * Math.sin(angle) + offset * Math.cos(angle);
+
           // Apply position transform
           this.cursorContainer.nativeElement.style.transform = 
-            `translate(${this.currentX}px, ${this.currentY}px) translate(-50%, -50%)`;
+            `translate(${this.currentX - offsetX}px, ${this.currentY - offsetY}px) translate(-50%, -50%)`;
           
-          // Apply rotation to the image
-          this.cursorImage.nativeElement.style.transform = `rotate(${this.rotationAngle}deg)`;
+          // Apply rotation to the image (the leg rubbing sprite is drawn facing the other way)
+          const spriteTurn = this.isLegRubbingSprite() ? 180 : 0;
+          this.cursorImage.nativeElement.style.transform = `rotate(${this.rotationAngle + spriteTurn}deg)`;
         }
         
         this.animationFrameId = requestAnimationFrame(loop);
@@ -288,6 +302,11 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
 
     this.forceHideSystemCursor();
     this.setupCursorHiding();
+  }
+
+  // fly_leg_rubbing_v2 faces bottom-right; every other sprite faces top-left
+  private isLegRubbingSprite(): boolean {
+    return !this.isOverClickable && !this.isMoving && this.useLegRubbing;
   }
 
   // Manually update image source to avoid change detection

@@ -34,15 +34,6 @@
   position: relative;
 }
 
-.view-controls {
-  position: absolute;
-  top: 50px;
-  left: 20px;
-  z-index: 100;
-  display: flex;
-  flex-direction: column;
-}
-
 .view-btn {
   background: transparent;
   border: none;
@@ -179,17 +170,7 @@
   z-index: 100;
 }
 
-.articles-title {
-  font-size: 0.75rem;
-  color: #6ffa1e;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.articles-hover,
-.project-hover {
+.articles-hover {
   opacity: 0;
   max-height: 0;
   overflow: hidden;
@@ -199,69 +180,14 @@
   left: -5%;
   z-index: 1000;
   min-width: 200px;
-  /* hidden panels keep their size (.project-info sets max-height), so they
-     must not catch the mouse over neighbouring nodes */
+  /* hidden panels keep their size, so they must not catch the mouse over neighbouring nodes */
   pointer-events: none;
 }
 
-.skill-node:hover .articles-hover,
-.skill-node:hover .project-hover {
+.skill-node:hover .articles-hover {
   opacity: 1;
   max-height: 1000px;
   pointer-events: auto;
-}
-
-.project-info {
-  text-align: left;
-  background: #091522;
-  padding: 10px;
-  /* transparent border instead of margin, same reason as .articles-list */
-  border-top: 10px solid transparent;
-  background-clip: padding-box;
-  max-height: 1000px;
-}
-
-.project-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-}
-
-.project-description {
-  font-size: 0.85rem;
-  color: #6ffa1e;
-  line-height: 1.4;
-  margin-bottom: 8px;
-  max-width: 250px;
-}
-
-.project-status {
-  font-size: 0.75rem;
-  padding: 2px 6px;
-  border-radius: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.status-active {
-  background: rgba(46, 204, 113, 0.2);
-  color: #2ECC71;
-  border: 1px solid rgba(46, 204, 113, 0.3);
-}
-
-.status-completed {
-  background: rgba(52, 152, 219, 0.2);
-  color: #3498DB;
-  border: 1px solid rgba(52, 152, 219, 0.3);
-}
-
-.status-archived {
-  background: rgba(149, 165, 166, 0.2);
-  color: #95A5A6;
-  border: 1px solid rgba(149, 165, 166, 0.3);
 }
 
 .article-item {
@@ -316,16 +242,14 @@
   }
   
   /* Hide hover content by default on mobile */
-  .skill-node .articles-hover,
-  .skill-node .project-hover {
+  .skill-node .articles-hover {
     opacity: 0;
     max-height: 0;
     overflow: hidden;
   }
   
   /* Show hover content when mobile node is active (tapped) */
-  .skill-node.mobile-active .articles-hover,
-  .skill-node.mobile-active .project-hover {
+  .skill-node.mobile-active .articles-hover {
     opacity: 1;
     max-height: 400px;
     pointer-events: auto;
@@ -354,20 +278,10 @@
     z-index: 100;
   }
   
-  .project-description {
-    font-size: 0.75rem;
-    max-width: 400px;
-  }
-  
   .article-item {
     font-size: 0.7rem;
     padding: 0.4rem 0.6rem;
     cursor: none !important;
-  }
-  
-  .view-controls {
-    top: 40px;
-    left: 15px;
   }
   
   .view-btn {
@@ -394,16 +308,9 @@
     padding: 5px 8px;
   }
   
-  .articles-hover,
-  .project-hover {
+  .articles-hover {
     min-width: 120px;
     font-size: 0.7rem;
-  }
-  
-  .project-description {
-    font-size: 0.65rem;
-    max-width: 300px;
-    min-width: 200px;
   }
   
   .article-item {

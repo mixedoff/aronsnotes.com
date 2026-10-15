@@ -1,8 +1,20 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Project, PROJECTS } from '../../../data/projects.data';
-import { ArticleService } from '../../../article.service';
+import { Article, ArticleService } from '../../../article.service';
+import {
+  FOLDER_CHIP_CLASSES,
+  HIDDEN_FOLDERS,
+  MAIN_FOLDERS,
+  ROOT_FOLDER,
+  skillLabel,
+} from '../../../data/skills.data';
+
+export interface SkillChip {
+  label: string;
+  chipClass: string;
+}
 
 @Component({
   selector: 'app-about-container',
@@ -11,12 +23,13 @@ import { ArticleService } from '../../../article.service';
   templateUrl: './about-container.component.html',
   styleUrl: './about-container.component.css',
 })
-export class AboutContainerComponent implements OnInit, OnDestroy {
+export class AboutContainerComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() closeSubmenuEvent = new EventEmitter<boolean>();
 
   constructor(
     private router: Router,
-    private articleService: ArticleService
+    protected articleService: ArticleService,
+    private route: ActivatedRoute
   ) {}
 
   clickHiddenScreen() {
@@ -24,15 +37,23 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
   }
 
   navigateToSkills() {
-    this.router.navigate(['/theory']);
+    this.router.navigate(['/skills']);
   }
 
   navigateToProjects() {
-    this.router.navigate(['/theory/projects']);
+    this.router.navigate(['/quests']);
   }
 
   navigateToProjectLink(project: Project) {
-    if (project.link) {
+    if (project.buttonRoute) {
+      const [path, fragment] = project.buttonRoute.split('#');
+      if (this.router.url.split('#')[0] === path) {
+        // Already on that page: just scroll to the section
+        this.scrollToSection(fragment);
+      } else {
+        this.router.navigate([path], { fragment });
+      }
+    } else if (project.link) {
       window.open(project.link, '_blank', 'noopener,noreferrer');
     }
   }
@@ -60,12 +81,42 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
   isPowerUpAnimating = false;
   isPowerDownAnimating = false;
   featuredProjects: Project[] = [];
+  /** Skill chips on the character card, built from every note */
+  characterSkills: SkillChip[] = [];
   isExpanded = false;
   isLargeScreen = false;
   private resizeHandler = () => this.checkScreenSize();
 
+  ngAfterViewInit() {
+    // e.g. /about#connect opens the page at the socials
+    const fragment = this.route.snapshot.fragment;
+    if (fragment) {
+      // The section only lands in its final place once the page's images have loaded
+      this.imagesLoaded().then(() => this.scrollToSection(fragment));
+    }
+  }
+
+  private imagesLoaded(): Promise<void> {
+    const pending = Array.from(document.images)
+      .filter((img) => !img.complete)
+      .map((img) => new Promise((resolve) => {
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      }));
+    // Don't wait forever on a slow image
+    const timeout = new Promise((resolve) => setTimeout(resolve, 2000));
+    return Promise.race([Promise.all(pending), timeout]).then(() => undefined);
+  }
+
+  private scrollToSection(id: string | undefined) {
+    if (id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   ngOnInit() {
     this.loadFeaturedProjects();
+    this.characterSkills = this.buildSkillChips(this.articleService.originalArticles);
     this.checkScreenSize();
     // Start in fullscreen on large screens
     this.isExpanded = this.isLargeScreen;
@@ -85,6 +136,35 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
       return; // Disabled on small screens
     }
     this.isExpanded = !this.isExpanded;
+  }
+
+  /**
+   * One chip per skills page subnode the notes are filed under, in the subnode's main
+   * folder color. Grouped by main folder in skills page order, most notes first within a group.
+   */
+  protected buildSkillChips(articles: Article[]): SkillChip[] {
+    const mainOrder = [ROOT_FOLDER, ...MAIN_FOLDERS];
+    const skills = new Map<string, { folder: string; subFolder: string; notes: number }>();
+
+    articles.forEach((article) => {
+      this.articleService.getFolderPaths(article).forEach(([folder, subFolder]) => {
+        if (!folder || !subFolder || HIDDEN_FOLDERS.has(subFolder)) return;
+        const key = `${folder}/${subFolder}`;
+        const skill = skills.get(key) ?? { folder, subFolder, notes: 0 };
+        skill.notes++;
+        skills.set(key, skill);
+      });
+    });
+
+    return Array.from(skills.values())
+      .sort(
+        (a, b) =>
+          mainOrder.indexOf(a.folder) - mainOrder.indexOf(b.folder) || b.notes - a.notes
+      )
+      .map((skill) => ({
+        label: skillLabel(skill.subFolder),
+        chipClass: FOLDER_CHIP_CLASSES[skill.folder] ?? 'white-chip',
+      }));
   }
 
   loadFeaturedProjects() {
@@ -131,11 +211,13 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
     
     const firstCategory = project.category[0];
     switch (firstCategory) {
-      case 'ux/ui':
+      case 'product':
         return '#3a94de';
-      case 'technology':
+      case 'engineering':
         return '#6ffa1e';
-      case 'communications':
+      case 'growth':
+        return '#ffe415';
+      case 'content':
         return '#4ecdc4';
       case 'marketing':
         return '#8ab8ff';
@@ -146,9 +228,9 @@ export class AboutContainerComponent implements OnInit, OnDestroy {
 
   shouldUseDarkText(project: Project): boolean {
     const bgColor = this.getCardBackgroundColor(project);
-    // Return true if background is green (#6ffa1e), cyan (#4ecdc4) or light blue (#8ab8ff)
+    // Return true if background is green (#6ffa1e), yellow (#ffe415), cyan (#4ecdc4) or light blue (#8ab8ff)
     // Design cards (blue #3a94de) always use white text
-    return bgColor === '#6ffa1e' || bgColor === '#4ecdc4' || bgColor === '#8ab8ff';
+    return bgColor === '#6ffa1e' || bgColor === '#ffe415' || bgColor === '#4ecdc4' || bgColor === '#8ab8ff';
   }
 
   getCardTextColor(project: Project): string {

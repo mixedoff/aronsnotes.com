@@ -4,12 +4,16 @@ export interface Project {
   description: string;
   link?: string;
   buttonText?: string;
-  category: ('ux/ui' | 'technology' | 'communications' | 'marketing')[];
+  /** In-site page the button opens instead of the external link, e.g. '/about#connect' */
+  buttonRoute?: string;
+  category: ('product' | 'growth' | 'engineering' | 'content' | 'marketing')[];
   designRoles?: ('ux/ui designer' | 'ux researcher' | 'brand designer' | 'graphic designer' | 'animator' | 'copywriter' | 'content creator')[];
   developmentRoles?: ('frontend developer' | 'backend developer' | 'full stack developer' | 'co-founder' | 'product manager' | 'market researcher')[];
   writingRoles?: ('writer' | 'copywriter' | 'ux writer' | 'technical writer' | 'non-fiction writer')[];
   marketingRoles?: ('founder marketer' | 'market researcher')[];
   otherRoles?: ('co-founder' | 'founder'| 'product manager' | 'market researcher')[];
+  /** My role in the quest, shown as a white chip on the quests page */
+  questRole?: string;
   startDate?: string;
   endDate?: string;
   status?: 'live' | 'in progress' | 'archived';
@@ -27,6 +31,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'careeverz',
     name: 'CareeVerz.com',
+    questRole: 'co-founder',
     status: 'live',
     vision: 'Gamifying work.',
     mission: 'To be a compass for career starters in the world of work.',
@@ -42,7 +47,7 @@ export const PROJECTS: Project[] = [
     writingRoles: ['ux writer'],
     marketingRoles: ['founder marketer', 'market researcher'],
     otherRoles: ['co-founder', 'product manager'],
-    category: ['ux/ui', 'marketing'],
+    category: ['product', 'marketing'],
     startDate: '2023-01-01',
     endDate: '2024-12-31',
     animationGif: 'sun.gif'
@@ -50,15 +55,17 @@ export const PROJECTS: Project[] = [
   {
     id: 'aronsnotes',
     name: 'aronsnotes.com',
+    questRole: 'founder',
     status: 'live',
     description: 'A personal knowledge management system and portfolio website showcasing my stuff as if it would be a retro game.',
     link: 'https://aronsnotes.com',
-    buttonText: 'you are here',
+    buttonText: "let's connect",
+    buttonRoute: '/about#connect',
     developmentRoles: ['full stack developer'],
     designRoles: ['ux/ui designer', 'animator'],
     writingRoles: ['ux writer', 'technical writer', 'copywriter'],
     otherRoles: ['founder'],
-    category: ['technology', 'ux/ui', 'communications'],
+    category: ['engineering', 'product', 'content'],
     vision: 'Gamifying my character development.',
     mission: 'To help me keep track of my character development and progress.',
     techStack: ['Figma', 'Angular', 'Hetzner Cloud', 'Nginx'],
@@ -70,7 +77,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'self-ware',
-    name: 'self-ware',
+    name: 'DEEP-SHIT',
     status: 'in progress',
     vision: '',
     mission: 'To rebuild broken identities and world models for carbon based algorithms.',
@@ -86,7 +93,7 @@ export const PROJECTS: Project[] = [
     developmentRoles: ['full stack developer'],
     designRoles: ['graphic designer'],
     otherRoles: ['founder'],
-    category: ['communications', 'technology', 'ux/ui'],
+    category: ['content', 'engineering', 'product'],
     startDate: '2024-06-01',
     animationGif: 'magic_book2.gif'
   }

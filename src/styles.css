@@ -599,6 +599,30 @@ svg.traffic-lights-svg {
   line-height: 1rem;
 }
 
+.yellow-chip,
+.yellow-chip-big {
+  display: inline-block;
+  background: #ffe415 !important;
+  color: #4a3b00 !important;
+  box-shadow: 
+  inset 0 0 0 2px #c9a800,
+  2px 0px 0px 1px #7a6500,
+  -2px 0px 0px 1px #7a6500,
+  0px 2px 0px 1px #7a6500,
+  0px -2px 0px 1px #7a6500;
+  padding: 2px 4px;
+  margin: 3px 6px 3px 0px;
+  font-size: 0.75rem;
+  line-height: 0.7rem;
+  letter-spacing: -0.0125rem;
+  text-transform: lowercase;
+}
+
+.yellow-chip-big {
+  font-size: 1rem;
+  line-height: 1rem;
+}
+
 .blue-chip,
 .blue-chip-big {
   display: inline-block;

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class WelcomeScreenComponent {
   constructor(private router: Router) {}
-  goToAbout() {
-    this.router.navigate(['/about']);
+  goToQuests() {
+    this.router.navigate(['/quests']);
   }
 }

@@ -1,8 +1,8 @@
 export const article3 = {
   id: 3,
   date: '05.08.2023',
-  folder: ['ux/ui'],
-  subFolder: ['prototype'],
+  folder: ['product'],
+  subFolder: ['ux-design', 'ui-design'],
   subSubFolder: [''],
   project: 'CareeVerz',
   title: 'CareeVerz UI and brand identity v3',

@@ -32,6 +32,7 @@ export class ArticleTopNavComponent implements OnInit {
   @Output() clickQuit = new EventEmitter<boolean>();
   @Output() clickArticles = new EventEmitter<boolean>();
   @Output() clickReads = new EventEmitter<boolean>();
+  @Output() clickQuests = new EventEmitter<boolean>();
   @Output() shiftC = new EventEmitter<boolean>();
   @Output() shiftM = new EventEmitter<boolean>();
 
@@ -127,6 +128,12 @@ export class ArticleTopNavComponent implements OnInit {
     this.router.navigate(['/practice']);
   }
 
+  onQuests() {
+    this.clickQuests.emit(true);
+    console.log('Quests clicked');
+    this.router.navigate(['/quests']);
+  }
+
   onQuit() {
     this.clickQuit.emit(true);
     console.log('Quit clicked');
@@ -137,6 +144,6 @@ export class ArticleTopNavComponent implements OnInit {
     this.clickReads.emit(true);
     console.log('Reads clicked');
     this.sourceScreen = 'booknotes';
-    this.router.navigate(['/theory']);
+    this.router.navigate(['/skills']);
   }
 }

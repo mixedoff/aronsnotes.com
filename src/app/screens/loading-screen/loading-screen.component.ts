@@ -42,7 +42,7 @@ export class LoadingScreenComponent implements OnInit, OnDestroy {
 
   forwardToMainMenuScreen() {
     this.skipLoadingScreenEvent.emit(true);
-    this.router.navigate(['/about']);
+    this.router.navigate(['/quests']);
   }
 
   ngOnInit(): void {

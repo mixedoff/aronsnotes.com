@@ -20,6 +20,8 @@ export class ThemeService {
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: rgba(111, 250, 30, 0.5);' +
           '--nav-connect-bg: #091522;' +
+          '--nav-quests-color: rgba(111, 250, 30, 0.5);' +
+          '--nav-quests-bg: #091522;' +
           '--nav-menu-color: rgba(111, 250, 30, 0.5);' +
           '--nav-menu-bg: #091522;' +
           '--nav-quit-color: rgba(111, 250, 30, 0.5);' +
@@ -36,6 +38,8 @@ export class ThemeService {
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: rgba(111, 250, 30, 0.5);' +
           '--nav-connect-bg: #091522;' +
+          '--nav-quests-color: rgba(111, 250, 30, 0.5);' +
+          '--nav-quests-bg: #091522;' +
           '--nav-menu-color: rgba(111, 250, 30, 0.5);' +
           '--nav-menu-bg: #091522;' +
           '--nav-quit-color: rgba(111, 250, 30, 0.5);' +
@@ -52,6 +56,8 @@ export class ThemeService {
           '--nav-reads-bg: #c6c8c8;' +
           '--nav-connect-color: #000000;' +
           '--nav-connect-bg: #c6c8c8;' +
+          '--nav-quests-color: #000000;' +
+          '--nav-quests-bg: #c6c8c8;' +
           '--nav-menu-color: #ffffff;' +
           '--nav-menu-bg: #6f7a83;' +
           '--nav-quit-color: #000000;' +
@@ -68,6 +74,8 @@ export class ThemeService {
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: #ffffff;' +
           '--nav-connect-bg: #091522;' +
+          '--nav-quests-color: #ffffff;' +
+          '--nav-quests-bg: #091522;' +
           '--nav-menu-color: #ffffff;' +
           '--nav-menu-bg: #091522;' +
           '--nav-quit-color: #ffffff;' +
@@ -84,6 +92,8 @@ export class ThemeService {
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: #ffffff;' +
           '--nav-connect-bg: #091522;' +
+          '--nav-quests-color: #ffffff;' +
+          '--nav-quests-bg: #091522;' +
           '--nav-menu-color: #ffffff;' +
           '--nav-menu-bg: #091522;' +
           '--nav-quit-color: #ffffff;' +
@@ -102,6 +112,7 @@ export class ThemeService {
       case 'booknotes':
         return (
           '--nav-bg: #091522;' +
+          '--icon-filter: invert(1);' +
           '--nav-color: #6ffa1e;' +
           '--font-weight: 400;' +
           '--beta-bg: none;' +
@@ -110,6 +121,7 @@ export class ThemeService {
       case 'articles':
         return (
           '--nav-bg: #091522;' +
+          '--icon-filter: invert(1);' +
           '--nav-color: #6ffa1e;' +
           '--font-weight: 400;' +
           '--beta-bg: none;' +
@@ -134,6 +146,7 @@ export class ThemeService {
       case 'personal':
         return (
           '--nav-bg: #091522;' +
+          '--icon-filter: invert(1);' +
           '--nav-color: #F2F2F2;' +
           '--font-weight: 400;' +
           '--beta-bg: none;' +

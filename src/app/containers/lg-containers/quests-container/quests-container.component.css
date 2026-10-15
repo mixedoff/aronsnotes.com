@@ -1,0 +1,62 @@
+.quests {
+  width: 100%;
+}
+
+/* Cards sit side by side in a grid instead of the character page's stacked deck */
+.quest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 32px;
+  width: 100%;
+  margin: 20px 0px 60px 0px;
+}
+
+.quest-grid .project-card {
+  position: relative;
+  max-width: none;
+  /* grow with the content instead of the deck's fixed card height */
+  height: auto;
+  min-height: 512px;
+  min-width: 0;
+}
+
+.quest-grid .project-card:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+}
+
+/* Tech lists sit on the right and stay still unless they overflow the card (see updateTechTickers) */
+.quest-grid .tech-stack-container {
+  text-align: right;
+}
+
+.quest-grid .tech-stack-text {
+  animation: none;
+}
+
+.quest-grid .tech-stack-text.scrolling {
+  animation: quest-tech-scroll var(--scroll-duration, 10s) ease-in-out 1s infinite alternate;
+}
+
+.quest-grid .tech-stack-container:hover .tech-stack-text.scrolling {
+  animation-play-state: paused;
+}
+
+@keyframes quest-tech-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--scroll-distance, 0px));
+  }
+}
+
+@media (max-width: 768px) {
+  .quest-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .quest-grid .project-card:hover {
+    transform: none !important;
+  }
+}

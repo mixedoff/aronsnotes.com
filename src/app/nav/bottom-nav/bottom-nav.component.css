@@ -50,6 +50,46 @@
   font-weight: var(--font-weight, 500);
 }
 
+.socials {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.socials a {
+  display: flex;
+  cursor: none !important;
+}
+
+.socials img {
+  width: 24px;
+  height: 24px;
+  /* the global img style adds a 32px margin, which would push the bar past the screen */
+  margin: 0;
+  /* the icons are black; dark navs invert them */
+  filter: var(--icon-filter, none);
+}
+
+.socials img:hover {
+  filter: none;
+}
+
+.email-icon:hover {
+  content: url("/assets/img/socials/email.svg");
+}
+
+.instagram-icon:hover {
+  content: url("/assets/img/socials/instagram.svg");
+}
+
+.github-icon:hover {
+  content: url("/assets/img/socials/github.svg");
+}
+
+.linkedin-icon:hover {
+  content: url("/assets/img/socials/linkedin.svg");
+}
+
 @media (max-width: 450px) {
   p {
     font-size: smaller;

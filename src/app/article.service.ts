@@ -18,7 +18,7 @@ export interface Article {
   projectNote?: boolean;
   /**
    * Folder paths ([folder, subFolder?, subSubFolder?]) for a note filed in more than one place,
-   * e.g. [['technology', 'seo'], ['communications', 'copywriting']]. When set, folder, subFolder and
+   * e.g. [['growth', 'seo'], ['content', 'copywriting']]. When set, folder, subFolder and
    * subSubFolder are filled in from these on load.
    */
   paths?: string[][];
@@ -119,43 +119,28 @@ export class ArticleService {
   }
 
   getArticleByProject(projectId: string, projectName?: string): Article | undefined {
+    // Project notes come first, so a newer note about the same project
+    // doesn't replace the project's own overview note.
+    return this.getArticlesByProject(projectId, projectName).sort(
+      (a, b) => Number(!!b.projectNote) - Number(!!a.projectNote)
+    )[0];
+  }
+
+  /** Every note filed under a project, matched by project id or name (case-insensitive, with/without .com) */
+  getArticlesByProject(projectId: string, projectName?: string): Article[] {
     // Ensure articles are loaded before searching
     if (this.articles.length === 0) {
       this.loadArticles();
     }
-    
-    // Search in original articles to find all matches.
-    // Project notes come first, so a newer note about the same project
-    // doesn't replace the project's own overview note.
-    const allArticles = [...this.originalArticles].sort(
-      (a, b) => Number(!!b.projectNote) - Number(!!a.projectNote)
+
+    const names = new Set([projectId.toLowerCase()]);
+    if (projectName) {
+      names.add(projectName.toLowerCase());
+      names.add(projectName.toLowerCase().replace(/\.com$/, ''));
+    }
+    return this.originalArticles.filter(
+      (article) => !!article.project && names.has(article.project.toLowerCase().trim())
     );
-    
-    // Match by project id (case-insensitive) or project name (case-insensitive, with/without .com)
-    return allArticles.find((article) => {
-      if (!article.project) return false;
-      
-      const articleProjectLower = article.project.toLowerCase().trim();
-      const projectIdLower = projectId.toLowerCase();
-      
-      // Match by project id
-      if (articleProjectLower === projectIdLower) {
-        return true;
-      }
-      
-      // Match by project name if provided
-      if (projectName) {
-        const projectNameLower = projectName.toLowerCase();
-        const projectNameNoCom = projectNameLower.replace(/\.com$/, '');
-        
-        if (articleProjectLower === projectNameLower || 
-            articleProjectLower === projectNameNoCom) {
-          return true;
-        }
-      }
-      
-      return false;
-    });
   }
 
   filterArticles(folders: string | string[]) {

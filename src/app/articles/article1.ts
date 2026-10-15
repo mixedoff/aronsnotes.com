@@ -1,8 +1,8 @@
 export const article1 = {
   id: 1,
   date: '05.08.2023',
-  folder: ['ux/ui'],
-  subFolder: ['market-research', 'ux-research'],
+  folder: ['product'],
+  subFolder: ['ux-research'],
   subSubFolder: [''],
   project: 'CareeVerz',
   title: 'CareeVerz UX and market research',

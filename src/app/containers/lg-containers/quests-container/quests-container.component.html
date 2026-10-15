@@ -1,0 +1,151 @@
+<div class="outer-container" [class.expanded]="isExpanded">
+  <div class="small-div">
+    <div class="traffic-lights">
+      <svg
+        class="traffic-lights-svg"
+        width="52"
+        height="12"
+        viewBox="0 0 52 12"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          (click)="closeSubmenu()"
+          class="pointer"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M6 12C9.31371 12 12 9.31371 12 6C12 2.68629 9.31371 0 6 0C2.68629 0 0 2.68629 0 6C0 9.31371 2.68629 12 6 12Z"
+          fill="#ef5747"
+        />
+        <circle
+          cx="6"
+          cy="6"
+          r="20"
+          fill="transparent"
+          (click)="closeSubmenu()"
+          class="hit-area"
+        />
+        <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
+        fill="#6f7a83"
+        class="pointer"
+      />
+      <circle
+        cx="26"
+        cy="6"
+        r="20"
+        fill="transparent"
+      />
+      <!-- <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M26 12C29.3137 12 32 9.31371 32 6C32 2.68629 29.3137 0 26 0C22.6863 0 20 2.68629 20 6C20 9.31371 22.6863 12 26 12Z"
+      fill="#f6da0f"
+      class="pointer"
+      (click)="clickHiddenScreen()"
+    />
+    <circle
+      cx="26"
+      cy="6"
+      r="20"
+      fill="transparent"
+      (click)="clickHiddenScreen()"
+      class="hit-area"
+    /> -->
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M46 12C49.3137 12 52 9.31371 52 6C52 2.68629 49.3137 0 46 0C42.6863 0 40 2.68629 40 6C40 9.31371 42.6863 12 46 12Z"
+          [attr.fill]="isLargeScreen ? '#409211' : '#6f7a83'"
+          [class.pointer]="isLargeScreen"
+          [class.disabled]="!isLargeScreen"
+          (click)="toggleFullscreen()"
+        />
+        <circle
+          cx="46"
+          cy="6"
+          r="20"
+          fill="transparent"
+          class="hit-area"
+          [class.pointer]="isLargeScreen"
+          [class.disabled]="!isLargeScreen"
+          (click)="toggleFullscreen()"
+        />
+      </svg>
+    </div>
+    <small>quests</small>
+  </div>
+
+  <div class="inner-container">
+    <div class="quests">
+      <h1 class="mt-1">quests</h1>
+      <p>Stay awhile and read...</p>
+
+      <div class="quest-grid">
+            @for (project of featuredProjects; track project.id) {
+              <div 
+                class="project-card" 
+                [style.background]="getCardBackgroundColor(project)"
+                >
+                <div 
+                  class="status-chip-container"
+                  [style.color]="getCardTextColor(project)"
+                >
+                  @if (project.status === 'live') {
+                    <p><strong>Status:</strong> Live</p>
+                  } @else if (project.status === 'in progress') {
+                    <p><strong>Status:</strong> In Progress</p>
+                  } @else if (project.status === 'archived') {
+                    <p><strong>Status:</strong> Archived</p>
+                  }
+                </div>
+              <div 
+                class="project-card-inner"
+                [style.--card-text-color]="getCardTextColor(project)"
+                [style.color]="getCardTextColor(project)"
+                [style.border-color]="getCardBorderColor(project)"
+              >
+                @if (project.animationGif) {
+                  <img [src]="getAnimationPath(project)" [alt]="project.name + ' animation'" class="project-animation-gif" />
+                }
+                <h3>
+                  @if (project.link) {
+                    <a [href]="project.link" target="_blank" rel="noopener noreferrer">{{ project.name }}</a>
+                  } @else {
+                    {{ project.name }}
+                  }
+                </h3>
+                @if (project.questRole || questSkills.get(project.id)?.length) {
+                  <p>
+                    @if (project.questRole) {
+                      <span class="white-chip">{{ project.questRole }}</span>
+                    }
+                    @for (skill of questSkills.get(project.id); track skill.label) {
+                      <span [class]="skill.chipClass">{{ skill.label }}</span>
+                    }
+                  </p>
+                }
+                @if (project.description) {
+                  <p><strong>Description:</strong> {{ project.description }}</p>
+                }
+                <div class="align-button">
+                  @if(project.link) {
+                    <button class="button small" (click)="navigateToProjectLink(project)">{{ project.buttonText }}</button>
+                  }
+                  @if(hasProjectArticle(project)) {
+                    <button class="button primary small" (click)="navigateToProjectArticle(project)">read more</button>
+                  }
+                </div>
+              </div>
+              @if (questTech.get(project.id)?.length) {
+                <div class="tech-stack-container">
+                  <p #techText class="tech-stack-text">{{ getTechStackString(questTech.get(project.id)) }}</p>
+                </div>
+              }
+              </div>
+            }
+      </div>
+    </div>
+  </div>
+</div>

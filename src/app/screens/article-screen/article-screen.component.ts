@@ -114,7 +114,7 @@ export class ArticleScreenComponent implements OnInit {
   }
 
   onGoBackToBooknotes() {
-    this.router.navigate(['/theory']);
+    this.router.navigate(['/skills']);
   }
 
   onGoBackToArticles() {

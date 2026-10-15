@@ -49,10 +49,10 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     const currentUrl = this.router.url;
     console.log('ArticlesContainerComponent - Current URL:', currentUrl);
     
-    if (currentUrl.includes('/theory')) {
-      // We're on the theory/booknotes screen - show writing articles
+    if (currentUrl.includes('/skills')) {
+      // We're on the skills (booknotes) screen - show writing articles
       console.log('Filtering for writing articles...');
-      this.articleService.filterArticles('communications');
+      this.articleService.filterArticles('content');
     } else if (currentUrl.includes('/practice')) {
       // We're on the practice screen - show all articles
       console.log('Resetting to original articles...');
@@ -60,11 +60,11 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     } else if (currentUrl.includes('/creative')) {
       // We're on the creative/personal screen - show writing articles (creative writing)
       console.log('Filtering for writing articles...');
-      this.articleService.filterArticles('communications');
+      this.articleService.filterArticles('content');
     } else if (currentUrl.includes('/design')) {
       // We're on a design screen - show design articles
       console.log('Filtering for design articles...');
-      this.articleService.filterArticles('ux/ui');
+      this.articleService.filterArticles('product');
     } else if (currentUrl.includes('/note/')) {
       // We're viewing an article - keep showing all articles (stay on practice page)
       console.log('Resetting to original articles...');
@@ -101,11 +101,13 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
   }
 
   getArticleColor(article: Article): string {
-    if (article.folder.includes('ux/ui')) {
+    if (article.folder.includes('product')) {
       return '#3A94DE'; // blue
-    } else if (article.folder.includes('technology')) {
+    } else if (article.folder.includes('engineering')) {
       return '#6ffa1e'; // green
-    } else if (article.folder.includes('communications')) {
+    } else if (article.folder.includes('growth')) {
+      return '#ffe415'; // yellow
+    } else if (article.folder.includes('content')) {
       return '#4ECDC4'; // teal
     } else if (article.folder.includes('marketing')) {
       return '#8AB8FF'; // light blue

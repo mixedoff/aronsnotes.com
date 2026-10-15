@@ -78,115 +78,15 @@
   </div>
 
   <div class="inner-container">
+    <!-- page title, like the quests page -->
+    <div class="page-header">
+      <h1 id="about-name-text" class="mt-1">aron kovacs</h1>
+      <p>A founder marketer of the tank class</p>
+    </div>
     <div class="row">
       <div class="column">
         <div id="about-text">
-          <button class="primary" [class.active]="isPowerUpAnimating" (click)="changeProfileImageToPowerUp()">superpower</button>
-          <button [class.active]="isPowerDownAnimating" (click)="changeProfileImageToPowerDown()">weak spot</button>
-          <h1 id="about-name-text" class="mt-1">aron kovacs</h1>
-
-          <p class="mt-0"><strong>founder marketer (tank)</strong></p>
- 
-          <blockquote>
-            Tanks are designed to absorb damage by forging ahead into the unknown.
-          </blockquote>
-
-          <p><strong>superpower: crossing the chasm</strong></p> 
-          <p>My default mode is daring—overpromising and overdelivering. Occasionally, this means pulling off the miraculous and turning bold ideas into great products.</p><br>
-          <br>
-          <p><strong>weak spot: swallowed by the abyss</strong></p>
-          <p>But if I am not conscious, my default feeling is frustration and being overwhelmed. And even if the product is feasible, I have to keep reminding myself to also factor in timing and ROI. To compensate, I keep running a script to consciously override my default mode to underpromising and overdelivering.
-          </p>
-          <br>
-
-          <p class="mt-0"><strong>skills:</strong></p>
-          <p>
-            <span class="light-blue-chip-big" style="margin-right: 16px">marketing</span>
-            <span class="blue-chip-big" style="margin-right: 16px">ux/ui</span>
-            <span class="green-chip-big" style="margin-right: 16px">technology</span>
-            <span class="cyan-chip-big" style="margin-right: 16px">communications</span>
-          </p><br>
-  
-          <button style="margin-left: 0px;" (click)="navigateToSkills()">see all skills</button>
-
-          <div class="featured-projects-container">
-            <h2>Featured projects</h2>
-            
-            <div class="project-cards-stack">
-            @for (project of featuredProjects; track project.id; let i = $index) {
-              <div 
-                class="project-card" 
-                [style.z-index]="featuredProjects.length - i"
-                [style.transform]="getCardTransform(i)"
-                [style.background]="getCardBackgroundColor(project)"
-                (click)="onCardClick($event)"
-                >
-                <div 
-                  class="status-chip-container"
-                  [style.color]="getCardTextColor(project)"
-                >
-                  @if (project.status === 'live') {
-                    <p><strong>Status:</strong> Live</p>
-                  } @else if (project.status === 'in progress') {
-                    <p><strong>Status:</strong> In Progress</p>
-                  } @else if (project.status === 'archived') {
-                    <p><strong>Status:</strong> Archived</p>
-                  }
-                </div>
-              <div 
-                class="project-card-inner"
-                [style.--card-text-color]="getCardTextColor(project)"
-                [style.color]="getCardTextColor(project)"
-                [style.border-color]="getCardBorderColor(project)"
-              >
-                @if (project.animationGif) {
-                  <img [src]="getAnimationPath(project)" [alt]="project.name + ' animation'" class="project-animation-gif" />
-                }
-                <h3 [class.mt-0]="$first">
-                  @if (project.link) {
-                    <a [href]="project.link" target="_blank" rel="noopener noreferrer">{{ project.name }}</a>
-                  } @else {
-                    {{ project.name }}
-                  }
-                </h3>
-                @if (getRolesWithClasses(project).length > 0) {
-                  <p>
-                    @for (roleItem of getRolesWithClasses(project); track roleItem.role) {
-                      <span 
-                        [class.blue-chip]="roleItem.chipClass === 'blue-chip'"
-                        [class.green-chip]="roleItem.chipClass === 'green-chip'"
-                        [class.cyan-chip]="roleItem.chipClass === 'cyan-chip'"
-                        [class.light-blue-chip]="roleItem.chipClass === 'light-blue-chip'"
-                        [class.white-chip]="roleItem.chipClass === 'white-chip'"
-                      >{{ capitalizeFirst(roleItem.role) }}</span>
-                    }
-                  </p>
-                }
-                @if (project.description) {
-                  <p><strong>Description:</strong> {{ project.description }}</p>
-                }
-                <div class="align-button">
-                  @if(hasProjectArticle(project)) {
-                    <button class="button small" (click)="navigateToProjectArticle(project)">read more</button>
-                  }
-                  @if(project.link) {
-                    <button class="button primary small" (click)="navigateToProjectLink(project)">{{ project.buttonText }}</button>
-                  }
-                </div>
-              </div>
-              @if (project.techStack && project.techStack.length > 0) {
-                <div class="tech-stack-container">
-                  <p class="tech-stack-text" [attr.data-text]="getTechStackString(project.techStack)">{{ getTechStackString(project.techStack) }} • {{ getTechStackString(project.techStack) }}</p>
-                </div>
-              }
-              </div>
-            }
-            </div>
-          </div>
-
-          <button class="big" (click)="navigateToProjects()">go to projects</button>
-
-          <h2>Let's connect</h2>
+          <h2 id="connect">Let's connect</h2>
           <p>Reach out through my <strong>socials</strong> below!</p>
         </div>
         <div class="social-icons">
@@ -212,14 +112,14 @@
           title="i post my pretty visuals and some personal stuff here"
           /></a>
           <a
-          href="https://github.com/mixedoff/aronsnotes.com"
+          href="https://github.com/mixedoff"
           target="_blank"
           rel="noopener noreferrer"
           ><img
           src="assets/img/socials/githubNoColor.svg"
           id="github-icon"
           alt="github"
-          title="check out aronsnotes.com's repo"
+          title="check out my github"
           /></a>
           <a
           href="https://www.linkedin.com/in/aronpeterkovacs/"
@@ -246,11 +146,31 @@
         </div>
       </div>
       <div class="img-column">
-        <img
-          class="profile-picture"
-          [src]="currentProfileImage"
-          alt="profile picture"
-        />
+        <!-- built like a quest card, in the founder marketer color -->
+        <div class="project-card character-card">
+          <div class="status-chip-container">
+            <p><strong>Status:</strong> caffeinating</p>
+          </div>
+          <div class="project-card-inner" style="--card-text-color: #080a19">
+            <img class="project-animation-gif profile-picture" [src]="currentProfileImage" alt="profile picture" />
+            <h3>aron kovacs</h3>
+            @if (characterSkills.length > 0) {
+              <p>
+                @for (skill of characterSkills; track skill.label) {
+                  <span [class]="skill.chipClass">{{ skill.label }}</span>
+                }
+              </p>
+            }
+            <p><strong>Description:</strong> A creative tank who charges headfirst into the unknown. Sometimes crosses the chasm and makes it to Valhalla. Sometimes, well... flops.</p>
+            <div class="align-button">
+              <button class="button small" [class.active]="isPowerDownAnimating" (click)="changeProfileImageToPowerDown()">flop</button>
+              <button class="button primary small" [class.active]="isPowerUpAnimating" (click)="changeProfileImageToPowerUp()">cross the chasm</button>
+            </div>
+          </div>
+          <div class="tech-stack-container">
+            <p class="tech-stack-text">founder marketer</p>
+          </div>
+        </div>
         <!-- <img
           class="profile-picture"
           src="assets/img/profile-picture/blinking-long2.gif"

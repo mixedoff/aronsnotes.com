@@ -27,7 +27,16 @@ export class BottomNavComponent implements OnInit, OnDestroy {
   @Output() menuClicked = new EventEmitter<boolean>();
   @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' =
     'articles';
+  /** The rotating messages are shown on the character page; everywhere else the bottom nav shows the socials */
+  @Input() showMessages = false;
   displayText: string = 'aronsnotes.com';
+  // Same links as on the character page
+  socials = [
+    { id: 'email', href: 'mailto:aron.peter.kovacs@gmail.com', title: 'shoot me an email for general inquiries or to hire me' },
+    { id: 'instagram', href: 'https://www.instagram.com/misterkovax/', title: 'i post my pretty visuals and some personal stuff here' },
+    { id: 'github', href: 'https://github.com/mixedoff', title: 'check out my github' },
+    { id: 'linkedin', href: 'https://www.linkedin.com/in/aronpeterkovacs/', title: 'connect with me on linkedin' },
+  ];
   private textInterval: any;
   isArticleOpen: boolean = false;
   private articleContentSubscription?: Subscription;
@@ -39,7 +48,9 @@ export class BottomNavComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.startTextCycle();
+    if (this.showMessages) {
+      this.startTextCycle();
+    }
     this.articleContentSubscription = this.articleStateService.showArticleContent$.subscribe(
       (show) => {
         this.isArticleOpen = show;
