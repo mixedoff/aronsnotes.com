@@ -67,7 +67,7 @@ export const article41 = {
 
 <p class="article">Keywords by topic:</p>
 
-<table class="article">
+<table class="article auto-cols">
   <thead><tr><th>Topic</th><th>Count</th><th>Priority</th><th>Main target page</th></tr></thead>
   <tbody>
     <tr><td>Career guidance</td><td>17</td><td>8</td><td>Test page, homepage, "What profession suits me?" article</td></tr>

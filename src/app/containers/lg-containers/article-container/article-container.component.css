@@ -167,6 +167,8 @@ p {
   max-height: 100%;
   /* overflow-x: hidden; */
   background: none;
+  /* long URLs and table cells wrap instead of widening the text past the padding on mobile */
+  overflow-wrap: anywhere;
   /* @media (min-width: 650px) {
     overflow-x: hidden;
   } */

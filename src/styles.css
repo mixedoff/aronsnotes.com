@@ -480,6 +480,13 @@ table.article td {
   background: none;
 }
 
+/* tables with more than two columns size their columns to the content */
+table.article.auto-cols th,
+table.article.auto-cols td {
+  width: auto;
+  overflow-wrap: normal;
+}
+
 table.article th {
   background: #080a19;
   color: #c6c8c8;
@@ -493,6 +500,13 @@ table.article th {
   table.article th,
   table.article td {
     padding: 0.4rem;
+  }
+  table.article.auto-cols {
+    font-size: 0.75rem;
+  }
+  table.article.auto-cols th,
+  table.article.auto-cols td {
+    padding: 0.3rem;
   }
 }
 
