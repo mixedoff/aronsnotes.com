@@ -39,37 +39,8 @@
         />
       </svg>
     </div>
-    <div class="title-holder">
-      @if (selectedArticle?.paths; as paths) {
-        <!-- a note filed in more than one place shows each of its paths -->
-        @for (path of paths; track $index; let firstPath = $first) {
-          @if (!firstPath) {
-          <small>&middot;</small>
-          }
-          @for (part of path; track $index; let firstPart = $first) {
-            @if (!firstPart) {
-            <small>&#47;</small>
-            }
-            <small>{{ part }}</small>
-          }
-        }
-      } @else {
-      @for (folder of selectedArticle?.folder ?? []; track folder) {
-        <small>{{ folder }}</small>
-        }
-        @for (subFolder of selectedArticle?.subFolder ?? []; track subFolder) {
-          @if (subFolder) {
-          <small>&#47;</small>
-          <small>{{ subFolder }}</small>
-          }
-        }
-        @for (subSubFolder of selectedArticle?.subSubFolder ?? []; track subSubFolder) {
-          @if (subSubFolder) {
-          <small>&#47;</small>
-          <small>{{ subSubFolder }}</small>
-          }
-        }
-      }
+    <div class="date-holder">
+      <small>{{ selectedArticle?.date }}</small>
     </div>
   </div>
   <div class="inner-container" #innerContainer>
@@ -99,8 +70,16 @@
     </div>
   </div>
   <div class="small-div">
-    <div class="date-holder">
-  <small>{{ selectedArticle?.date }}</small>
-</div>
+    <!-- a note filed in more than one place cycles through its paths, like the about page bottom nav -->
+    <div class="title-holder">
+      @if (folderPaths[pathIndex]; as path) {
+        @for (part of path; track $index; let firstPart = $first) {
+          @if (!firstPart) {
+          <small>&#47;</small>
+          }
+          <small>{{ part }}</small>
+        }
+      }
+    </div>
   </div>
 </div>

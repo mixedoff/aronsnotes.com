@@ -42,6 +42,10 @@ export class ArticleContainerComponent
     'articles';
 
   selectedArticle: Article | undefined = undefined;
+  /** The note's folder paths; the bottom bar shows one at a time */
+  folderPaths: string[][] = [];
+  pathIndex = 0;
+  private pathInterval: any;
   showArticleContent: boolean = false;
   private subscriptions: Subscription = new Subscription();
   private visualizationComponentRef: ComponentRef<any> | null = null;
@@ -64,6 +68,7 @@ export class ArticleContainerComponent
     this.subscriptions.add(
       this.articleStateService.selectedArticle$.subscribe((article) => {
         this.selectedArticle = article;
+        this.startPathCycle(article);
         this.scrollInnerContainerToTop();
 
         // Check if we need to add a visualization component
@@ -103,8 +108,23 @@ export class ArticleContainerComponent
   }
 
   ngOnDestroy() {
+    clearInterval(this.pathInterval);
     this.removeVisualizationComponent();
     this.subscriptions.unsubscribe();
+  }
+
+  private startPathCycle(article: Article | undefined) {
+    clearInterval(this.pathInterval);
+    this.folderPaths = article
+      ? this.articleService.getFolderPaths(article).filter((path) => path.length > 0)
+      : [];
+    this.pathIndex = 0;
+    if (this.folderPaths.length > 1) {
+      // Same pace as the about page bottom nav messages
+      this.pathInterval = setInterval(() => {
+        this.pathIndex = (this.pathIndex + 1) % this.folderPaths.length;
+      }, 5000);
+    }
   }
 
   private addVisualizationComponent() {

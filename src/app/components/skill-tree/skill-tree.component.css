@@ -140,7 +140,7 @@
   border: 2px solid currentColor;
 }
 
-.main-node .node-title {
+.filled-node .node-title {
   border: none;
 }
 

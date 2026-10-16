@@ -17,7 +17,7 @@
 
 .quest-grid .project-card {
   position: relative;
-  max-width: none;
+  max-width: 350px;
   /* grow with the content instead of the deck's fixed card height */
   height: auto;
   min-height: 512px;

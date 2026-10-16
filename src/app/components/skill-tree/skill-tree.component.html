@@ -61,6 +61,7 @@
         <div 
           class="skill-node" 
           [class.main-node]="isMainNode(node)"
+          [class.filled-node]="isFilledNode(node)"
           [class.in-path]="isInHoveredPath(node)"
           [style]="getNodeStyle(node)"
           [style.color]="node.color"
@@ -72,8 +73,8 @@
           (mouseleave)="onNodeLeave()"
         >
           <h3 class="node-title" 
-              [style.color]="isMainNode(node) ? '#000000' : node.color"
-              [style.backgroundColor]="isMainNode(node) ? node.color : 'transparent'">
+              [style.color]="isFilledNode(node) ? '#000000' : node.color"
+              [style.backgroundColor]="isFilledNode(node) ? node.color : 'transparent'">
             {{ node.title }}
           </h3>
           @if (node.articles.length > 0) {

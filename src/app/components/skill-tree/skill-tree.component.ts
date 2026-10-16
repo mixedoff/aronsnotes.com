@@ -175,10 +175,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   private initializeFolderView(allArticles: Article[]) {
-    // Extract all unique folders, subFolders, and subSubFolders
+    // Extract all unique folders and subFolders
     const allFolders = new Set<string>();
     const allSubFolders = new Set<string>();
-    const allSubSubFolders = new Set<string>();
     
     allArticles.forEach(article => {
       article.folder.forEach(f => {
@@ -191,16 +190,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
           allSubFolders.add(sf);
         }
       });
-      article.subSubFolder.forEach(ssf => {
-        if (ssf && ssf.trim() !== '') {
-          allSubSubFolders.add(ssf);
-        }
-      });
     });
     
     console.log('Folders:', Array.from(allFolders));
     console.log('SubFolders:', Array.from(allSubFolders));
-    console.log('SubSubFolders:', Array.from(allSubSubFolders));
     
     // First pass: Create all nodes without positioning
     allFolders.forEach((folder, index) => {
@@ -261,66 +254,47 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         this.skillNodes.push({
           id: `subfolder-${subFolder}-${index}`, // Ensure unique IDs
           title: this.folderTitle(subFolder),
+          folder: subFolder,
           category: 'Sub Category',
           articles: [],
           unlocked: true,
           position: { x: 0, y: 0 }, // Temporary position
-          connections: connections
+          connections: connections,
+          level: 1
         });
       }
     });
     
-    const subSubFolderArray = Array.from(allSubSubFolders);
-    subSubFolderArray.forEach((subSubFolder, index) => {
-      if (subSubFolder && subSubFolder.trim() !== '' && !HIDDEN_FOLDERS.has(subSubFolder)) {
-        // Create connections based on actual article data
-        const connections: string[] = [];
-        
-        // Connect to subfolders based on the sub-subfolder's content
-        const articlesWithThisSubSubFolder = allArticles.filter(article => 
-          article.subSubFolder.includes(subSubFolder)
+    // Sub-subfolders and anything deeper (deeper levels come from a note's paths) get a node
+    // per level, connected to the folders one level up
+    const allPaths = allArticles.flatMap(article => this.articleService.getFolderPaths(article));
+    const maxDepth = Math.max(0, ...allPaths.map(path => path.length));
+    for (let depth = 2; depth < maxDepth; depth++) {
+      const names = Array.from(new Set(allPaths.map(path => path[depth]).filter(Boolean)));
+      names.forEach((name, index) => {
+        if (HIDDEN_FOLDERS.has(name)) return;
+        const parentNames = new Set(
+          allPaths.filter(path => path[depth] === name).map(path => path[depth - 1])
         );
-        
-        // Find which subfolders this sub-subfolder should connect to
-        const subFoldersForThisSubSubFolder = new Set<string>();
-        articlesWithThisSubSubFolder.forEach(article => {
-          this.articleService.getFolderPaths(article).forEach(path => {
-            if (path[2] === subSubFolder && path[1]) {
-              subFoldersForThisSubSubFolder.add(path[1]);
-            }
-          });
-        });
-        
-        // Connect to the actual subfolder nodes
-        subFoldersForThisSubSubFolder.forEach(subFolder => {
-          const subFolderNode = this.skillNodes.find(node => 
-            node.id.startsWith(`subfolder-${subFolder}-`)
-          );
-          if (subFolderNode) {
-            connections.push(subFolderNode.id);
-          }
-        });
-        
-        // If no connections found, connect to all subfolders as fallback
-        if (connections.length === 0) {
-          this.skillNodes.forEach(node => {
-            if (node.id.startsWith('subfolder-')) {
-              connections.push(node.id);
-            }
-          });
-        }
-        
+        const connections = this.skillNodes
+          .filter(node => node.level === depth - 1 && parentNames.has(node.folder!))
+          .map(node => node.id);
+        // Its parent folder is hidden (or missing), so it stays hidden too
+        if (connections.length === 0) return;
+
         this.skillNodes.push({
-          id: `subsubfolder-${subSubFolder}-${index}`, // Ensure unique IDs
-          title: this.folderTitle(subSubFolder),
+          id: `level${depth}-${name}-${index}`, // Ensure unique IDs
+          title: this.folderTitle(name),
+          folder: name,
           category: 'Detailed Category',
           articles: [],
           unlocked: true,
           position: { x: 0, y: 0 }, // Temporary position
-          connections: connections
+          connections,
+          level: depth
         });
-      }
-    });
+      });
+    }
   }
 
   onNodeEnter(node: SkillNode) {
@@ -383,10 +357,8 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
           // Extract subfolder name by removing 'subfolder-' prefix and any trailing index
           const subFolderName = node.id.replace(/^subfolder-/, '').replace(/-\d+$/, '');
           return article.subFolder.includes(subFolderName);
-        } else if (node.id.startsWith('subsubfolder-')) {
-          // Extract sub-subfolder name by removing 'subsubfolder-' prefix and any trailing index
-          const subSubFolderName = node.id.replace(/^subsubfolder-/, '').replace(/-\d+$/, '');
-          return article.subSubFolder.includes(subSubFolderName);
+        } else if (node.level !== undefined && node.level >= 2) {
+          return this.articleService.getFolderPaths(article).some(path => path[node.level!] === node.folder);
         }
         return false;
       });
@@ -440,13 +412,6 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         }
       }
       node.color = parentColor;
-      
-      // Set appropriate levels
-      if (node.id.startsWith('subfolder-')) {
-        node.level = 1;
-      } else if (node.id.startsWith('subsubfolder-')) {
-        node.level = 2;
-      }
     });
     
     // Use circular layout instead of force-directed
@@ -471,8 +436,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       .filter(node => node.id.startsWith('folder-'))
       .sort((a, b) => folderOrder(a) - folderOrder(b));
     const middleLevelNodes = this.skillNodes.filter(node => node.id.startsWith('subfolder-'));
-    const level2Nodes = this.skillNodes.filter(node => node.id.startsWith('subsubfolder-'));
-    const level3Nodes: SkillNode[] = [];
+    // Sub-subfolders and deeper, parents before their children
+    const deepNodes = this.skillNodes
+      .filter(node => (node.level ?? 0) >= 2)
+      .sort((a, b) => a.level! - b.level!);
 
     // ---------------------------------------------------------
     // UNIVERSAL RAY-BASED LAYOUT (ALL VIEWS)
@@ -539,63 +506,28 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       };
     });
 
-    // Helper to position children along their parent's ray with wide distribution
-    const positionAlongRay = (node: SkillNode, minDist: number, maxDist: number) => {
-      let parentId: string | undefined;
-      let baseAngle = 0;
-      let foundParent = false;
+    // 3. Position deeper nodes along their parent's ray, each level further out
+    const rayAngles = new Map<string, number>([...folderAngles, ...level1Angles]);
+    deepNodes.forEach(node => {
+      const parentAngle = rayAngles.get(node.connections[0]);
+      // Fallback: random angle
+      const baseAngle = parentAngle ?? Math.random() * 2 * Math.PI;
+      rayAngles.set(node.id, baseAngle);
 
-      // Get parent ID from connections (first instance)
-      if (node.connections.length > 0) {
-        parentId = node.connections[0];
-        
-        // Try to find parent in level1Angles first (for level 2 nodes)
-        if (level1Angles.has(parentId)) {
-          baseAngle = level1Angles.get(parentId)!;
-          foundParent = true;
-        } else {
-          // For level 3 nodes, find parent's parent
-          const parent = this.skillNodes.find(n => n.id === parentId);
-          if (parent && parent.connections.length > 0) {
-            const grandParentId = parent.connections[0];
-            if (level1Angles.has(grandParentId)) {
-              baseAngle = level1Angles.get(grandParentId)!;
-              foundParent = true;
-            } else if (folderAngles.has(grandParentId)) {
-              baseAngle = folderAngles.get(grandParentId)!;
-              foundParent = true;
-            }
-          }
-        }
-      }
-
-      if (!foundParent) {
-        // Fallback: random angle
-        baseAngle = Math.random() * 2 * Math.PI;
-      }
-
-      // Apply wide randomness along the ray for mind map distribution
-      // 1. Random Distance within range
-      const distance = minDist + Math.random() * (maxDist - minDist);
-      
-      // 2. Wide Angle Jitter (Spread nodes out within a "slice" rather than a thin line)
-      // +/- 90 degrees (1.57 radians) for very wide distribution
-      const angleJitter = (Math.random() - 0.5) * 1.57;
-      const finalAngle = baseAngle + angleJitter;
+      // Wide randomness along the ray for mind map distribution:
+      // a random distance within the level's band and up to +/- 45 degrees off the ray
+      const minDist = 570 + 300 * (node.level! - 2);
+      const distance = minDist + Math.random() * 300;
+      const finalAngle = baseAngle + (Math.random() - 0.5) * 1.57;
 
       node.position = {
         x: centerX + distance * Math.cos(finalAngle),
         y: centerY + distance * Math.sin(finalAngle)
       };
-    };
-
-    // 3. Position Level 2 nodes along rays
-    level2Nodes.forEach(node => {
-      positionAlongRay(node, 570, 870);
     });
 
     // 5. Final Collision Resolution (Very strong push for mind map spacing)
-    const allNodes = [...(rootNode ? [rootNode] : []), ...mainFolders, ...middleLevelNodes, ...level2Nodes, ...level3Nodes];
+    const allNodes = [...(rootNode ? [rootNode] : []), ...mainFolders, ...middleLevelNodes, ...deepNodes];
     const maxIterations = 100; // Many more iterations for better resolution
 
     for (let iter = 0; iter < maxIterations; iter++) {
@@ -755,6 +687,11 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
   isMainNode(node: SkillNode): boolean {
     return node.id === ROOT_NODE_ID || node.id.startsWith('folder-');
+  }
+
+  /** Main nodes and subnodes are filled with their color; deeper nodes are outlined */
+  isFilledNode(node: SkillNode): boolean {
+    return this.isMainNode(node) || node.level === 1;
   }
 
   onContainerClick(event: MouseEvent) {

@@ -364,7 +364,10 @@ export class BezierScreensaverComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown')
   @HostListener('document:click')
   @HostListener('document:scroll')
+  // Pages scroll inside their containers, and those scroll events don't reach the document
+  @HostListener('document:wheel')
   @HostListener('document:touchstart')
+  @HostListener('document:touchmove')
   onActivity() {
     if (this.isActive) {
       this.deactivate();

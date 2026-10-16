@@ -126,9 +126,14 @@ p {
 .title-holder {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  width: 100%;
+  min-width: 0;
   background: none;
   gap: 8px;
+  /* a long path stays on one line instead of overflowing the bar on mobile */
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .tag-holder {

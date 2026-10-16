@@ -117,17 +117,17 @@ export class AboutContainerComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit() {
     this.loadFeaturedProjects();
     this.characterSkills = this.buildSkillChips(this.articleService.originalArticles);
+    // Start in fullscreen
+    this.isExpanded = true;
     this.checkScreenSize();
-    // Start in fullscreen on large screens
-    this.isExpanded = this.isLargeScreen;
     window.addEventListener('resize', this.resizeHandler);
   }
 
   checkScreenSize() {
     this.isLargeScreen = window.innerWidth >= 1024;
-    // If screen becomes small while expanded, collapse it
-    if (!this.isLargeScreen && this.isExpanded) {
-      this.isExpanded = false;
+    // Smaller screens (tablet, mobile) are always fullscreen; the green button is greyed out
+    if (!this.isLargeScreen) {
+      this.isExpanded = true;
     }
   }
 

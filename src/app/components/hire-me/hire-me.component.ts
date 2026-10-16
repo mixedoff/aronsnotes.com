@@ -44,6 +44,10 @@ export class HireMeComponent implements OnInit, OnDestroy {
   @HostListener('document:keypress', ['$event'])
   @HostListener('document:click', ['$event'])
   @HostListener('document:scroll', ['$event'])
+  // Pages scroll inside their containers, and those scroll events don't reach the document
+  @HostListener('document:wheel', ['$event'])
+  @HostListener('document:touchstart', ['$event'])
+  @HostListener('document:touchmove', ['$event'])
   onUserActivity() {
     this.resetIdleTimer();
   }
