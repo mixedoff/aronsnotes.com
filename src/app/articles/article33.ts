@@ -3,7 +3,7 @@ export const article33 = {
   date: '16.10.2025',
   folder: ['content'],
   subFolder: ['creative-writing'],
-  subSubFolder: [''],
+  subSubFolder: ['book-chapters'],
   project: 'self-ware',
   title: 'culture',
   subtitle: '3 dark epic from the Hungarian culture',

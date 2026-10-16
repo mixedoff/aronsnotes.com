@@ -3,7 +3,8 @@ export const article4 = {
   date: '30.09.2024',
   folder: ['product'],
   subFolder: ['ux-design', 'ui-design'],
-  subSubFolder: [''],
+  subSubFolder: ['branding'],
+  paths: [['product', 'ux-design'], ['product', 'ui-design', 'branding']],
   project: 'CareeVerz',
   title: 'CareeVerz UI and brand identity v6_final',
   subtitle:

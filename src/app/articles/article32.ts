@@ -3,7 +3,7 @@ export const article32 = {
   date: '16.10.2025',
   folder: ['content'],
   subFolder: ['creative-writing'],
-  subSubFolder: [''],
+  subSubFolder: ['book-chapters'],
   project: 'self-ware',
   title: 'abstractions',
   subtitle: '"Some of these rules can be bent. Others can be broken." - Morpheus',

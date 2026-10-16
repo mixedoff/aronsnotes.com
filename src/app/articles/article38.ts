@@ -3,7 +3,7 @@ export const article38 = {
   date: '11.10.2026',
   folder: ['engineering'],
   subFolder: ['automation'],
-  subSubFolder: [''],
+  subSubFolder: ['workflows'],
   project: 'general',
   title: 'job application autopilot',
   subtitle: 'One n8n workflow and one Claude skill that do the typing, so I only do the deciding',

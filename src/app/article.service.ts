@@ -19,7 +19,8 @@ export interface Article {
   /**
    * Folder paths ([folder, subFolder?, subSubFolder?]) for a note filed in more than one place,
    * e.g. [['growth', 'seo'], ['content', 'copywriting']]. When set, folder, subFolder and
-   * subSubFolder are filled in from these on load.
+   * subSubFolder are filled in from these on load. Paths can go deeper than subSubFolder;
+   * the skills page shows every level.
    */
   paths?: string[][];
   /** Optional p5js or other visualization component to display at the top of the article */

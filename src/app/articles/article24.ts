@@ -3,7 +3,7 @@ export const article24 = {
   date: '12.10.2025',
   folder: ['engineering'],
   subFolder: ['devops'],
-  subSubFolder: [''],
+  subSubFolder: ['version-control'],
   project: 'aronsnotes',
   title: 'git update',
   subtitle: '',

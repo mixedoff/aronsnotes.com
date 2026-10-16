@@ -3,7 +3,7 @@ export const article41 = {
   date: '16.10.2026',
   folder: ['growth'],
   subFolder: ['seo'],
-  subSubFolder: [''],
+  subSubFolder: ['keyword-research'],
   project: 'CareeVerz',
   title: 'nobody googles anymore. right?',
   subtitle: 'Why I ended up doing good old-fashioned SEO for CareeVerz, and what I found once I started digging',

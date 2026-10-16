@@ -3,7 +3,7 @@ export const article22 = {
   date: '10.04.2024',
   folder: ['content'],
   subFolder: ['creative-writing'],
-  subSubFolder: [''],
+  subSubFolder: ['short-stories'],
   project: 'CreativeWriting',
   title: 'be there for myself',
   subtitle: 'I was there—alone in the dark, surrounded by towering walls',

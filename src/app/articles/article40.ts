@@ -3,7 +3,7 @@ export const article40 = {
   date: '12.10.2026',
   folder: ['growth'],
   subFolder: ['analytics'],
-  subSubFolder: [''],
+  subSubFolder: ['dashboards'],
   project: 'CareeVerz',
   title: 'one screen above all',
   subtitle: 'A one-screen KPI dashboard for CareeVerz in Google Analytics, and what it told us',

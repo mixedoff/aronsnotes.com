@@ -28,7 +28,9 @@ export const FOLDER_LABELS: { [folder: string]: string } = {
   'ui-design': 'ui designer',
   'copywriting': 'copywriter',
   'creative-writing': 'creative writer',
-  'essays': 'non-fiction writer'
+  'essays': 'non-fiction writer',
+  'non-fiction': 'non-fiction',
+  'sci-fi': 'sci-fi'
 };
 
 // Folders left off the skills page for now; their notes stay in the notes list.

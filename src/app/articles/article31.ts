@@ -3,7 +3,7 @@ export const article31 = {
   date: '16.10.2025',
   folder: ['content'],
   subFolder: ['creative-writing'],
-  subSubFolder: [''],
+  subSubFolder: ['book-chapters'],
   project: 'aronsnotes',
   title: 'boot_up',
   subtitle: 'first draft of the self-ware project',

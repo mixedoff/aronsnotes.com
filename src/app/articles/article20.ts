@@ -3,7 +3,7 @@ export const article20 = {
   date: '12.07.2025',
   folder: ['content'],
   subFolder: ['creative-writing'],
-  subSubFolder: [''],
+  subSubFolder: ['short-stories'],
   project: 'CreativeWriting',
   title: 'friendship',
   subtitle: 'I really thought we were going to be friends...',

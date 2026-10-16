@@ -3,7 +3,7 @@ export const article21 = {
   date: '13.07.2025',
   folder: ['content'],
   subFolder: ['creative-writing'],
-  subSubFolder: [''],
+  subSubFolder: ['short-stories'],
   project: 'CreativeWriting',
   title: 'a future to avoid',
   subtitle: 'I was so focused on work that I neglected my relationships...',

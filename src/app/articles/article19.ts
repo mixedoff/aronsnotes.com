@@ -3,7 +3,7 @@ export const article19 = {
   date: '04.07.2025',
   folder: ['engineering'],
   subFolder: ['front-end'],
-  subSubFolder: [''],
+  subSubFolder: ['animations'],
   project: 'aronsnotes',
   title: 'aronsnotes quit page flickering animation',
   subtitle: 'improving the flow of the quit page',

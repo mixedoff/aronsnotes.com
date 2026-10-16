@@ -3,7 +3,7 @@ export const article8 = {
   date: '08.11.2024',
   folder: ['engineering'],
   subFolder: ['devops'],
-  subSubFolder: [''],
+  subSubFolder: ['deployment'],
   project: 'aronsnotes',
   title: 'deploying angular app with nginx on rocky linux',
   subtitle: 'step by step guide to deploy an angular application',

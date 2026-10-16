@@ -3,7 +3,7 @@ export const article2 = {
   date: '05.08.2023',
   folder: ['product'],
   subFolder: ['ui-design'],
-  subSubFolder: [''],
+  subSubFolder: ['branding'],
   project: 'CareeVerz',
   title: 'CareeVerz UI and brand identity v1',
   subtitle: 'careeverz.com the first look',
