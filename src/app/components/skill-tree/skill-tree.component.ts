@@ -35,6 +35,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   filteredArticles: Article[] = [];
   // Node under the mouse and the nodes on its way back to the root
   hoveredPath = new Set<string>();
+  // The hovered or tapped node lights up with one of a few flicker effects
+  litNodeId: string | null = null;
+  litEffect = '';
+  private readonly lightEffects = ['flicker', 'stutter', 'surge', 'buzz'];
   
   // Zoom and pan properties
   scale: number = 1;
@@ -62,6 +66,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       this.onNodeEnter(node);
     } else {
       this.hoveredPath = new Set();
+      this.litNodeId = null;
     }
   }
   
@@ -311,13 +316,27 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       });
     }
     this.hoveredPath = path;
+    this.lightUp(node);
   }
 
   onNodeLeave() {
     // A tapped node on mobile keeps its path lit
     if (!this.activeMobileNode) {
       this.hoveredPath = new Set();
+      this.litNodeId = null;
     }
+  }
+
+  /** Picks a different effect than last time, so lighting up doesn't feel the same every time */
+  private lightUp(node: SkillNode) {
+    if (this.litNodeId === node.id) return;
+    const choices = this.lightEffects.filter(effect => effect !== this.litEffect);
+    this.litEffect = choices[Math.floor(Math.random() * choices.length)];
+    this.litNodeId = node.id;
+  }
+
+  getLightClass(node: SkillNode): string {
+    return this.litNodeId === node.id ? `light-${this.litEffect}` : '';
   }
 
   /** Technologies a note uses, shown as hashtags next to its title */

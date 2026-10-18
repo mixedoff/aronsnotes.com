@@ -12,6 +12,8 @@ import { filter, Subscription } from 'rxjs';
 })
 export class HireMeComponent implements OnInit, OnDestroy {
   isVisible = false;
+  text = 'Hire me';
+  private showCount = 0;
   private idleTimer: any;
   private displayTimer: any;
   private routerSubscription?: Subscription;
@@ -64,6 +66,9 @@ export class HireMeComponent implements OnInit, OnDestroy {
   }
 
   private showHireMe() {
+    this.showCount++;
+    // Every fifth flash asks for love instead of a job
+    this.text = this.showCount % 5 === 0 ? 'Love me' : 'Hire me';
     this.isVisible = true;
     
     this.displayTimer = setTimeout(() => {

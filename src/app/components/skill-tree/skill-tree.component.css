@@ -225,6 +225,158 @@
 
 /* JavaScript-based flicker will handle the animation */
 
+/* Light-up on hover (tap on mobile): the node glows in its own color.
+   Each effect ends lit and holds there until the node is left. Animations
+   also win over the inline styles the load-time flicker leaves behind. */
+.skill-node {
+  --lit-shadow:
+    0 0 4px var(--glow),
+    0 0 12px var(--glow),
+    0 0 28px color-mix(in srgb, var(--glow) 60%, transparent);
+  --lit-text: 0 0 2px var(--glow), 0 0 8px var(--glow);
+}
+
+/* filled nodes have black text, so only the box glows */
+.filled-node {
+  --lit-text: none;
+}
+
+.light-flicker .node-title {
+  animation: light-flicker 1.2s linear forwards;
+}
+
+.light-stutter .node-title {
+  animation: light-stutter 0.9s linear forwards;
+}
+
+.light-surge .node-title {
+  animation: light-surge 0.6s ease-out forwards;
+}
+
+.light-buzz .node-title {
+  animation: light-buzz 0.5s linear forwards;
+}
+
+/* the quit page's neon flicker, played once */
+@keyframes light-flicker {
+  0%, 20%, 21.9%, 63%, 63.9%, 65%, 69.9% {
+    opacity: 0.4;
+    box-shadow: none;
+    text-shadow: none;
+  }
+  19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% {
+    opacity: 1;
+    box-shadow: var(--lit-shadow);
+    text-shadow: var(--lit-text);
+  }
+}
+
+/* a fluorescent tube struggling to start */
+@keyframes light-stutter {
+  0%, 8%, 11%, 30%, 33%, 47%, 49% {
+    opacity: 0.5;
+    box-shadow: none;
+    text-shadow: none;
+  }
+  7.9%, 10.9%, 29.9%, 32.9%, 46.9%, 48.9%, 100% {
+    opacity: 1;
+    box-shadow: var(--lit-shadow);
+    text-shadow: var(--lit-text);
+  }
+}
+
+/* power surges past full brightness and settles */
+@keyframes light-surge {
+  0% {
+    opacity: 0.6;
+    box-shadow: none;
+    text-shadow: none;
+  }
+  45% {
+    opacity: 1;
+    box-shadow:
+      0 0 8px var(--glow),
+      0 0 24px var(--glow),
+      0 0 56px var(--glow);
+    text-shadow: var(--lit-text);
+  }
+  100% {
+    opacity: 1;
+    box-shadow: var(--lit-shadow);
+    text-shadow: var(--lit-text);
+  }
+}
+
+/* fast electric crackle */
+@keyframes light-buzz {
+  0%, 12%, 24%, 36%, 48%, 60% {
+    opacity: 0.55;
+    box-shadow: none;
+    text-shadow: none;
+  }
+  6%, 18%, 30%, 42%, 54%, 100% {
+    opacity: 1;
+    box-shadow: var(--lit-shadow);
+    text-shadow: var(--lit-text);
+  }
+}
+
+/* The path's connections light up in step with the node. Only opacity is
+   animated (filters on SVG lines aren't drawn everywhere); a wide, faint line
+   under each connection gives it its glow. */
+.path-glow {
+  opacity: 0.3;
+}
+
+.light-flicker .path-line {
+  animation: line-flicker 1.2s linear forwards;
+}
+
+.light-stutter .path-line {
+  animation: line-stutter 0.9s linear forwards;
+}
+
+.light-surge .path-line {
+  animation: line-surge 0.6s ease-out forwards;
+}
+
+.light-buzz .path-line {
+  animation: line-buzz 0.5s linear forwards;
+}
+
+@keyframes line-flicker {
+  0%, 20%, 21.9%, 63%, 63.9%, 65%, 69.9% { opacity: 0.3; }
+  19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% { opacity: 1; }
+}
+
+@keyframes line-stutter {
+  0%, 8%, 11%, 30%, 33%, 47%, 49% { opacity: 0.35; }
+  7.9%, 10.9%, 29.9%, 32.9%, 46.9%, 48.9%, 100% { opacity: 1; }
+}
+
+@keyframes line-surge {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+@keyframes line-buzz {
+  0%, 12%, 24%, 36%, 48%, 60% { opacity: 0.4; }
+  6%, 18%, 30%, 42%, 54%, 100% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .light-flicker .node-title,
+  .light-stutter .node-title,
+  .light-surge .node-title,
+  .light-buzz .node-title,
+  .light-flicker .path-line,
+  .light-stutter .path-line,
+  .light-surge .path-line,
+  .light-buzz .path-line {
+    animation-duration: 0.01s;
+  }
+}
+
 /* Mobile-specific styles for touch interactions */
 @media (max-width: 768px) {
   .skill-tree-container {
@@ -296,12 +448,19 @@
     display: flex; /* Show zoom controls on mobile */
     bottom: 40px;
     right: 15px;
+    gap: 10px;
   }
   
+  /* bigger tap targets that stand out from the tree behind them */
   .zoom-btn {
-    font-size: 16px;
-    width: 36px;
-    height: 36px;
+    font-size: 24px;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    opacity: 0.9;
+    background: rgba(3, 24, 24, 0.85);
+    border: 2px solid #6ffa1e;
+    box-shadow: 0 0 8px rgba(111, 250, 30, 0.35);
   }
 }
 
