@@ -4,7 +4,11 @@ export const article3 = {
   folder: ['product'],
   subFolder: ['ux-design', 'ui-design'],
   subSubFolder: ['branding'],
-  paths: [['product', 'ux-design'], ['product', 'ui-design', 'branding']],
+  paths: [
+    ['product', 'ux-design', 'prototyping'],
+    ['product', 'ui-design', 'branding'],
+    ['product', 'ui-design', 'design-system'],
+  ],
   project: 'CareeVerz',
   title: 'CareeVerz UI and brand identity v3',
   subtitle: 'CareeVerz.com the first design draft',

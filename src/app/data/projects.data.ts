@@ -1,26 +1,19 @@
 export interface Project {
   id: string;
   name: string;
+  /** One line about the quest, shown at the bottom of the card's back */
+  subtitle: string;
   description: string;
   link?: string;
   buttonText?: string;
   /** In-site page the button opens instead of the external link, e.g. '/about#connect' */
   buttonRoute?: string;
-  category: ('product' | 'growth' | 'engineering' | 'content' | 'marketing')[];
-  designRoles?: ('ux/ui designer' | 'ux researcher' | 'brand designer' | 'graphic designer' | 'animator' | 'copywriter' | 'content creator')[];
-  developmentRoles?: ('frontend developer' | 'backend developer' | 'full stack developer' | 'co-founder' | 'product manager' | 'market researcher')[];
-  writingRoles?: ('writer' | 'copywriter' | 'ux writer' | 'technical writer' | 'non-fiction writer')[];
-  marketingRoles?: ('founder marketer' | 'market researcher')[];
-  otherRoles?: ('co-founder' | 'founder'| 'product manager' | 'market researcher')[];
   /** My role in the quest, shown as a white chip on the quests page */
-  questRole?: string;
+  questMasterRole?: string;
   startDate?: string;
   endDate?: string;
   status?: 'live' | 'in progress' | 'archived';
   vision?: string;
-  mission?: string;
-  techStack?: string[];
-  collaborators?: string[];
   milestones?: string[];
   isFeatured?: boolean;
   featuredOrder?: number;
@@ -31,44 +24,31 @@ export const PROJECTS: Project[] = [
   {
     id: 'careeverz',
     name: 'CareeVerz.com',
-    questRole: 'co-founder',
+    subtitle: 'A career matching AI web app.',
+    questMasterRole: 'co-founder',
     status: 'live',
     vision: 'Gamifying work.',
-    mission: 'To be a compass for career starters in the world of work.',
-    techStack: ['Figma', 'Angular', '.NET', 'Azure', 'Docker', 'Harness ML', 'Hetzner', 'Google OAuth', 'Stripe', 'Brevo'],
-    collaborators: ['Mark Tumpek', 'Lang Levente', 'Daniel Mery'],
-    milestones: ['Recruited and led a multidisciplinary team of 4','Launched a complex AI-driven career matching app', 'Got to 100 users'],
+    milestones: ['Recruited and led a multidisciplinary team of 4','Launched a complex AI-driven career matching app', 'Got to 1000 users'],
     isFeatured: true,
     featuredOrder: 1,
-    description: 'A career matching AI web application that helps career starters make informed career choices through personality assessment and with a massive database of career paths.',
+    description: 'CareeVerz.com is an AI web app that matches career starters and career changers with the right career, based on a personality assessment and a large database of career paths.',
     link: 'https://careeverz.com',
     buttonText: 'visit CareeVerz',
-    designRoles: ['ux/ui designer', 'ux researcher'],
-    writingRoles: ['ux writer'],
-    marketingRoles: ['founder marketer', 'market researcher'],
-    otherRoles: ['co-founder', 'product manager'],
-    category: ['product', 'marketing'],
     startDate: '2023-01-01',
-    endDate: '2024-12-31',
+    endDate: '',
     animationGif: 'sun.gif'
   },
   {
     id: 'aronsnotes',
     name: 'aronsnotes.com',
-    questRole: 'founder',
+    subtitle: 'A retro portfolio/blog',
+    questMasterRole: 'founder',
     status: 'live',
-    description: 'A personal knowledge management system and portfolio website showcasing my stuff as if it would be a retro game.',
+    description: 'aronsnotes.com is a portfolio/blog website of Aron Kovacs showcasing his work as if he would be a character in a retro game',
     link: 'https://aronsnotes.com',
     buttonText: "let's connect",
     buttonRoute: '/about#connect',
-    developmentRoles: ['full stack developer'],
-    designRoles: ['ux/ui designer', 'animator'],
-    writingRoles: ['ux writer', 'technical writer', 'copywriter'],
-    otherRoles: ['founder'],
-    category: ['engineering', 'product', 'content'],
     vision: 'Gamifying my character development.',
-    mission: 'To help me keep track of my character development and progress.',
-    techStack: ['Figma', 'Angular', 'Hetzner Cloud', 'Nginx'],
     milestones: ['Launched a personal knowledge management system and portfolio website showcasing my stuff as if it would be a retro game.', 'Led research & development', 'Recruited and led a multidisciplinary team of 4', 'Designed and executed the UX/UI process', 'Helped to develop the front-end'],
     isFeatured: true,
     featuredOrder: 2,
@@ -78,22 +58,15 @@ export const PROJECTS: Project[] = [
   {
     id: 'self-ware',
     name: 'DEEP-SHIT',
+    subtitle: 'A dark self-help memoir.',
     status: 'in progress',
     vision: '',
-    mission: 'To rebuild broken identities and world models for carbon based algorithms.',
-    techStack: ['good old fashioned pen and paper', 'Angular', 'Hetzner Cloud', 'Nginx'],
-    collaborators: [''],
     milestones: ['Acquired an editor', 'Almost done with the first draft'],
     isFeatured: true,
     featuredOrder: 3,
-    description: "A carbon based algorithm's manual for (re)building world model and identity.",
+    description: "DEEP-SHIT is a darkly funny, brutally honest self-help memoir that treats people as running on inherited “code,” and shows how to find the broken parts and integrate them instead of letting them slowly destroy you.",
     link: 'mailto:aron.peter.kovacs@gmail.com',
     buttonText: 'email to pre-order!',
-    writingRoles: ['non-fiction writer', 'technical writer'],
-    developmentRoles: ['full stack developer'],
-    designRoles: ['graphic designer'],
-    otherRoles: ['founder'],
-    category: ['content', 'engineering', 'product'],
     startDate: '2024-06-01',
     animationGif: 'magic_book2.gif'
   }

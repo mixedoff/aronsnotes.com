@@ -2,6 +2,7 @@
   
   <div 
     class="tree-container"
+    [class.hover-paused]="hoverPaused"
     (wheel)="onMouseWheel($event)"
     (mousedown)="onMouseDown($event)"
     (mousemove)="onMouseMove($event)"
@@ -76,6 +77,7 @@
           [class.main-node]="isMainNode(node)"
           [class.filled-node]="isFilledNode(node)"
           [class.in-path]="isInHoveredPath(node)"
+          [class.picker-open]="node.id === rootNodeId && questPickerOpen"
           [style]="getNodeStyle(node)"
           [style.color]="node.color"
           [style.--glow]="node.color"
@@ -92,6 +94,46 @@
               [style.backgroundColor]="isFilledNode(node) ? node.color : 'transparent'">
             {{ node.title }}
           </h3>
+          @if (node.id === rootNodeId) {
+            <!-- Quest picker: the tree shows every note, or only one quest's -->
+            <div
+              class="quest-picker"
+              (mouseleave)="questPickerOpen = false"
+              (click)="$event.stopPropagation()"
+              (mousedown)="$event.stopPropagation()"
+              (touchstart)="$event.stopPropagation()"
+              (touchend)="$event.stopPropagation()"
+            >
+              @if (questPickerOpen) {
+                <ul class="quest-picker-list" role="listbox" aria-label="Show notes from">
+                  <li
+                    role="option"
+                    tabindex="0"
+                    [attr.aria-selected]="!activeQuest"
+                    [class.selected]="!activeQuest"
+                    (click)="selectQuest(null)"
+                    (keydown.enter)="selectQuest(null)"
+                  >all quests</li>
+                  @for (quest of quests; track quest.id) {
+                    <li
+                      role="option"
+                      tabindex="0"
+                      [attr.aria-selected]="activeQuest?.id === quest.id"
+                      [class.selected]="activeQuest?.id === quest.id"
+                      (click)="selectQuest(quest)"
+                      (keydown.enter)="selectQuest(quest)"
+                    >{{ quest.name }}</li>
+                  }
+                </ul>
+              }
+              <button
+                class="quest-picker-toggle"
+                aria-haspopup="listbox"
+                [attr.aria-expanded]="questPickerOpen"
+                (click)="toggleQuestPicker()"
+              >{{ activeQuest?.name ?? 'all quests' }} {{ questPickerOpen ? '▴' : '▾' }}</button>
+            </div>
+          }
           @if (node.articles.length > 0) {
             <div class="articles-list articles-hover">
               @for (article of node.articles; track article.id) {

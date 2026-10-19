@@ -28,6 +28,37 @@ export class QuestsContainerComponent
   questSkills = new Map<string, SkillChip[]>();
   /** Technologies per project id, collected from the project's notes */
   questTech = new Map<string, string[]>();
+  /** Cards turned to their front (cards start on their back) */
+  private frontCards = new Set<string>();
+  /** How many times each card has turned */
+  flips = new Map<string, number>();
+  /** How many times each card has turned to its front; a new count replays the pixel burst */
+  bursts = new Map<string, number>();
+
+  isFront(project: Project): boolean {
+    return this.frontCards.has(project.id);
+  }
+
+  flipCard(project: Project) {
+    if (!this.frontCards.delete(project.id)) {
+      this.frontCards.add(project.id);
+      this.bursts.set(project.id, (this.bursts.get(project.id) ?? 0) + 1);
+    }
+    this.flips.set(project.id, (this.flips.get(project.id) ?? 0) + 1);
+  }
+
+  /** A still frame of the quest's animation (assets/gif/stills), for the card's back */
+  getStillPath(project: Project): string {
+    return project.animationGif
+      ? `/assets/gif/stills/${project.animationGif.replace(/\.gif$/, '.png')}`
+      : '';
+  }
+
+  /** Clicking the front turns the card back, unless it was on a link or button */
+  onFrontClick(event: MouseEvent, project: Project) {
+    if ((event.target as HTMLElement).closest('a, button')) return;
+    this.flipCard(project);
+  }
 
   // Featured projects first (in their featured order), then the rest
   override loadFeaturedProjects() {

@@ -10,6 +10,8 @@
   display: grid;
   /* cards are as wide as the character card */
   grid-template-columns: repeat(auto-fill, minmax(min(350px, 100%), 350px));
+  /* every row is as tall as the tallest card, so all cards are the same height */
+  grid-auto-rows: 1fr;
   gap: 32px;
   width: 100%;
   margin: 20px 0px 60px 0px;
@@ -24,8 +26,173 @@
   min-width: 0;
 }
 
-.quest-grid .project-card:hover {
-  transform: translateY(-5px) scale(1.02) !important;
+/* Each quest is a card with two faces: the back shows first, a click or tap turns it */
+.quest-card {
+  position: relative;
+  max-width: 350px;
+  min-width: 0;
+  display: flex;
+  perspective: 1400px;
+  transition: transform 0.3s ease;
+}
+
+.quest-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+/* both faces share one grid cell, so the card is as tall as its taller face */
+.quest-flipper {
+  flex: 1;
+  display: grid;
+  transform-style: preserve-3d;
+}
+
+.quest-flipper > .project-card {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* The faces don't move themselves: the flipper turns them. These beat the
+   card hover transforms, which would undo the front's half turn. */
+.quest-grid .quest-back,
+.quest-grid .quest-back:hover {
+  transform: none !important;
+}
+
+.quest-grid .quest-front,
+.quest-grid .quest-front:hover {
+  transform: rotateY(180deg) !important;
+}
+
+.quest-card.show-front .quest-flipper {
+  transform: rotateY(180deg);
+  animation: quest-flip-to-front 0.7s steps(14, end) forwards;
+}
+
+.quest-card.flipped-once:not(.show-front) .quest-flipper {
+  animation: quest-flip-to-back 0.7s steps(14, end) forwards;
+}
+
+/* turns in choppy frames like an old game sprite, lifting off the page halfway */
+@keyframes quest-flip-to-front {
+  0% { transform: rotateY(0deg) scale(1); }
+  50% { transform: rotateY(90deg) scale(1.12) translateY(-12px); }
+  100% { transform: rotateY(180deg) scale(1); }
+}
+
+@keyframes quest-flip-to-back {
+  0% { transform: rotateY(180deg) scale(1); }
+  50% { transform: rotateY(90deg) scale(1.12) translateY(-12px); }
+  100% { transform: rotateY(0deg) scale(1); }
+}
+
+/* the front's frame grows with the card, keeping its tech list at the bottom */
+.quest-front .project-card-inner {
+  height: auto;
+  flex: 1;
+}
+
+/* Back face: name on top, a big animation, subtitle at the bottom */
+.quest-back {
+  padding: 20px;
+  overflow: hidden;
+}
+
+.quest-back .quest-back-inner {
+  height: auto;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  gap: 16px;
+}
+
+.quest-back .quest-back-name {
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+
+.quest-back-gif {
+  width: 100%;
+  max-width: 280px;
+  height: 280px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.quest-back .quest-back-subtitle {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Pixel art hover: a band of checkered pixels sweeps over the back in choppy frames */
+.pixel-shine {
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 45%;
+  height: 140%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-130%) skewX(-20deg);
+  background:
+    repeating-conic-gradient(rgba(255, 255, 255, 0.55) 0 25%, transparent 0 50%) 0 0 / 8px 8px;
+}
+
+.quest-back:hover .pixel-shine,
+.quest-back:focus-visible .pixel-shine {
+  opacity: 1;
+  animation: pixel-shine-sweep 0.9s steps(9, end) forwards;
+}
+
+@keyframes pixel-shine-sweep {
+  from { transform: translateX(-130%) skewX(-20deg); }
+  to { transform: translateX(330%) skewX(-20deg); }
+}
+
+.quest-back:focus-visible {
+  outline: 3px dashed #080a19;
+  outline-offset: 4px;
+}
+
+/* Pixels fly out of the card as it turns: one square, copied around by its shadows */
+.pixel-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  pointer-events: none;
+  z-index: 2;
+  background: var(--card-color);
+  box-shadow:
+    -150px -190px 0 var(--card-color), 140px -210px 0 #fff, 180px -60px 0 var(--card-color),
+    -190px -40px 0 #fff, 200px 90px 0 var(--card-color), -170px 120px 0 var(--card-color),
+    120px 230px 0 #fff, -110px 240px 0 var(--card-color), 10px -250px 0 #fff,
+    -20px 260px 0 #fff, 220px -150px 0 #080a19, -220px -120px 0 #080a19,
+    -210px 210px 0 #fff, 190px 200px 0 #080a19, 80px -120px 0 #fff, -90px 70px 0 #fff;
+  animation: pixel-burst 0.7s steps(7, end) forwards;
+}
+
+@keyframes pixel-burst {
+  0% { transform: scale(0.2); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quest-card.show-front .quest-flipper,
+  .quest-card.flipped-once:not(.show-front) .quest-flipper,
+  .quest-back:hover .pixel-shine,
+  .pixel-burst {
+    animation: none;
+  }
+
+  .pixel-burst {
+    display: none;
+  }
 }
 
 /* Tech lists sit on the right and stay still unless they overflow the card (see updateTechTickers) */
@@ -60,7 +227,7 @@
     gap: 24px;
   }
 
-  .quest-grid .project-card:hover {
-    transform: none !important;
+  .quest-card:hover {
+    transform: none;
   }
 }

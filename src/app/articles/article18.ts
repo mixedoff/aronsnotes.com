@@ -4,6 +4,7 @@ export const article18 = {
   folder: ['product'],
   subFolder: ['ui-design'],
   subSubFolder: ['branding'],
+  paths: [['product', 'ui-design', 'branding', 'logos']],
   project: 'CodingMindTech',
   title: 'codingmindtech brand identity',
   subtitle: 'A distinct identity for our AI and tech sub-brand',

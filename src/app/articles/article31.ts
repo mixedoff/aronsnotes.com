@@ -4,7 +4,7 @@ export const article31 = {
   folder: ['content'],
   subFolder: ['creative-writing'],
   subSubFolder: ['book-chapters'],
-  project: 'aronsnotes',
+  project: 'self-ware',
   title: 'boot_up',
   subtitle: 'first draft of the self-ware project',
   technologies: [],

@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Output, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Article, ArticleService } from '../../article.service';
 import { ROOT_FOLDER, MAIN_FOLDERS, FOLDER_COLORS, FOLDER_LABELS, HIDDEN_FOLDERS } from '../../data/skills.data';
+import { Project, PROJECTS } from '../../data/projects.data';
 
 export interface SkillNode {
   id: string;
@@ -39,6 +41,23 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   litNodeId: string | null = null;
   litEffect = '';
   private readonly lightEffects = ['flicker', 'stutter', 'surge', 'buzz'];
+
+  // The tree can show a single quest's notes (/skills?quest=careeverz), picked on the root node
+  readonly rootNodeId = ROOT_NODE_ID;
+  readonly quests: Project[] = [...PROJECTS].sort(
+    (a, b) => (a.featuredOrder ?? Infinity) - (b.featuredOrder ?? Infinity)
+  );
+  activeQuest: Project | null = null;
+  questPickerOpen = false;
+  private questSubscription?: Subscription;
+  /**
+   * After picking a quest, nodes ignore the pointer until the mouse really moves, so the
+   * new tree doesn't open with whatever node happens to be under it already lit.
+   * (A page can't move the pointer itself.)
+   */
+  hoverPaused = false;
+  private pausedAt: { x: number; y: number } | null = null;
+  private lastPointer = { x: 0, y: 0 };
   
   // Zoom and pan properties
   scale: number = 1;
@@ -86,7 +105,8 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
   constructor(
     private articleService: ArticleService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -94,17 +114,12 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     this.isMobile = window.innerWidth <= 768;
     console.log('Initial mobile detection:', this.isMobile, 'window width:', window.innerWidth);
     
-    this.initializeSkillTree();
-    this.loadArticles();
-    
-    // Center the skill tree in the viewport initially
-    this.centerSkillTree();
-    
-    // Trigger flicker animation for subnodes on first load
-    if (!this.hasInitialized) {
-      this.hasInitialized = true;
-      this.triggerFlickerAnimation();
-    }
+    // Builds the tree now, and again whenever another quest is picked
+    this.questSubscription = this.route.queryParamMap.subscribe(params => {
+      const questId = params.get('quest');
+      this.activeQuest = this.quests.find(quest => quest.id === questId) ?? null;
+      this.buildTree();
+    });
     
     // Add resize listener for responsive layout
     this.resizeListener = () => {
@@ -117,6 +132,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.questSubscription?.unsubscribe();
     if (this.flickerTimeout) {
       clearTimeout(this.flickerTimeout);
     }
@@ -128,10 +144,51 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     }
   }
 
+  private buildTree() {
+    this.activeMobileNode = null;
+    this.questPickerOpen = false;
+    this.initializeSkillTree();
+    this.loadArticles();
+    
+    // Center the skill tree in the viewport
+    this.centerSkillTree();
+    
+    // Subnodes flicker on, on first load and when the quest changes
+    this.hasInitialized = true;
+    this.triggerFlickerAnimation();
+  }
+
+  /** Every note, or only the picked quest's */
+  private treeArticles(): Article[] {
+    this.articleService.resetToOriginal();
+    const articles = this.articleService.getArticles();
+    if (!this.activeQuest) return articles;
+    const questNotes = new Set(
+      this.articleService.getArticlesByProject(this.activeQuest.id, this.activeQuest.name)
+    );
+    return articles.filter(article => questNotes.has(article));
+  }
+
+  toggleQuestPicker() {
+    this.questPickerOpen = !this.questPickerOpen;
+  }
+
+  selectQuest(quest: Project | null) {
+    this.questPickerOpen = false;
+    if (quest?.id === this.activeQuest?.id) return;
+    if (!this.isMobile) {
+      this.hoverPaused = true;
+      this.pausedAt = { ...this.lastPointer };
+    }
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { quest: quest?.id ?? null },
+    });
+  }
+
   private initializeSkillTree() {
     // Get all articles first to extract categories
-    this.articleService.resetToOriginal();
-    const allArticles = this.articleService.getArticles();
+    const allArticles = this.treeArticles();
     
     console.log('All articles:', allArticles.length);
     
@@ -349,9 +406,8 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   private loadArticles() {
-    // Get all articles - for booknotes screen, we want all articles
-    this.articleService.resetToOriginal();
-    this.filteredArticles = this.articleService.getArticles();
+    // Every note, or only the picked quest's
+    this.filteredArticles = this.treeArticles();
     
     console.log('Filtered articles:', this.filteredArticles.length);
     
@@ -715,6 +771,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
   onContainerClick(event: MouseEvent) {
     console.log('Container clicked:', event.target);
+    this.questPickerOpen = false;
     
     // On mobile, if clicking on the container (not on a node), close any active mobile nodes
     if (this.isMobile) {
@@ -810,6 +867,13 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   onMouseMove(event: MouseEvent): void {
+    this.lastPointer = { x: event.clientX, y: event.clientY };
+    // A few pixels of jitter don't count as moving on
+    if (this.hoverPaused && this.pausedAt &&
+        this.getDistance(this.pausedAt.x, this.pausedAt.y, event.clientX, event.clientY) > 6) {
+      this.hoverPaused = false;
+      this.pausedAt = null;
+    }
     if (this.isDragging) {
       const deltaX = event.clientX - this.lastMouseX;
       const deltaY = event.clientY - this.lastMouseY;

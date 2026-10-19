@@ -5,6 +5,7 @@ import { Project, PROJECTS } from '../../../data/projects.data';
 import { Article, ArticleService } from '../../../article.service';
 import {
   FOLDER_CHIP_CLASSES,
+  FOLDER_COLORS,
   HIDDEN_FOLDERS,
   MAIN_FOLDERS,
   ROOT_FOLDER,
@@ -58,16 +59,13 @@ export class AboutContainerComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
 
-  navigateToProjectArticle(project: Project) {
-    const article = this.articleService.getArticleByProject(project.id, project.name);
-    if (article) {
-      this.router.navigate(['/note', article.id]);
-    }
+  /** The skills page, showing only the quest's notes */
+  navigateToQuestNotes(project: Project) {
+    this.router.navigate(['/skills'], { queryParams: { quest: project.id } });
   }
 
-  hasProjectArticle(project: Project): boolean {
-    const article = this.articleService.getArticleByProject(project.id, project.name);
-    return !!article;
+  hasQuestNotes(project: Project): boolean {
+    return this.articleService.getArticlesByProject(project.id, project.name).length > 0;
   }
 
   closeSubmenu() {
@@ -204,33 +202,21 @@ export class AboutContainerComponent implements OnInit, AfterViewInit, OnDestroy
     return `translateY(${offset}px) rotate(${rotation}deg)`;
   }
 
-  getCardBackgroundColor(project: Project): string {
-    if (!project.category || project.category.length === 0) {
-      return '#010689'; // Default color
-    }
-    
-    const firstCategory = project.category[0];
-    switch (firstCategory) {
-      case 'product':
-        return '#3a94de';
-      case 'engineering':
-        return '#6ffa1e';
-      case 'growth':
-        return '#ffe415';
-      case 'content':
-        return '#4ecdc4';
-      case 'marketing':
-        return '#8ab8ff';
-      default:
-        return '#010689'; // Default color
-    }
-  }
+  private cardColors = new Map<string, string>();
 
-  shouldUseDarkText(project: Project): boolean {
-    const bgColor = this.getCardBackgroundColor(project);
-    // Return true if background is green (#6ffa1e), yellow (#ffe415), cyan (#4ecdc4) or light blue (#8ab8ff)
-    // Design cards (blue #3a94de) always use white text
-    return bgColor === '#6ffa1e' || bgColor === '#ffe415' || bgColor === '#4ecdc4' || bgColor === '#8ab8ff';
+  /** The color of the main folder most of the quest's notes are filed under */
+  getCardBackgroundColor(project: Project): string {
+    if (!this.cardColors.has(project.id)) {
+      const counts = new Map<string, number>();
+      this.articleService.getArticlesByProject(project.id, project.name).forEach((article) =>
+        article.folder
+          .filter((folder) => FOLDER_COLORS[folder])
+          .forEach((folder) => counts.set(folder, (counts.get(folder) ?? 0) + 1))
+      );
+      const [top] = Array.from(counts.entries()).sort((x, y) => y[1] - x[1]);
+      this.cardColors.set(project.id, top ? FOLDER_COLORS[top[0]] : '#010689');
+    }
+    return this.cardColors.get(project.id)!;
   }
 
   getCardTextColor(project: Project): string {
@@ -241,40 +227,6 @@ export class AboutContainerComponent implements OnInit, AfterViewInit, OnDestroy
   getCardBorderColor(project: Project): string {
     // All cards use black border
     return '#080a19';
-  }
-
-  getAllRoles(project: Project): string[] {
-    const allRoles: string[] = [];
-    if (project.designRoles) allRoles.push(...project.designRoles);
-    if (project.developmentRoles) allRoles.push(...project.developmentRoles);
-    if (project.writingRoles) allRoles.push(...project.writingRoles);
-    if (project.marketingRoles) allRoles.push(...project.marketingRoles);
-    if (project.otherRoles) allRoles.push(...project.otherRoles);
-    return allRoles;
-  }
-
-  getRolesWithClasses(project: Project): Array<{role: string, chipClass: string}> {
-    const rolesWithClasses: Array<{role: string, chipClass: string}> = [];
-    if (project.designRoles) {
-      project.designRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'blue-chip'}));
-    }
-    if (project.developmentRoles) {
-      project.developmentRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'green-chip'}));
-    }
-    if (project.writingRoles) {
-      project.writingRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'cyan-chip'}));
-    }
-    if (project.marketingRoles) {
-      project.marketingRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'light-blue-chip'}));
-    }
-    if (project.otherRoles) {
-      project.otherRoles.forEach(role => rolesWithClasses.push({role, chipClass: 'white-chip'}));
-    }
-    return rolesWithClasses;
-  }
-
-  getRolesString(roles: string[]): string {
-    return roles.map(role => this.capitalizeFirst(role)).join(', ');
   }
 
   getTechStackString(techStack?: string[]): string {

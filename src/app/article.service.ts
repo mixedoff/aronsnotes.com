@@ -14,8 +14,6 @@ export interface Article {
   author: string | null;
   published: string | null;
   content: string;
-  /** Project overview notes; reachable from project cards and the skill tree, but left out of the notes list */
-  projectNote?: boolean;
   /**
    * Folder paths ([folder, subFolder?, subSubFolder?]) for a note filed in more than one place,
    * e.g. [['growth', 'seo'], ['content', 'copywriting']]. When set, folder, subFolder and
@@ -117,14 +115,6 @@ export class ArticleService {
       this.loadArticles();
     }
     return this.articles.find((article) => article.id === id);
-  }
-
-  getArticleByProject(projectId: string, projectName?: string): Article | undefined {
-    // Project notes come first, so a newer note about the same project
-    // doesn't replace the project's own overview note.
-    return this.getArticlesByProject(projectId, projectName).sort(
-      (a, b) => Number(!!b.projectNote) - Number(!!a.projectNote)
-    )[0];
   }
 
   /** Every note filed under a project, matched by project id or name (case-insensitive, with/without .com) */

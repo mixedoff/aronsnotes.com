@@ -76,9 +76,7 @@ export class ArticlesContainerComponent implements OnInit, OnDestroy {
     }
     
     // Update the articles array after filtering
-    this.articles = this.articleService
-      .getArticles()
-      .filter((article) => !article.projectNote);
+    this.articles = this.articleService.getArticles();
     console.log('ArticlesContainerComponent - Loaded articles:', this.articles.length);
   }
 
