@@ -6,7 +6,7 @@ export const note24 = {
   subSubFolder: ['version-control'],
   quest: 'aronsnotes',
   title: 'git update',
-  subtitle: '',
+  subtitle: 'The daily git workflow: check the status, fetch, switch branches, commit and push',
   technologies: ['git'],
   size: null,
   author: null,

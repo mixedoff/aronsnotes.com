@@ -12,6 +12,7 @@ import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-s
 import { NotesScreenComponent } from './screens/notes-screen/notes-screen.component';
 import { QuestsScreenComponent } from './screens/quests-screen/quests-screen.component';
 import { PersonalScreenComponent } from './screens/personal-screen/personal-screen.component';
+import { NotFoundScreenComponent } from './screens/not-found-screen/not-found-screen.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'loading', pathMatch: 'full' },
@@ -53,6 +54,7 @@ export const routes: Routes = [
     canMatch: [(_route: unknown, segments: { path: string }[]) =>
       !!inject(NoteService).getNoteBySlug(segments[0]?.path ?? '')],
   },
-  // anything else goes to the notes list
-  { path: '**', redirectTo: 'notes' },
+  // anything else doesn't exist; /404 is prerendered for nginx's error page
+  { path: '404', component: NotFoundScreenComponent },
+  { path: '**', component: NotFoundScreenComponent },
 ];

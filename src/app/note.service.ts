@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as Notes from './notes';
+import { assignSlugs } from './note-slug';
 export interface Note {
   id: number;
   date: string;
@@ -28,18 +29,6 @@ export interface Note {
    * Made from the title on load; set it only to pin an address that shouldn't change with the title.
    */
   slug?: string;
-}
-
-/** 'nobody googles anymore. right?' -> 'nobody-googles-anymore-right' */
-export function slugify(title: string): string {
-  return title
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '') // accents
-    .toLowerCase()
-    .replace(/['’]/g, '') // let's -> lets
-    .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
 }
 
 @Injectable({
@@ -85,15 +74,8 @@ export class NoteService {
       // Sort notes by id in descending order (newest first)
       notes.sort((a, b) => b.id - a.id);
 
-      // Every note gets its own address; older notes keep theirs if a newer one has the same title
-      const taken = new Set<string>();
-      [...notes].reverse().forEach((note) => {
-        const base = note.slug || slugify(note.title) || `note-${note.id}`;
-        let slug = base;
-        for (let n = 2; taken.has(slug); n++) slug = `${base}-${n}`;
-        note.slug = slug;
-        taken.add(slug);
-      });
+      // Every note gets its own address
+      assignSlugs(notes);
       
       this.originalNotes = notes;
       this.notes = [...this.originalNotes];

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aronsnotes.com/sitemap.xml

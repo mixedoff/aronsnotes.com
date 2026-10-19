@@ -40,3 +40,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Generated before every build by scripts/generate.ts
+/routes.txt
+/src/seo/sitemap.xml
+/src/seo/rss.xml
+/nginx/redirects.conf

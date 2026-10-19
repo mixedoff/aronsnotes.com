@@ -11,6 +11,9 @@
       gtag('config', 'G-T6P63J2870');
     </script>
     <meta charset="utf-8" />
+    <!-- with JavaScript the game UI replaces the prerendered plain page, so hide that until then -->
+    <script>document.documentElement.classList.add('js');</script>
+    <style>.js app-static-page { display: none; }</style>
     <title>aronsnotes</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { StaticPageComponent } from './components/static-page/static-page.component';
 import { Router } from '@angular/router';
 import { LoadingScreenComponent } from './screens/loading-screen/loading-screen.component';
 import { WelcomeScreenComponent } from './screens/welcome-screen/welcome-screen.component';
@@ -22,6 +24,7 @@ import { HireMeComponent } from './components/hire-me/hire-me.component';
   selector: 'app-root',
   standalone: true,
   imports: [
+    StaticPageComponent,
     LoadingScreenComponent,
     WelcomeScreenComponent,
     MainMenuScreenComponent,
@@ -43,6 +46,8 @@ import { HireMeComponent } from './components/hire-me/hire-me.component';
 })
 export class AppComponent {
   title: string = 'aronsnotes';
+  /** The game UI only runs in the browser; prerendering renders a static page instead */
+  readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
   constructor(private noteService: NoteService, private router: Router) {}
 

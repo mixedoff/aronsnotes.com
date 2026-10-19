@@ -7,7 +7,7 @@ export const note13 = {
   paths: [['content', 'reading', 'fiction', 'sci-fi']],
   quest: 'BookNotes',
   title: 'Hyperion',
-  subtitle: '',
+  subtitle: 'Dan Simmons saw the future: AI, big data and a divided galaxy on the road to the time tombs',
   technologies: [''],
   author: 'Dan Simmons',
   published: '1989',
