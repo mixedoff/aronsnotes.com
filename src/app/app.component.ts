@@ -4,14 +4,14 @@ import { LoadingScreenComponent } from './screens/loading-screen/loading-screen.
 import { WelcomeScreenComponent } from './screens/welcome-screen/welcome-screen.component';
 import { MainMenuScreenComponent } from './screens/main-menu-screen/main-menu-screen.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ArticleScreenComponent } from './screens/article-screen/article-screen.component';
-import { AboutScreenComponent } from './screens/about-screen/about-screen.component';
-import { Article } from './article.service';
+import { NoteScreenComponent } from './screens/note-screen/note-screen.component';
+import { CharacterScreenComponent } from './screens/character-screen/character-screen.component';
+import { Note } from './note.service';
 import { QuitScreenComponent } from './screens/quit-screen/quit-screen.component';
 import { HiddenScreenComponent } from './screens/hidden-screen/hidden-screen.component';
 import { BooknotesScreenComponent } from './screens/booknotes-screen/booknotes-screen.component';
-import { ArticlesScreenComponent } from './screens/articles-screen/articles-screen.component';
-import { ArticleService } from './article.service';
+import { NotesScreenComponent } from './screens/notes-screen/notes-screen.component';
+import { NoteService } from './note.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CustomCursorComponent } from './components/custom-cursor/custom-cursor.component';
@@ -26,12 +26,12 @@ import { HireMeComponent } from './components/hire-me/hire-me.component';
     WelcomeScreenComponent,
     MainMenuScreenComponent,
     ReactiveFormsModule,
-    ArticleScreenComponent,
-    AboutScreenComponent,
+    NoteScreenComponent,
+    CharacterScreenComponent,
     QuitScreenComponent,
     HiddenScreenComponent,
     BooknotesScreenComponent,
-    ArticlesScreenComponent,
+    NotesScreenComponent,
     RouterModule,
     CommonModule,
     CustomCursorComponent,
@@ -44,38 +44,38 @@ import { HireMeComponent } from './components/hire-me/hire-me.component';
 export class AppComponent {
   title: string = 'aronsnotes';
 
-  constructor(private articleService: ArticleService, private router: Router) {}
+  constructor(private noteService: NoteService, private router: Router) {}
 
   onGrandchildInputSubmitted() {
     this.router.navigate(['/main-menu']);
   }
 
-  onGrandchildMenuArticleClick(article: Article | undefined) {
-    if (article) {
-      this.router.navigate(['/article', article.id]);
+  onGrandchildMenuNoteClick(note: Note | undefined) {
+    if (note) {
+      this.router.navigateByUrl(this.noteService.noteUrl(note));
     }
   }
 
-  onGrandchildArticlesArticleClick(article: Article) {
-    this.router.navigate(['/article', article.id]);
+  onGrandchildNotesNoteClick(note: Note) {
+    this.router.navigateByUrl(this.noteService.noteUrl(note));
   }
 
-  onGrandchildBooknotesArticleClick(article: Article | undefined) {
-    if (article) {
-      this.router.navigate(['/article', article.id]);
+  onGrandchildBooknotesNoteClick(note: Note | undefined) {
+    if (note) {
+      this.router.navigateByUrl(this.noteService.noteUrl(note));
     }
   }
 
-  onGrandchildCloseArticlesClicked() {
+  onGrandchildCloseNotesClicked() {
     this.router.navigate(['/main-menu']);
   }
 
   onGrandchildConnectClick() {
-    this.router.navigate(['/about']);
+    this.router.navigate(['/character']);
   }
 
   onGrandchildShiftC() {
-    this.router.navigate(['/about']);
+    this.router.navigate(['/character']);
   }
 
   onGrandchildShiftM() {
@@ -95,17 +95,17 @@ export class AppComponent {
   }
 
   onGrandchildMaximizeClick() {
-    this.articleService.filterArticles([
+    this.noteService.filterNotes([
       'aronsnotes',
       'careeverz',
       'miscellaneous',
       'codingmindtech',
     ]);
-    this.router.navigate(['/articles']);
+    this.router.navigate(['/notes']);
   }
 
   onGrandchildSkipLoadingScreen() {
-    this.router.navigate(['/about']);
+    this.router.navigate(['/character']);
   }
 
   onGoBackToSubmenu() {
@@ -115,17 +115,17 @@ export class AppComponent {
   }
 
   onChildBooknotesClick() {
-    this.articleService.filterArticles('books');
+    this.noteService.filterNotes('books');
     this.router.navigate(['/booknotes']);
   }
 
-  onGrandchildArticlesClick() {
-    this.articleService.filterArticles([
+  onGrandchildNotesClick() {
+    this.noteService.filterNotes([
       'aronsnotes',
       'careeverz',
       'miscellaneous',
       'codingmindtech',
     ]);
-    this.router.navigate(['/articles']);
+    this.router.navigate(['/notes']);
   }
 }

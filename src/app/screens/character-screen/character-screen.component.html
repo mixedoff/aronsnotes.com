@@ -1,0 +1,25 @@
+<!-- <div class="heroDiv"> -->
+<div class="heroDiv">
+  <app-note-top-nav
+    (clickNotes)="clickNotesOnChild()"
+    (clickConnect)="clickConnectOnChild()"
+    (clickMenu)="clickMenuOnChild()"
+    (clickQuit)="clickQuitOnChild()"
+    (aPressed)="handleAPressed()"
+    (clickReads)="clickReadsOnChild()"
+    style="
+      --nav-color: #000;
+      --nav-bg: #c6c8c8;
+      --nav-connect-color: #ffffff;
+      --nav-connect-bg: #6f7a83;
+    "
+  ></app-note-top-nav>
+  <app-character-container
+    (closeSubmenuEvent)="clickMenuOnChild()"
+  ></app-character-container>
+  <app-bottom-nav
+    [sourceScreen]="'character'"
+    [showMessages]="true"
+    (menuClicked)="clickMenuOnChild()"
+  ></app-bottom-nav>
+</div>

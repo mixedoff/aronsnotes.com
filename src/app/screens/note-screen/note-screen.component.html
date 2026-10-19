@@ -1,0 +1,39 @@
+<div class="heroDiv" (click)="onOverlayClick($event)">
+  @if (currentNote) {
+  <!-- <div
+    class="notes-background"
+    [style]="themeService.getNotesBackgroundStyles(sourceScreen)"
+  ></div> -->
+  <app-note-top-nav
+    #topNav
+    [sourceScreen]="sourceScreen"
+    (clickConnect)="clickConnectOnChild()"
+    (clickMenu)="clickMenuOnChild()"
+    (shiftC)="pressedShiftCOnChild()"
+    (shiftM)="pressedShiftMOnChild()"
+    [style]="themeService.getTopNavStyles(sourceScreen)"
+  ></app-note-top-nav>
+  <app-bottom-nav
+    [sourceScreen]="sourceScreen"
+    [style]="themeService.getBottomNavStyles(sourceScreen)"
+  ></app-bottom-nav>
+  <div class="blackened-background" (click)="onOverlayClick($event)"></div>
+  <app-note-container
+    [style]="themeService.getNoteContainerStyles(sourceScreen)"
+    [sourceScreen]="sourceScreen"
+    (goBack)="handleGoBack($event)"
+    class="note"
+    (click)="$event.stopPropagation()"
+  ></app-note-container>
+  <app-notes-container
+    [sourceScreen]="sourceScreen"
+    [style]="themeService.getNotesContainerStyles(sourceScreen)"
+  ></app-notes-container>
+  } @else {
+  <div class="not-found">
+    <h1>Note Not Found</h1>
+    <p>Sorry, the note you're looking for doesn't exist.</p>
+    <button (click)="clickMenuOnChild()">Back to Menu</button>
+  </div>
+  }
+</div>

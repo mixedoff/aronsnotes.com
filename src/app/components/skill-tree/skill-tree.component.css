@@ -162,7 +162,7 @@
   z-index: 100;
 }
 
-.articles-list {
+.notes-list {
   /* transparent border instead of margin, so the mouse can move from a node
      into its hover panel without leaving the node */
   border-top: 0.75rem solid transparent;
@@ -173,7 +173,7 @@
   background-clip: padding-box;
 }
 
-.articles-hover {
+.notes-hover {
   opacity: 0;
   max-height: 0;
   overflow: hidden;
@@ -187,13 +187,13 @@
   pointer-events: none;
 }
 
-.skill-node:hover .articles-hover {
+.skill-node:hover .notes-hover {
   opacity: 1;
   max-height: 1000px;
   pointer-events: auto;
 }
 
-.article-item {
+.note-item {
   font-size: 0.85rem;
   color: #6ffa1e;
   padding: 0.5rem 0.75rem;
@@ -207,12 +207,12 @@
   text-overflow: ellipsis;
 }
 
-.article-item:hover {
+.note-item:hover {
   color: #5ceb0a;
   transform: translateX(4px);
 }
 
-.article-item .article-title {
+.note-item .note-title {
   margin-right: 0.5rem;
 }
 
@@ -476,14 +476,14 @@
   }
   
   /* Hide hover content by default on mobile */
-  .skill-node .articles-hover {
+  .skill-node .notes-hover {
     opacity: 0;
     max-height: 0;
     overflow: hidden;
   }
   
   /* Show hover content when mobile node is active (tapped) */
-  .skill-node.mobile-active .articles-hover {
+  .skill-node.mobile-active .notes-hover {
     opacity: 1;
     max-height: 400px;
     pointer-events: auto;
@@ -512,7 +512,7 @@
     z-index: 100;
   }
   
-  .article-item {
+  .note-item {
     font-size: 0.7rem;
     padding: 0.4rem 0.6rem;
     cursor: none !important;
@@ -549,12 +549,12 @@
     padding: 5px 8px;
   }
   
-  .articles-hover {
+  .notes-hover {
     min-width: 120px;
     font-size: 0.7rem;
   }
   
-  .article-item {
+  .note-item {
     font-size: 0.65rem;
     padding: 0.3rem 0.5rem;
   }

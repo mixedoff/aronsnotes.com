@@ -1,0 +1,19 @@
+<app-note-top-nav
+  [sourceScreen]="'notes'"
+  [style]="themeService.getTopNavStyles('notes')"
+  (clickMenu)="clickMenuOnChild()"
+  (clickNotes)="clickNotesOnChild()"
+  (clickConnect)="clickConnectOnChild()"
+  (clickQuit)="clickQuitOnChild()"
+  (clickReads)="clickReadsOnChild()"
+></app-note-top-nav>
+<app-notes-container
+  [sourceScreen]="'notes'"
+  [style]="themeService.getNotesContainerStyles('notes')"
+  (noteClicked)="onNoteClicked($event)"
+  (closeNotesClicked)="onCloseNotesClicked()"
+></app-notes-container>
+<app-bottom-nav
+  [sourceScreen]="'notes'"
+  (menuClicked)="clickMenuOnChild()"
+></app-bottom-nav>

@@ -1,17 +1,17 @@
-<app-article-top-nav
+<app-note-top-nav
   (clickConnect)="clickConnectOnChild()"
   (clickMenu)="clickMenuOnChild()"
   (clickQuit)="clickQuitOnChild()"
-  (clickArticles)="clickArticlesOnChild()"
+  (clickNotes)="clickNotesOnChild()"
   (clickReads)="clickReadsOnChild()"
   [sourceScreen]="'main-menu'"
   [style]="themeService.getTopNavStyles('main-menu')"
-></app-article-top-nav>
+></app-note-top-nav>
 
 <div class="heroDiv">
   <!-- <p class="question">What makes a world-class App?</p> -->
   <app-menu-container
-    (selectedArticle)="onChildClickArticle($event)"
+    (selectedNote)="onChildClickNote($event)"
     (clickConnect)="clickConnectOnChild()"
     (clickQuit)="clickQuitOnChild()"
     (clickMinimize)="clickMinimizeOnChild()"

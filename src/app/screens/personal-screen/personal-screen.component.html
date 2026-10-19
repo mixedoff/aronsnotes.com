@@ -3,13 +3,13 @@
   [style]="themeService.getTopNavStyles('personal')"
   [navTitle]="'creative writing'"
 ></app-top-nav>
-<app-articles-container
+<app-notes-container
   [sourceScreen]="'personal'"
-  [style]="themeService.getArticlesContainerStyles('personal')"
+  [style]="themeService.getNotesContainerStyles('personal')"
   [containerTitle]="'creative writing'"
-  (closeArticlesClicked)="clickCloseArticlesOnChild()"
-  (articleClicked)="clickArticleOnChild($event)"
-></app-articles-container>
+  (closeNotesClicked)="clickCloseNotesOnChild()"
+  (noteClicked)="clickNoteOnChild($event)"
+></app-notes-container>
 <app-bottom-nav
   [sourceScreen]="'personal'"
   (menuClicked)="clickMenuOnChild()"

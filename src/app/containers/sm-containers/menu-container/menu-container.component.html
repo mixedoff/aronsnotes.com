@@ -92,9 +92,9 @@
     <small>{{ currentLabel }}</small>
   </div>
   <div class="second-inner-container">
-    @for (article of articles; track article.id) { @if (article.folder.includes(currentLabel)) {
-    <p (click)="openArticle(article)" class="article-title">
-      {{ article.title }}
+    @for (note of notes; track note.id) { @if (note.folder.includes(currentLabel)) {
+    <p (click)="openNote(note)" class="note-title">
+      {{ note.title }}
     </p>
     }}
     <br />
@@ -102,13 +102,13 @@
   </div>
 </div>
 }
-<!-- @if (showArticleContent) {
-<app-article-top-nav></app-article-top-nav>
-<app-article-container
-  [folder]="selectedArticle?.folder"
-  [date]="selectedArticle?.date"
-  [title]="selectedArticle?.title"
-  [subtitle]="selectedArticle?.subtitle"
-  [content]="selectedArticle?.content"
-></app-article-container>
+<!-- @if (showNoteContent) {
+<app-note-top-nav></app-note-top-nav>
+<app-note-container
+  [folder]="selectedNote?.folder"
+  [date]="selectedNote?.date"
+  [title]="selectedNote?.title"
+  [subtitle]="selectedNote?.subtitle"
+  [content]="selectedNote?.content"
+></app-note-container>
 } -->

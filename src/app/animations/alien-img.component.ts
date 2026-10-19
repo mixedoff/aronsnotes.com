@@ -17,13 +17,13 @@ import { Component } from '@angular/core';
 
       @keyframes changeAlien {
         0% {
-          background-image: url('/assets/img/article15/alien1.png');
+          background-image: url('/assets/img/note15/alien1.png');
         }
         33.33% {
-          background-image: url('/assets/img/article15/alien2.png');
+          background-image: url('/assets/img/note15/alien2.png');
         }
         66.66% {
-          background-image: url('/assets/img/article15/alien3.png');
+          background-image: url('/assets/img/note15/alien3.png');
         }
       }
     `,

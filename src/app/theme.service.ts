@@ -7,15 +7,15 @@ export class ThemeService {
   constructor() {}
 
   getTopNavStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
+    sourceScreen: 'booknotes' | 'notes' | 'main-menu' | 'character' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
         return (
           '--nav-color: rgba(111, 250, 30, 0.5);' +
           '--nav-bg: #091522;' +
-          '--nav-articles-color: rgba(111, 250, 30, 0.5);' +
-          '--nav-articles-bg: #091522;' +
+          '--nav-notes-color: rgba(111, 250, 30, 0.5);' +
+          '--nav-notes-bg: #091522;' +
           '--nav-reads-color: #6ffa1e;' +
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: rgba(111, 250, 30, 0.5);' +
@@ -28,12 +28,12 @@ export class ThemeService {
           '--nav-quit-bg: #091522;' +
           '--font-weight: 400;'
         );
-      case 'articles':
+      case 'notes':
         return (
           '--nav-color: rgba(111, 250, 30, 0.5);' +
           '--nav-bg: #091522;' +
-          '--nav-articles-color: #6ffa1e;' +
-          '--nav-articles-bg: #091522;' +
+          '--nav-notes-color: #6ffa1e;' +
+          '--nav-notes-bg: #091522;' +
           '--nav-reads-color: rgba(111, 250, 30, 0.5);' +
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: rgba(111, 250, 30, 0.5);' +
@@ -50,8 +50,8 @@ export class ThemeService {
         return (
           '--nav-color: #000000;' +
           '--nav-bg: #c6c8c8;' +
-          '--nav-articles-color: #000000;' +
-          '--nav-articles-bg: #c6c8c8;' +
+          '--nav-notes-color: #000000;' +
+          '--nav-notes-bg: #c6c8c8;' +
           '--nav-reads-color: #000000;' +
           '--nav-reads-bg: #c6c8c8;' +
           '--nav-connect-color: #000000;' +
@@ -64,12 +64,12 @@ export class ThemeService {
           '--nav-quit-bg: #c6c8c8;' +
           '--font-weight: 500;'
         );
-      case 'about':
+      case 'character':
         return (
           '--nav-color: #f2f2f2;' +
           '--nav-bg: #091522;' +
-          '--nav-articles-color: #ffffff;' +
-          '--nav-articles-bg: #091522;' +
+          '--nav-notes-color: #ffffff;' +
+          '--nav-notes-bg: #091522;' +
           '--nav-reads-color: #6ffa1e;' +
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: #ffffff;' +
@@ -86,8 +86,8 @@ export class ThemeService {
         return (
           '--nav-color: #f2f2f2;' +
           '--nav-bg: #091522;' +
-          '--nav-articles-color: #ffffff;' +
-          '--nav-articles-bg: #091522;' +
+          '--nav-notes-color: #ffffff;' +
+          '--nav-notes-bg: #091522;' +
           '--nav-reads-color: #6ffa1e;' +
           '--nav-reads-bg: #091522;' +
           '--nav-connect-color: #ffffff;' +
@@ -106,7 +106,7 @@ export class ThemeService {
   }
 
   getBottomNavStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
+    sourceScreen: 'booknotes' | 'notes' | 'main-menu' | 'character' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
@@ -118,7 +118,7 @@ export class ThemeService {
           '--beta-bg: none;' +
           '--beta-color: transparent;'
         );
-      case 'articles':
+      case 'notes':
         return (
           '--nav-bg: #091522;' +
           '--icon-filter: invert(1);' +
@@ -135,7 +135,7 @@ export class ThemeService {
           '--beta-bg: #6f7a83;' +
           '--beta-color: #F2F2F2;'
         );
-      case 'about':
+      case 'character':
         return (
           '--nav-bg: #c6c8c8;' +
           '--nav-color: #080a19;' +
@@ -157,8 +157,8 @@ export class ThemeService {
     }
   }
 
-  getArticleContainerStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
+  getNoteContainerStyles(
+    sourceScreen: 'booknotes' | 'notes' | 'main-menu' | 'character' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
@@ -170,7 +170,7 @@ export class ThemeService {
           '--horizontal-rule-color: #6ffa1e;' +
           '--font-weight: 400;'
         );
-      case 'articles':
+      case 'notes':
         return (
           '--outer-container-bg: #091522;' +
           '--inner-container-bg: #091522;' +
@@ -187,19 +187,19 @@ export class ThemeService {
           '--text-color: #080a19;' +
           '--horizontal-rule-color: #080a19;'
         );
-      case 'about':
+      case 'character':
         return (
           '--outer-container-bg: #091522;' +
           '--inner-container-bg: #091522;' +
-          '--article-title-color: #6ffa1e;' +
-          '--article-text-color: #f2f2f2;' +
-          '--article-link-color: #6ffa1e;' +
-          '--article-link-hover-color: #ffffff;' +
-          '--article-code-bg: #1e1e1e;' +
-          '--article-code-color: #f2f2f2;' +
-          '--article-blockquote-border: #6ffa1e;' +
-          '--article-blockquote-bg: rgba(111, 250, 30, 0.1);' +
-          '--article-blockquote-color: #f2f2f2;'
+          '--note-title-color: #6ffa1e;' +
+          '--note-text-color: #f2f2f2;' +
+          '--note-link-color: #6ffa1e;' +
+          '--note-link-hover-color: #ffffff;' +
+          '--note-code-bg: #1e1e1e;' +
+          '--note-code-color: #f2f2f2;' +
+          '--note-blockquote-border: #6ffa1e;' +
+          '--note-blockquote-bg: rgba(111, 250, 30, 0.1);' +
+          '--note-blockquote-color: #f2f2f2;'
         );
       case 'personal':
         return (
@@ -215,8 +215,8 @@ export class ThemeService {
     }
   }
 
-  getArticlesContainerStyles(
-    sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal'
+  getNotesContainerStyles(
+    sourceScreen: 'booknotes' | 'notes' | 'main-menu' | 'character' | 'personal'
   ): string {
     switch (sourceScreen) {
       case 'booknotes':
@@ -226,24 +226,24 @@ export class ThemeService {
           '--inner-container-bg: #091522;' +
           '--inner-container-border: #F2F2F2;' +
           '--font-weight: 400;' +
-          '--article-item-hover-bg: rgba(111, 250, 30, 0.1);' +
-          '--article-item-hover-color: #6ffa1e;' +
-          '--article-item-hover-hr-color: #6ffa1e;'
+          '--note-item-hover-bg: rgba(111, 250, 30, 0.1);' +
+          '--note-item-hover-color: #6ffa1e;' +
+          '--note-item-hover-hr-color: #6ffa1e;'
         );
-      case 'articles':
+      case 'notes':
         return (
           '--text-color: #f2f2f2;' +
           '--outer-container-bg: #091522;' +
           '--inner-container-bg: #091522;' +
           '--inner-container-border: #F2F2F2;' +
           '--font-weight: 400;' +
-          '--article-item-hover-bg: rgba(111, 250, 30, 0.1);' +
-          '--article-item-hover-color: #6ffa1e;' +
-          '--article-item-hover-hr-color: #6ffa1e;'
+          '--note-item-hover-bg: rgba(111, 250, 30, 0.1);' +
+          '--note-item-hover-color: #6ffa1e;' +
+          '--note-item-hover-hr-color: #6ffa1e;'
         );
       case 'main-menu':
         return '';
-      case 'about':
+      case 'character':
         return '';
       case 'personal':
         return (
@@ -252,22 +252,22 @@ export class ThemeService {
           '--inner-container-bg: #091522;' +
           '--inner-container-border: #F2F2F2;' +
           '--font-weight: 400;' +
-          '--article-item-hover-bg: rgba(111, 250, 30, 0.1);' +
-          '--article-item-hover-color: #6ffa1e;' +
-          '--article-item-hover-hr-color: #6ffa1e;'
+          '--note-item-hover-bg: rgba(111, 250, 30, 0.1);' +
+          '--note-item-hover-color: #6ffa1e;' +
+          '--note-item-hover-hr-color: #6ffa1e;'
         );
       default:
         return '';
     }
   }
-  // getArticlesBackgroundStyles(
-  //   sourceScreen: 'booknotes' | 'articles' | 'main-menu'
+  // getNotesBackgroundStyles(
+  //   sourceScreen: 'booknotes' | 'notes' | 'main-menu'
   // ): string {
   //   switch (sourceScreen) {
   //     case 'booknotes':
-  //       return '--articles-background-color: #091522;';
-  //     case 'articles':
-  //       return '--articles-background-color: #c6c8c8;';
+  //       return '--notes-background-color: #091522;';
+  //     case 'notes':
+  //       return '--notes-background-color: #c6c8c8;';
   //     case 'main-menu':
   //       return '';
   //   }

@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
-import { ArticlesContainerComponent } from '../../containers/lg-containers/articles-container/articles-container.component';
-import { Article } from '../../article.service';
-import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-nav.component';
-import { ArticleService } from '../../article.service';
+import { NotesContainerComponent } from '../../containers/lg-containers/notes-container/notes-container.component';
+import { Note } from '../../note.service';
+import { NoteTopNavComponent } from '../../nav/note-top-nav/note-top-nav.component';
+import { NoteService } from '../../note.service';
 import { Router } from '@angular/router';
 import { ThemeService } from '../../theme.service';
 import { TopNavComponent } from "../../nav/top-nav/top-nav.component";
@@ -13,8 +13,8 @@ import { TopNavComponent } from "../../nav/top-nav/top-nav.component";
   standalone: true,
   imports: [
     BottomNavComponent,
-    ArticlesContainerComponent,
-    ArticleTopNavComponent,
+    NotesContainerComponent,
+    NoteTopNavComponent,
     TopNavComponent
   ],
   templateUrl: './personal-screen.component.html',
@@ -22,30 +22,30 @@ import { TopNavComponent } from "../../nav/top-nav/top-nav.component";
 })
 export class PersonalScreenComponent implements OnInit {
   @Output() menuClickedOnChild = new EventEmitter<boolean>();
-  @Output() closeArticlesClicked = new EventEmitter<void>();
-  @Output() articleClickedOnChild = new EventEmitter<Article>();
+  @Output() closeNotesClicked = new EventEmitter<void>();
+  @Output() noteClickedOnChild = new EventEmitter<Note>();
   @Output() connectClickedOnChild = new EventEmitter<boolean>();
   @Output() quitClickedOnChild = new EventEmitter<boolean>();
   @Output() readsClickedOnChild = new EventEmitter<boolean>();
-  @Output() articlesClickedOnChild = new EventEmitter<boolean>();
+  @Output() notesClickedOnChild = new EventEmitter<boolean>();
 
   constructor(
-    private articleService: ArticleService,
+    private noteService: NoteService,
     private router: Router,
     public themeService: ThemeService
   ) {}
 
   ngOnInit() {
-    // Ensure articles are filtered when component initializes
+    // Ensure notes are filtered when component initializes
     console.log('PersonalScreenComponent initialized - filtering for personal');
-    this.articleService.filterArticles('personal');
+    this.noteService.filterNotes('personal');
   }
 
-  clickArticleOnChild(article: Article) {
-    console.log('Article clicked:', article);
-    // Just emit the event, the navigation is handled by ArticlesContainerComponent
-    this.articleClickedOnChild.emit(article);
-    // No need to navigate here as it's already done in ArticlesContainerComponent
+  clickNoteOnChild(note: Note) {
+    console.log('Note clicked:', note);
+    // Just emit the event, the navigation is handled by NotesContainerComponent
+    this.noteClickedOnChild.emit(note);
+    // No need to navigate here as it's already done in NotesContainerComponent
   }
 
   clickMenuOnChild() {
@@ -53,13 +53,13 @@ export class PersonalScreenComponent implements OnInit {
     console.log('menuClickedOnChild emitted');
   }
 
-  clickCloseArticlesOnChild() {
-    console.log('closeArticlesClicked emitted');
-    this.closeArticlesClicked.emit();
+  clickCloseNotesOnChild() {
+    console.log('closeNotesClicked emitted');
+    this.closeNotesClicked.emit();
   }
 
-  clickArticlesOnChild() {
-    this.articlesClickedOnChild.emit(true);
+  clickNotesOnChild() {
+    this.notesClickedOnChild.emit(true);
   }
 
   clickConnectOnChild() {
@@ -75,6 +75,6 @@ export class PersonalScreenComponent implements OnInit {
   }
 
   onBottomNavPClick() {
-    this.router.navigate(['/practice']);
+    this.router.navigate(['/notes']);
   }
 } 

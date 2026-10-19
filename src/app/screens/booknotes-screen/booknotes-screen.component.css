@@ -226,8 +226,8 @@ p {
   box-shadow: 4px 4px 0px 0px white;
 } */
 
-/* Article Overlay Styles */
-.article-overlay {
+/* Note Overlay Styles */
+.note-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -242,7 +242,7 @@ p {
   /* backdrop-filter: blur(10px); */
 }
 
-.article-overlay-container {
+.note-overlay-container {
   width: 90%;
   max-width: 1200px;
   max-height: 90vh;
@@ -279,7 +279,7 @@ p {
 
 /* Responsive adjustments for overlay */
 @media (max-width: 768px) {
-  .article-overlay-container {
+  .note-overlay-container {
     width: 95%;
     max-height: 95vh;
     margin: 10px;

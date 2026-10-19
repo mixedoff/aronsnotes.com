@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Project, PROJECTS } from '../../../data/projects.data';
-import { AboutContainerComponent, SkillChip } from '../about-container/about-container.component';
+import { Quest, QUESTS } from '../../../data/quests.data';
+import { CharacterContainerComponent, SkillChip } from '../character-container/character-container.component';
 
 /**
- * Lists every project as a quest. Reuses the character page's project cards
+ * Lists every quest as a quest. Reuses the character page's quest cards
  * (and their helpers), laid out as a grid instead of a stacked deck.
  */
 @Component({
@@ -13,20 +13,20 @@ import { AboutContainerComponent, SkillChip } from '../about-container/about-con
   imports: [CommonModule],
   templateUrl: './quests-container.component.html',
   styleUrls: [
-    '../about-container/about-container.component.css',
+    '../character-container/character-container.component.css',
     './quests-container.component.css',
   ],
 })
 export class QuestsContainerComponent
-  extends AboutContainerComponent
+  extends CharacterContainerComponent
   implements AfterViewInit, OnDestroy
 {
   @ViewChildren('techText') techTexts!: QueryList<ElementRef<HTMLElement>>;
   private tickerResizeHandler = () => this.updateTechTickers();
 
-  /** Skill chips per project id, built from the skills page subnodes of the project's notes */
+  /** Skill chips per quest id, built from the skills page subnodes of the quest's notes */
   questSkills = new Map<string, SkillChip[]>();
-  /** Technologies per project id, collected from the project's notes */
+  /** Technologies per quest id, collected from the quest's notes */
   questTech = new Map<string, string[]>();
   /** Cards turned to their front (cards start on their back) */
   private frontCards = new Set<string>();
@@ -35,39 +35,39 @@ export class QuestsContainerComponent
   /** How many times each card has turned to its front; a new count replays the pixel burst */
   bursts = new Map<string, number>();
 
-  isFront(project: Project): boolean {
-    return this.frontCards.has(project.id);
+  isFront(quest: Quest): boolean {
+    return this.frontCards.has(quest.id);
   }
 
-  flipCard(project: Project) {
-    if (!this.frontCards.delete(project.id)) {
-      this.frontCards.add(project.id);
-      this.bursts.set(project.id, (this.bursts.get(project.id) ?? 0) + 1);
+  flipCard(quest: Quest) {
+    if (!this.frontCards.delete(quest.id)) {
+      this.frontCards.add(quest.id);
+      this.bursts.set(quest.id, (this.bursts.get(quest.id) ?? 0) + 1);
     }
-    this.flips.set(project.id, (this.flips.get(project.id) ?? 0) + 1);
+    this.flips.set(quest.id, (this.flips.get(quest.id) ?? 0) + 1);
   }
 
   /** A still frame of the quest's animation (assets/gif/stills), for the card's back */
-  getStillPath(project: Project): string {
-    return project.animationGif
-      ? `/assets/gif/stills/${project.animationGif.replace(/\.gif$/, '.png')}`
+  getStillPath(quest: Quest): string {
+    return quest.animationGif
+      ? `/assets/gif/stills/${quest.animationGif.replace(/\.gif$/, '.png')}`
       : '';
   }
 
   /** Clicking the front turns the card back, unless it was on a link or button */
-  onFrontClick(event: MouseEvent, project: Project) {
+  onFrontClick(event: MouseEvent, quest: Quest) {
     if ((event.target as HTMLElement).closest('a, button')) return;
-    this.flipCard(project);
+    this.flipCard(quest);
   }
 
-  // Featured projects first (in their featured order), then the rest
-  override loadFeaturedProjects() {
-    this.featuredProjects = [...PROJECTS].sort(
+  // Featured quests first (in their featured order), then the rest
+  override loadFeaturedQuests() {
+    this.featuredQuests = [...QUESTS].sort(
       (a, b) => (a.featuredOrder ?? Infinity) - (b.featuredOrder ?? Infinity)
     );
-    this.featuredProjects.forEach((project) => {
-      this.questSkills.set(project.id, this.buildQuestSkills(project));
-      this.questTech.set(project.id, this.buildQuestTech(project));
+    this.featuredQuests.forEach((quest) => {
+      this.questSkills.set(quest.id, this.buildQuestSkills(quest));
+      this.questTech.set(quest.id, this.buildQuestTech(quest));
     });
   }
 
@@ -99,10 +99,10 @@ export class QuestsContainerComponent
   }
 
   // Most used first
-  private buildQuestTech(project: Project): string[] {
+  private buildQuestTech(quest: Quest): string[] {
     const counts = new Map<string, number>();
-    this.articleService.getArticlesByProject(project.id, project.name).forEach((article) =>
-      article.technologies
+    this.noteService.getNotesByQuest(quest.id, quest.name).forEach((note) =>
+      note.technologies
         .filter((tech) => tech && tech.trim() !== '')
         .forEach((tech) => counts.set(tech, (counts.get(tech) ?? 0) + 1))
     );
@@ -111,8 +111,8 @@ export class QuestsContainerComponent
       .map(([tech]) => tech);
   }
 
-  private buildQuestSkills(project: Project): SkillChip[] {
-    return this.buildSkillChips(this.articleService.getArticlesByProject(project.id, project.name));
+  private buildQuestSkills(quest: Quest): SkillChip[] {
+    return this.buildSkillChips(this.noteService.getNotesByQuest(quest.id, quest.name));
   }
 
 }

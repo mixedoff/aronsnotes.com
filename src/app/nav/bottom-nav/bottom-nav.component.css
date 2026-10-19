@@ -15,7 +15,7 @@
   z-index: 9999;
 }
 
-:host.article-open .holder-div {
+:host.note-open .holder-div {
   z-index: unset;
 }
 

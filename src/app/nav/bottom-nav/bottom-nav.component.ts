@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../theme.service';
 import { Router } from '@angular/router';
-import { ArticleStateService } from '../../article.service.state';
+import { NoteStateService } from '../../note.service.state';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,13 +20,13 @@ import { Subscription } from 'rxjs';
   styleUrl: './bottom-nav.component.css',
   host: {
     '[style]': 'getNavStyles()',
-    '[class.article-open]': 'isArticleOpen',
+    '[class.note-open]': 'isNoteOpen',
   },
 })
 export class BottomNavComponent implements OnInit, OnDestroy {
   @Output() menuClicked = new EventEmitter<boolean>();
-  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' =
-    'articles';
+  @Input() sourceScreen: 'booknotes' | 'notes' | 'main-menu' | 'character' | 'personal' =
+    'notes';
   /** The rotating messages are shown on the character page; everywhere else the bottom nav shows the socials */
   @Input() showMessages = false;
   displayText: string = 'aronsnotes.com';
@@ -38,22 +38,22 @@ export class BottomNavComponent implements OnInit, OnDestroy {
     { id: 'linkedin', href: 'https://www.linkedin.com/in/aronpeterkovacs/', title: 'connect with me on linkedin' },
   ];
   private textInterval: any;
-  isArticleOpen: boolean = false;
-  private articleContentSubscription?: Subscription;
+  isNoteOpen: boolean = false;
+  private noteContentSubscription?: Subscription;
 
   constructor(
     public themeService: ThemeService,
     private router: Router,
-    private articleStateService: ArticleStateService
+    private noteStateService: NoteStateService
   ) {}
 
   ngOnInit() {
     if (this.showMessages) {
       this.startTextCycle();
     }
-    this.articleContentSubscription = this.articleStateService.showArticleContent$.subscribe(
+    this.noteContentSubscription = this.noteStateService.showNoteContent$.subscribe(
       (show) => {
-        this.isArticleOpen = show;
+        this.isNoteOpen = show;
       }
     );
   }
@@ -62,8 +62,8 @@ export class BottomNavComponent implements OnInit, OnDestroy {
     if (this.textInterval) {
       clearInterval(this.textInterval);
     }
-    if (this.articleContentSubscription) {
-      this.articleContentSubscription.unsubscribe();
+    if (this.noteContentSubscription) {
+      this.noteContentSubscription.unsubscribe();
     }
   }
 
@@ -83,7 +83,7 @@ export class BottomNavComponent implements OnInit, OnDestroy {
 
   clickMenu() {
     this.menuClicked.emit(true);
-    this.router.navigate(['/about']);
+    this.router.navigate(['/character']);
   }
 
   // Method to get the nav styles based on the component's sourceScreen

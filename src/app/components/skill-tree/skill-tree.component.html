@@ -134,12 +134,12 @@
               >{{ activeQuest?.name ?? 'all quests' }} {{ questPickerOpen ? '▴' : '▾' }}</button>
             </div>
           }
-          @if (node.articles.length > 0) {
-            <div class="articles-list articles-hover">
-              @for (article of node.articles; track article.id) {
-                <div class="article-item" (click)="onArticleClick(article); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
-                  <span class="article-title">{{ article.title }}</span>
-                  @for (tech of getArticleTechnologies(article); track tech) {
+          @if (node.notes.length > 0) {
+            <div class="notes-list notes-hover">
+              @for (note of node.notes; track note.id) {
+                <div class="note-item" (click)="onNoteClick(note); $event.stopPropagation()" (touchend)="$event.stopPropagation()">
+                  <span class="note-title">{{ note.title }}</span>
+                  @for (tech of getNoteTechnologies(note); track tech) {
                     <span class="tech-tag">#{{ tech }}</span>
                   }
                 </div>

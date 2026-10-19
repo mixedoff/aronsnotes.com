@@ -2,20 +2,20 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { TopNavComponent } from '../../nav/top-nav/top-nav.component';
 import { BottomNavComponent } from '../../nav/bottom-nav/bottom-nav.component';
 import { MenuContainerComponent } from '../../containers/sm-containers/menu-container/menu-container.component';
-import { Article } from '../../article.service';
-import { ArticleTopNavComponent } from '../../nav/article-top-nav/article-top-nav.component';
+import { Note } from '../../note.service';
+import { NoteTopNavComponent } from '../../nav/note-top-nav/note-top-nav.component';
 import { ThemeService } from '../../theme.service';
 
 @Component({
   selector: 'app-main-menu-screen',
   standalone: true,
-  imports: [BottomNavComponent, MenuContainerComponent, ArticleTopNavComponent],
+  imports: [BottomNavComponent, MenuContainerComponent, NoteTopNavComponent],
   templateUrl: './main-menu-screen.component.html',
   styleUrl: './main-menu-screen.component.css',
 })
 export class MainMenuScreenComponent {
-  @Output() ArticleClickedFromChild = new EventEmitter<Article | undefined>();
-  @Output() articlesClickedOnChild = new EventEmitter<boolean>();
+  @Output() NoteClickedFromChild = new EventEmitter<Note | undefined>();
+  @Output() notesClickedOnChild = new EventEmitter<boolean>();
   @Output() menuClickedOnChild = new EventEmitter<boolean>();
   @Output() connectClickedOnChild = new EventEmitter<boolean>();
   @Output() quitClickedOnChild = new EventEmitter<boolean>();
@@ -25,12 +25,12 @@ export class MainMenuScreenComponent {
 
   constructor(public themeService: ThemeService) {}
 
-  onChildClickArticle(article: Article | undefined) {
-    this.ArticleClickedFromChild.emit(article);
+  onChildClickNote(note: Note | undefined) {
+    this.NoteClickedFromChild.emit(note);
   }
 
-  clickArticlesOnChild() {
-    this.articlesClickedOnChild.emit(true);
+  clickNotesOnChild() {
+    this.notesClickedOnChild.emit(true);
   }
 
   clickReadsOnChild() {

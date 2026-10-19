@@ -22,7 +22,7 @@ html, body, div, span, button, a, input, textarea, select, img, svg,
 [class*=""], [id*=""], [data], form, label, p, h1, h2, h3, h4, h5, h6,
 ul, ol, li, table, tr, td, th, thead, tbody, tfoot, nav, header, footer,
 main, section, article, aside, canvas, video, audio, iframe, embed, object,
-app-root, app-custom-cursor, app-article-top-nav {
+app-root, app-custom-cursor, app-note-top-nav {
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
   /* -webkit-user-select: none !important;
   -moz-user-select: none !important;
@@ -69,7 +69,7 @@ img {
   background: none;
 }
 
-img.article-img {
+img.note-img {
   @media screen and (max-width: 768px) {
     width: 128px;
   }
@@ -184,7 +184,7 @@ p {
   background: none;
 }
 
-p.article {
+p.note {
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: var(--font-weight, 500);
@@ -458,8 +458,8 @@ strong {
   background: none;
 }
 
-/* before/after tables in articles (e.g. copy reviews) */
-table.article {
+/* before/after tables in notes (e.g. copy reviews) */
+table.note {
   width: 100%;
   border-collapse: collapse;
   margin: 1rem 0 2rem 0;
@@ -470,8 +470,8 @@ table.article {
   background: none;
 }
 
-table.article th,
-table.article td {
+table.note th,
+table.note td {
   width: 50%;
   padding: 0.5rem 0.75rem;
   border: 2px solid #080a19;
@@ -481,31 +481,31 @@ table.article td {
 }
 
 /* tables with more than two columns size their columns to the content */
-table.article.auto-cols th,
-table.article.auto-cols td {
+table.note.auto-cols th,
+table.note.auto-cols td {
   width: auto;
   overflow-wrap: normal;
 }
 
-table.article th {
+table.note th {
   background: #080a19;
   color: #c6c8c8;
   text-transform: lowercase;
 }
 
 @media (max-width: 768px) {
-  table.article {
+  table.note {
     font-size: 0.85rem;
   }
-  table.article th,
-  table.article td {
+  table.note th,
+  table.note td {
     padding: 0.4rem;
   }
-  table.article.auto-cols {
+  table.note.auto-cols {
     font-size: 0.75rem;
   }
-  table.article.auto-cols th,
-  table.article.auto-cols td {
+  table.note.auto-cols th,
+  table.note.auto-cols td {
     padding: 0.3rem;
   }
 }
@@ -578,13 +578,13 @@ svg.traffic-lights-svg {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.articles-background {
+.notes-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--articles-background-color, #c6c8c8);
+  background: var(--notes-background-color, #c6c8c8);
 }
 
 /* CHIPS */
@@ -737,13 +737,13 @@ svg.traffic-lights-svg {
 
 @keyframes changeAlien {
   0% {
-    content: url("assets/img/article15/alien1.png");
+    content: url("assets/img/note15/alien1.png");
   }
   33.33% {
-    content: url("assets/img/article15/alien2.png");
+    content: url("assets/img/note15/alien2.png");
   }
   66.66% {
-    content: url("assets/img/article15/alien3.png");
+    content: url("assets/img/note15/alien3.png");
   }
 }
 
@@ -759,19 +759,19 @@ svg.traffic-lights-svg {
 @keyframes changeLemon {
   0%,
   20% {
-    content: url("assets/img/article16/lemon1.png");
+    content: url("assets/img/note16/lemon1.png");
   }
   25%,
   45% {
-    content: url("assets/img/article16/lemon2.png");
+    content: url("assets/img/note16/lemon2.png");
   }
   50%,
   70% {
-    content: url("assets/img/article16/lemon3.png");
+    content: url("assets/img/note16/lemon3.png");
   }
   75%,
   95% {
-    content: url("assets/img/article16/lemon4.png");
+    content: url("assets/img/note16/lemon4.png");
   }
 }
 

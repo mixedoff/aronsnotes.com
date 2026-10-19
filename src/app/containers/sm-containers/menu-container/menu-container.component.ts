@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { ArticleService, Article } from '../../../article.service';
-import { ArticleStateService } from '../../../article.service.state';
+import { NoteService, Note } from '../../../note.service';
+import { NoteStateService } from '../../../note.service.state';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,46 +13,46 @@ import { Router } from '@angular/router';
 export class MenuContainerComponent implements OnInit {
   @Output() showSubmenu: boolean = false;
   @Output() currentLabel: string = '';
-  @Output() clickArticleScreen = new EventEmitter<boolean>();
-  @Output() selectedArticle = new EventEmitter<Article | undefined>();
-  @Output() showArticleContent = new EventEmitter<boolean>();
+  @Output() clickNoteScreen = new EventEmitter<boolean>();
+  @Output() selectedNote = new EventEmitter<Note | undefined>();
+  @Output() showNoteContent = new EventEmitter<boolean>();
   @Output() clickConnect = new EventEmitter<boolean>();
   @Output() clickQuit = new EventEmitter<boolean>();
   @Output() clickMinimize = new EventEmitter<boolean>();
   @Output() clickMaximize = new EventEmitter<boolean>();
-  // selectedArticle: Article | undefined = undefined;
-  // showArticleContent: boolean = false;
-  // selectedArticle: Article | undefined;
+  // selectedNote: Note | undefined = undefined;
+  // showNoteContent: boolean = false;
+  // selectedNote: Note | undefined;
 
-  articles: Article[];
+  notes: Note[];
 
   constructor(
-    private articleService: ArticleService,
-    private articleStateService: ArticleStateService,
+    private noteService: NoteService,
+    private noteStateService: NoteStateService,
     private router: Router
   ) {
-    this.articles = [];
+    this.notes = [];
   }
 
   ngOnInit() {
-    this.articles = this.articleService.getArticles();
+    this.notes = this.noteService.getNotes();
     // setTimeout(() => {
     //   const element = document.querySelector('.svg-minimize');
     //   element?.classList.add('active');
     // }, 4000);
   }
 
-  openArticle(article: Article) {
-    console.log(`Opening article: ${article.title}`);
-    // Add your logic to open the article
-    this.selectedArticle.emit(article);
-    this.showArticleContent.emit(true);
-    this.articleStateService.setSelectedArticle(article);
-    this.articleStateService.setShowArticleContent(true);
-    this.router.navigate(['/article', article.id]);
-    // this.selectedArticle = article;
-    // this.showArticleContent = true;
-    // this.clickArticleScreen.emit(true);
+  openNote(note: Note) {
+    console.log(`Opening note: ${note.title}`);
+    // Add your logic to open the note
+    this.selectedNote.emit(note);
+    this.showNoteContent.emit(true);
+    this.noteStateService.setSelectedNote(note);
+    this.noteStateService.setShowNoteContent(true);
+    this.router.navigateByUrl(this.noteService.noteUrl(note));
+    // this.selectedNote = note;
+    // this.showNoteContent = true;
+    // this.clickNoteScreen.emit(true);
   }
 
   openSubmenuOverlay(label: string) {

@@ -2,16 +2,16 @@ import { Component, EventEmitter, Output, Input, OnInit, OnDestroy } from '@angu
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Article, ArticleService } from '../../article.service';
+import { Note, NoteService } from '../../note.service';
 import { ROOT_FOLDER, MAIN_FOLDERS, FOLDER_COLORS, FOLDER_LABELS, HIDDEN_FOLDERS } from '../../data/skills.data';
-import { Project, PROJECTS } from '../../data/projects.data';
+import { Quest, QUESTS } from '../../data/quests.data';
 
 export interface SkillNode {
   id: string;
   title: string;
   folder?: string; // the folder a root or main folder node stands for (its title is only a label)
   category: string;
-  articles: Article[];
+  notes: Note[];
   unlocked: boolean;
   position: { x: number; y: number };
   connections: string[];
@@ -29,12 +29,12 @@ const ROOT_NODE_ID = `root-${ROOT_FOLDER}`;
   styleUrls: ['./skill-tree.component.css'],
 })
 export class SkillTreeComponent implements OnInit, OnDestroy {
-  @Input() sourceScreen: 'booknotes' | 'articles' | 'main-menu' | 'about' | 'personal' = 'booknotes';
-  @Output() articleClicked = new EventEmitter<Article>();
+  @Input() sourceScreen: 'booknotes' | 'notes' | 'main-menu' | 'character' | 'personal' = 'booknotes';
+  @Output() noteClicked = new EventEmitter<Note>();
   @Output() closeClicked = new EventEmitter<void>();
 
   skillNodes: SkillNode[] = [];
-  filteredArticles: Article[] = [];
+  filteredNotes: Note[] = [];
   // Node under the mouse and the nodes on its way back to the root
   hoveredPath = new Set<string>();
   // The hovered or tapped node lights up with one of a few flicker effects
@@ -44,10 +44,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
   // The tree can show a single quest's notes (/skills?quest=careeverz), picked on the root node
   readonly rootNodeId = ROOT_NODE_ID;
-  readonly quests: Project[] = [...PROJECTS].sort(
+  readonly quests: Quest[] = [...QUESTS].sort(
     (a, b) => (a.featuredOrder ?? Infinity) - (b.featuredOrder ?? Infinity)
   );
-  activeQuest: Project | null = null;
+  activeQuest: Quest | null = null;
   questPickerOpen = false;
   private questSubscription?: Subscription;
   /**
@@ -104,7 +104,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   private resizeListener: (() => void) | null = null;
 
   constructor(
-    private articleService: ArticleService,
+    private noteService: NoteService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -148,7 +148,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     this.activeMobileNode = null;
     this.questPickerOpen = false;
     this.initializeSkillTree();
-    this.loadArticles();
+    this.loadNotes();
     
     // Center the skill tree in the viewport
     this.centerSkillTree();
@@ -159,21 +159,21 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   /** Every note, or only the picked quest's */
-  private treeArticles(): Article[] {
-    this.articleService.resetToOriginal();
-    const articles = this.articleService.getArticles();
-    if (!this.activeQuest) return articles;
+  private treeNotes(): Note[] {
+    this.noteService.resetToOriginal();
+    const notes = this.noteService.getNotes();
+    if (!this.activeQuest) return notes;
     const questNotes = new Set(
-      this.articleService.getArticlesByProject(this.activeQuest.id, this.activeQuest.name)
+      this.noteService.getNotesByQuest(this.activeQuest.id, this.activeQuest.name)
     );
-    return articles.filter(article => questNotes.has(article));
+    return notes.filter(note => questNotes.has(note));
   }
 
   toggleQuestPicker() {
     this.questPickerOpen = !this.questPickerOpen;
   }
 
-  selectQuest(quest: Project | null) {
+  selectQuest(quest: Quest | null) {
     this.questPickerOpen = false;
     if (quest?.id === this.activeQuest?.id) return;
     if (!this.isMobile) {
@@ -187,10 +187,10 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   private initializeSkillTree() {
-    // Get all articles first to extract categories
-    const allArticles = this.treeArticles();
+    // Get all notes first to extract categories
+    const allNotes = this.treeNotes();
     
-    console.log('All articles:', allArticles.length);
+    console.log('All notes:', allNotes.length);
     
     // Create skill nodes dynamically from the extracted data
     this.skillNodes = [{
@@ -198,15 +198,15 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
       title: this.folderTitle(ROOT_FOLDER),
       folder: ROOT_FOLDER,
       category: 'Root Category',
-      articles: [],
+      notes: [],
       unlocked: true,
       position: { x: 0, y: 0 },
       connections: []
     }];
     
-    this.initializeFolderView(allArticles);
+    this.initializeFolderView(allNotes);
     
-    // Articles filed directly under the root folder belong to the root node,
+    // Notes filed directly under the root folder belong to the root node,
     // not to a second main folder with the same name
     const rootFolderIds = this.skillNodes
       .filter(node => node.id.startsWith(`folder-${ROOT_FOLDER}-`))
@@ -236,18 +236,18 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     console.log('Skill nodes created:', this.skillNodes.length);
   }
 
-  private initializeFolderView(allArticles: Article[]) {
+  private initializeFolderView(allNotes: Note[]) {
     // Extract all unique folders and subFolders
     const allFolders = new Set<string>();
     const allSubFolders = new Set<string>();
     
-    allArticles.forEach(article => {
-      article.folder.forEach(f => {
+    allNotes.forEach(note => {
+      note.folder.forEach(f => {
         if (f && f.trim() !== '') {
           allFolders.add(f);
         }
       });
-      article.subFolder.forEach(sf => {
+      note.subFolder.forEach(sf => {
         if (sf && sf.trim() !== '') {
           allSubFolders.add(sf);
         }
@@ -265,7 +265,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
           title: this.folderTitle(folder),
           folder,
           category: 'Main Category',
-          articles: [],
+          notes: [],
           unlocked: true,
           position: { x: 0, y: 0 }, // Temporary position
           connections: []
@@ -280,14 +280,14 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         const connections: string[] = [];
         
         // Connect to main folders based on the subfolder's content
-        const articlesWithThisSubFolder = allArticles.filter(article => 
-          article.subFolder.includes(subFolder)
+        const notesWithThisSubFolder = allNotes.filter(note => 
+          note.subFolder.includes(subFolder)
         );
         
         // Find which main folders this subfolder should connect to
         const mainFoldersForThisSubFolder = new Set<string>();
-        articlesWithThisSubFolder.forEach(article => {
-          this.articleService.getFolderPaths(article).forEach(path => {
+        notesWithThisSubFolder.forEach(note => {
+          this.noteService.getFolderPaths(note).forEach(path => {
             if (path[1] === subFolder && path[0]) {
               mainFoldersForThisSubFolder.add(path[0]);
             }
@@ -318,7 +318,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
           title: this.folderTitle(subFolder),
           folder: subFolder,
           category: 'Sub Category',
-          articles: [],
+          notes: [],
           unlocked: true,
           position: { x: 0, y: 0 }, // Temporary position
           connections: connections,
@@ -329,7 +329,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     
     // Sub-subfolders and anything deeper (deeper levels come from a note's paths) get a node
     // per level, connected to the folders one level up
-    const allPaths = allArticles.flatMap(article => this.articleService.getFolderPaths(article));
+    const allPaths = allNotes.flatMap(note => this.noteService.getFolderPaths(note));
     const maxDepth = Math.max(0, ...allPaths.map(path => path.length));
     for (let depth = 2; depth < maxDepth; depth++) {
       const names = Array.from(new Set(allPaths.map(path => path[depth]).filter(Boolean)));
@@ -349,7 +349,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
           title: this.folderTitle(name),
           folder: name,
           category: 'Detailed Category',
-          articles: [],
+          notes: [],
           unlocked: true,
           position: { x: 0, y: 0 }, // Temporary position
           connections,
@@ -397,51 +397,51 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   /** Technologies a note uses, shown as hashtags next to its title */
-  getArticleTechnologies(article: Article): string[] {
-    return article.technologies.filter(tech => tech && tech.trim() !== '');
+  getNoteTechnologies(note: Note): string[] {
+    return note.technologies.filter(tech => tech && tech.trim() !== '');
   }
 
   isInHoveredPath(node: SkillNode): boolean {
     return this.hoveredPath.has(node.id);
   }
 
-  private loadArticles() {
+  private loadNotes() {
     // Every note, or only the picked quest's
-    this.filteredArticles = this.treeArticles();
+    this.filteredNotes = this.treeNotes();
     
-    console.log('Filtered articles:', this.filteredArticles.length);
+    console.log('Filtered notes:', this.filteredNotes.length);
     
-    // Categorize articles into skill nodes
-    this.categorizeArticles();
+    // Categorize notes into skill nodes
+    this.categorizeNotes();
   }
 
-  private categorizeArticles() {
+  private categorizeNotes() {
     this.skillNodes.forEach(node => {
-      node.articles = this.filteredArticles.filter(article => {
+      node.notes = this.filteredNotes.filter(note => {
         if (node.id === ROOT_NODE_ID) {
-          return article.folder.includes(ROOT_FOLDER);
+          return note.folder.includes(ROOT_FOLDER);
         }
-        // Folder view: match articles to skill nodes based on their folder structure
+        // Folder view: match notes to skill nodes based on their folder structure
         if (node.id.startsWith('folder-')) {
           // A main node lists every note filed under its folder, except notes that are
           // only there through a hidden subfolder
-          return this.articleService.getFolderPaths(article).some(([folder, subFolder]) =>
+          return this.noteService.getFolderPaths(note).some(([folder, subFolder]) =>
             folder === node.folder && !(subFolder && HIDDEN_FOLDERS.has(subFolder))
           );
         } else if (node.id.startsWith('subfolder-')) {
           // Extract subfolder name by removing 'subfolder-' prefix and any trailing index
           const subFolderName = node.id.replace(/^subfolder-/, '').replace(/-\d+$/, '');
-          return article.subFolder.includes(subFolderName);
+          return note.subFolder.includes(subFolderName);
         } else if (node.level !== undefined && node.level >= 2) {
-          return this.articleService.getFolderPaths(article).some(path => path[node.level!] === node.folder);
+          return this.noteService.getFolderPaths(note).some(path => path[node.level!] === node.folder);
         }
         return false;
       });
       
-      if (node.articles.length > 0) {
-        console.log(`Node ${node.title} has ${node.articles.length} articles`);
-        node.articles.forEach(article => {
-          console.log(`  - ${article.title} (ID: ${article.id})`);
+      if (node.notes.length > 0) {
+        console.log(`Node ${node.title} has ${node.notes.length} notes`);
+        node.notes.forEach(note => {
+          console.log(`  - ${note.title} (ID: ${note.id})`);
         });
       }
     });
@@ -557,7 +557,7 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         baseAngle = (2 * Math.PI * index) / middleLevelNodes.length;
       }
       
-      // Projects that only belong to the root get their own ray between the folders
+      // Quests that only belong to the root get their own ray between the folders
       if (parentId === ROOT_NODE_ID && mainFolders.length > 0) {
         baseAngle = -Math.PI / 2 + Math.PI / mainFolders.length;
       }
@@ -674,14 +674,14 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
 
 
 
-  private findParentFolderForSubFolder(subFolder: string, allArticles: Article[]): string | null {
-    const articlesWithThisSubFolder = allArticles.filter(article => 
-      article.subFolder.includes(subFolder)
+  private findParentFolderForSubFolder(subFolder: string, allNotes: Note[]): string | null {
+    const notesWithThisSubFolder = allNotes.filter(note => 
+      note.subFolder.includes(subFolder)
     );
     
     const folderCounts: { [key: string]: number } = {};
-    articlesWithThisSubFolder.forEach(article => {
-      article.folder.forEach(folder => {
+    notesWithThisSubFolder.forEach(note => {
+      note.folder.forEach(folder => {
         folderCounts[folder] = (folderCounts[folder] || 0) + 1;
       });
     });
@@ -693,14 +693,14 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     return mostCommonFolder;
   }
 
-  private findParentSubFolderForSubSubFolder(subSubFolder: string, allArticles: Article[]): string | null {
-    const articlesWithThisSubSubFolder = allArticles.filter(article => 
-      article.subSubFolder.includes(subSubFolder)
+  private findParentSubFolderForSubSubFolder(subSubFolder: string, allNotes: Note[]): string | null {
+    const notesWithThisSubSubFolder = allNotes.filter(note => 
+      note.subSubFolder.includes(subSubFolder)
     );
     
     const subFolderCounts: { [key: string]: number } = {};
-    articlesWithThisSubSubFolder.forEach(article => {
-      article.subFolder.forEach(subFolder => {
+    notesWithThisSubSubFolder.forEach(note => {
+      note.subFolder.forEach(subFolder => {
         subFolderCounts[subFolder] = (subFolderCounts[subFolder] || 0) + 1;
       });
     });
@@ -713,11 +713,11 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
   }
 
   onNodeClick(node: SkillNode) {
-    console.log('Node clicked:', node.title, 'isMobile:', this.isMobile, 'articles:', node.articles.length);
+    console.log('Node clicked:', node.title, 'isMobile:', this.isMobile, 'notes:', node.notes.length);
     
     if (this.isMobile) {
       // On mobile, toggle the active state to show/hide content like hover
-      if (node.articles.length > 0) {
+      if (node.notes.length > 0) {
         if (this.activeMobileNode === node.id) {
           // If already active, deactivate it
           this.activeMobileNode = null;
@@ -731,9 +731,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
         console.log('Node has no content to show');
       }
     } else {
-      // On desktop, emit the first article if available
-      if (node.articles.length > 0) {
-        this.articleClicked.emit(node.articles[0]);
+      // On desktop, emit the first note if available
+      if (node.notes.length > 0) {
+        this.noteClicked.emit(node.notes[0]);
       }
     }
   }
@@ -748,9 +748,9 @@ export class SkillTreeComponent implements OnInit, OnDestroy {
     }
   }
 
-  onArticleClick(article: Article) {
-    this.articleClicked.emit(article);
-    // Close mobile overlay when article is clicked
+  onNoteClick(note: Note) {
+    this.noteClicked.emit(note);
+    // Close mobile overlay when note is clicked
     if (this.isMobile) {
       this.activeMobileNode = null;
     }

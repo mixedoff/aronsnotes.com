@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-start-container',
@@ -11,14 +11,6 @@ export class StartContainerComponent {
   private intervalId: number | undefined;
   private isRed = true;
   @Output() enterPressed = new EventEmitter<void>();
-
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.code === 'Enter' && !event.repeat) {
-      console.log('Enter');
-      this.enterPressed.emit();
-    }
-  }
 
   onEnter() {
     this.enterPressed.emit();

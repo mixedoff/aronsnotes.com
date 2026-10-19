@@ -82,8 +82,8 @@ import { DOCUMENT } from '@angular/common';
         cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1' height='1'><rect width='1' height='1' fill='transparent'/></svg>") 0 0, none !important;
       }
 
-      /* Allow text selection in article body */
-      .article-body, .article-body * {
+      /* Allow text selection in note body */
+      .note-body, .note-body * {
         -webkit-user-select: text !important;
         -moz-user-select: text !important;
         -ms-user-select: text !important;

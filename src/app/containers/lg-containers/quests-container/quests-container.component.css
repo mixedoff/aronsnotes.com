@@ -17,7 +17,7 @@
   margin: 20px 0px 60px 0px;
 }
 
-.quest-grid .project-card {
+.quest-grid .quest-card {
   position: relative;
   max-width: 350px;
   /* grow with the content instead of the deck's fixed card height */
@@ -27,7 +27,7 @@
 }
 
 /* Each quest is a card with two faces: the back shows first, a click or tap turns it */
-.quest-card {
+.quest-slot {
   position: relative;
   max-width: 350px;
   min-width: 0;
@@ -36,7 +36,7 @@
   transition: transform 0.3s ease;
 }
 
-.quest-card:hover {
+.quest-slot:hover {
   transform: translateY(-5px) scale(1.02);
 }
 
@@ -47,7 +47,7 @@
   transform-style: preserve-3d;
 }
 
-.quest-flipper > .project-card {
+.quest-flipper > .quest-card {
   grid-area: 1 / 1;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -65,12 +65,12 @@
   transform: rotateY(180deg) !important;
 }
 
-.quest-card.show-front .quest-flipper {
+.quest-slot.show-front .quest-flipper {
   transform: rotateY(180deg);
   animation: quest-flip-to-front 0.7s steps(14, end) forwards;
 }
 
-.quest-card.flipped-once:not(.show-front) .quest-flipper {
+.quest-slot.flipped-once:not(.show-front) .quest-flipper {
   animation: quest-flip-to-back 0.7s steps(14, end) forwards;
 }
 
@@ -88,7 +88,7 @@
 }
 
 /* the front's frame grows with the card, keeping its tech list at the bottom */
-.quest-front .project-card-inner {
+.quest-front .quest-card-inner {
   height: auto;
   flex: 1;
 }
@@ -183,8 +183,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .quest-card.show-front .quest-flipper,
-  .quest-card.flipped-once:not(.show-front) .quest-flipper,
+  .quest-slot.show-front .quest-flipper,
+  .quest-slot.flipped-once:not(.show-front) .quest-flipper,
   .quest-back:hover .pixel-shine,
   .pixel-burst {
     animation: none;
@@ -227,7 +227,7 @@
     gap: 24px;
   }
 
-  .quest-card:hover {
+  .quest-slot:hover {
     transform: none;
   }
 }

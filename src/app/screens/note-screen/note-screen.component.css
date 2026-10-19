@@ -1,0 +1,125 @@
+.heroDiv {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100vw;
+  position: relative;
+  background: none;
+  overflow: hidden;
+}
+
+/* .note {
+  height: 100dvh;
+} */
+
+/* :host {
+  position: relative;
+  z-index: 1000;
+} */
+
+.note {
+  /* flex: 1;
+  z-index: 1; */
+  width: 100%;
+  height: 100%;
+  background: none;
+  display: block;
+  /* Removing position: relative to prevent conflicts with note-container */
+  /* position: relative; */
+}
+
+.note-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.note-header {
+  margin-bottom: 30px;
+}
+
+.note-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.note-header h2 {
+  font-size: 1.5rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.note-meta {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.note-meta p {
+  margin: 5px 0;
+}
+
+.note-content {
+  line-height: 1.6;
+}
+
+.note-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+}
+
+.note-content p {
+  margin-bottom: 20px;
+}
+
+.note-content blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 15px;
+  margin-left: 0;
+  color: #666;
+}
+
+.note-actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 10px;
+}
+
+.note-actions button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: none !important;
+}
+
+.note-actions button:hover {
+  background-color: #555;
+}
+
+.not-found {
+  text-align: center;
+  padding: 50px 20px;
+  margin: auto;
+  max-width: 600px;
+}
+
+.not-found h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.not-found button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: none !important;
+  margin-top: 20px;
+}

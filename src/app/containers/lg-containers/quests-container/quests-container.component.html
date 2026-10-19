@@ -83,107 +83,107 @@
       <p>Stay awhile and read...</p>
 
       <div class="quest-grid">
-            @for (project of featuredProjects; track project.id) {
+            @for (quest of featuredQuests; track quest.id) {
               <div
-                class="quest-card"
-                [class.show-front]="isFront(project)"
-                [class.flipped-once]="flips.get(project.id)"
-                [style.--card-color]="getCardBackgroundColor(project)"
+                class="quest-slot"
+                [class.show-front]="isFront(quest)"
+                [class.flipped-once]="flips.get(quest.id)"
+                [style.--card-color]="getCardBackgroundColor(quest)"
               >
                 <div class="quest-flipper">
                   <!-- Back, shown first: the quest's name, a big animation and its subtitle -->
                   <div
-                    class="project-card quest-back"
+                    class="quest-card quest-back"
                     role="button"
                     tabindex="0"
-                    [attr.aria-label]="'Turn the ' + project.name + ' card'"
-                    [attr.inert]="isFront(project) ? '' : null"
-                    [style.background]="getCardBackgroundColor(project)"
-                    (click)="flipCard(project)"
-                    (keydown.enter)="flipCard(project)"
-                    (keydown.space)="flipCard(project); $event.preventDefault()"
+                    [attr.aria-label]="'Turn the ' + quest.name + ' card'"
+                    [attr.inert]="isFront(quest) ? '' : null"
+                    [style.background]="getCardBackgroundColor(quest)"
+                    (click)="flipCard(quest)"
+                    (keydown.enter)="flipCard(quest)"
+                    (keydown.space)="flipCard(quest); $event.preventDefault()"
                   >
                     <div
-                      class="project-card-inner quest-back-inner"
-                      [style.--card-text-color]="getCardTextColor(project)"
-                      [style.color]="getCardTextColor(project)"
-                      [style.border-color]="getCardBorderColor(project)"
+                      class="quest-card-inner quest-back-inner"
+                      [style.--card-text-color]="getCardTextColor(quest)"
+                      [style.color]="getCardTextColor(quest)"
+                      [style.border-color]="getCardBorderColor(quest)"
                     >
-                      <h3 class="quest-back-name">{{ project.name }}</h3>
-                      @if (project.animationGif) {
-                        <img [src]="getStillPath(project)" alt="" class="quest-back-gif" />
+                      <h3 class="quest-back-name">{{ quest.name }}</h3>
+                      @if (quest.animationGif) {
+                        <img [src]="getStillPath(quest)" alt="" class="quest-back-gif" />
                       }
-                      <p class="quest-back-subtitle">{{ project.subtitle }}</p>
+                      <p class="quest-back-subtitle">{{ quest.subtitle }}</p>
                     </div>
                     <span class="pixel-shine" aria-hidden="true"></span>
                   </div>
 
                   <!-- Front: the quest's details -->
                   <div
-                    class="project-card quest-front"
-                    [attr.inert]="isFront(project) ? null : ''"
-                    [style.background]="getCardBackgroundColor(project)"
-                    (click)="onFrontClick($event, project)"
+                    class="quest-card quest-front"
+                    [attr.inert]="isFront(quest) ? null : ''"
+                    [style.background]="getCardBackgroundColor(quest)"
+                    (click)="onFrontClick($event, quest)"
                   >
                     <div
                       class="status-chip-container"
-                      [style.color]="getCardTextColor(project)"
+                      [style.color]="getCardTextColor(quest)"
                     >
-                      @if (project.status === 'live') {
+                      @if (quest.status === 'live') {
                         <p><strong>Status:</strong> Live</p>
-                      } @else if (project.status === 'in progress') {
+                      } @else if (quest.status === 'in progress') {
                         <p><strong>Status:</strong> In Progress</p>
-                      } @else if (project.status === 'archived') {
+                      } @else if (quest.status === 'archived') {
                         <p><strong>Status:</strong> Archived</p>
                       }
                     </div>
                     <div
-                      class="project-card-inner"
-                      [style.--card-text-color]="getCardTextColor(project)"
-                      [style.color]="getCardTextColor(project)"
-                      [style.border-color]="getCardBorderColor(project)"
+                      class="quest-card-inner"
+                      [style.--card-text-color]="getCardTextColor(quest)"
+                      [style.color]="getCardTextColor(quest)"
+                      [style.border-color]="getCardBorderColor(quest)"
                     >
-                      @if (project.animationGif) {
-                        <img [src]="getAnimationPath(project)" [alt]="project.name + ' animation'" class="project-animation-gif" />
+                      @if (quest.animationGif) {
+                        <img [src]="getAnimationPath(quest)" [alt]="quest.name + ' animation'" class="quest-animation-gif" />
                       }
                       <h3>
-                        @if (project.link) {
-                          <a [href]="project.link" target="_blank" rel="noopener noreferrer">{{ project.name }}</a>
+                        @if (quest.link) {
+                          <a [href]="quest.link" target="_blank" rel="noopener noreferrer">{{ quest.name }}</a>
                         } @else {
-                          {{ project.name }}
+                          {{ quest.name }}
                         }
                       </h3>
-                      @if (project.questMasterRole || questSkills.get(project.id)?.length) {
+                      @if (quest.questMasterRole || questSkills.get(quest.id)?.length) {
                         <p>
-                          @if (project.questMasterRole) {
-                            <span class="white-chip">{{ project.questMasterRole }}</span>
+                          @if (quest.questMasterRole) {
+                            <span class="white-chip">{{ quest.questMasterRole }}</span>
                           }
-                          @for (skill of questSkills.get(project.id); track skill.label) {
+                          @for (skill of questSkills.get(quest.id); track skill.label) {
                             <span [class]="skill.chipClass">{{ skill.label }}</span>
                           }
                         </p>
                       }
-                      @if (project.description) {
-                        <p><strong>Description:</strong> {{ project.description }}</p>
+                      @if (quest.description) {
+                        <p><strong>Description:</strong> {{ quest.description }}</p>
                       }
                       <div class="align-button">
-                        @if(project.link) {
-                          <button class="button small" (click)="navigateToProjectLink(project)">{{ project.buttonText }}</button>
+                        @if(quest.link) {
+                          <button class="button small" (click)="navigateToQuestLink(quest)">{{ quest.buttonText }}</button>
                         }
-                        @if(hasQuestNotes(project)) {
-                          <button class="button primary small" (click)="navigateToQuestNotes(project)">read more</button>
+                        @if(hasQuestNotes(quest)) {
+                          <button class="button primary small" (click)="navigateToQuestNotes(quest)">read more</button>
                         }
                       </div>
                     </div>
-                    @if (questTech.get(project.id)?.length) {
+                    @if (questTech.get(quest.id)?.length) {
                       <div class="tech-stack-container">
-                        <p #techText class="tech-stack-text">{{ getTechStackString(questTech.get(project.id)) }}</p>
+                        <p #techText class="tech-stack-text">{{ getTechStackString(questTech.get(quest.id)) }}</p>
                       </div>
                     }
                   </div>
                 </div>
                 <!-- A new burst of pixels each time the card turns to its front -->
-                @for (turn of [bursts.get(project.id) ?? 0]; track turn) {
+                @for (turn of [bursts.get(quest.id) ?? 0]; track turn) {
                   @if (turn) {
                     <span class="pixel-burst" aria-hidden="true"></span>
                   }

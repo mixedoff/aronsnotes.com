@@ -1,0 +1,212 @@
+.heroDiv {
+  display: flex;
+  width: 100vw;
+  height: 100dvh;
+  justify-content: center;
+  align-items: center;
+}
+
+small {
+  color: var(--text-color, rgba(111, 250, 30, 0.5));
+}
+
+p {
+  color: var(--text-color, rgba(111, 250, 30, 0.5));
+  font-weight: var(--font-weight, 500);
+}
+
+.svg-quit {
+  cursor: none !important;
+}
+
+.outer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: calc(100dvh - 80px);
+  margin: 40px 0px;
+  padding: 0px 20px 20px 20px;
+  background: var(--outer-container-bg, #6f7a83);
+  box-shadow: 20px 20px 0px 0px #000;
+}
+
+.inner-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 0 0;
+  align-self: stretch;
+  border: 2px solid rgba(111, 250, 30, 0.5);
+  background: var(--inner-container-bg, #6f7a83);
+}
+
+/* Custom scrollbar styling for dark theme */
+.inner-container::-webkit-scrollbar {
+  width: 12px;
+}
+
+.inner-container::-webkit-scrollbar-track {
+  background: #091522;
+  border-radius: 6px;
+}
+
+.inner-container::-webkit-scrollbar-thumb {
+  background: rgba(111, 250, 30, 0.5);
+  border-radius: 6px;
+  border: 2px solid #091522;
+}
+
+.inner-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(111, 250, 30, 0.7);
+}
+
+/* Firefox scrollbar styling */
+.inner-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(111, 250, 30, 0.5) #091522;
+}
+
+.small-div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background: none;
+}
+
+.note-container {
+  background: none;
+  color: rgba(111, 250, 30, 0.5);
+  width: 100%;
+}
+
+.note-items {
+  background: none;
+  width: 100%;
+}
+
+.note-item {
+  padding: 4px 0px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  white-space: nowrap;
+  cursor: none !important;
+  background: none;
+  gap: 16px;
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+}
+
+.note-item:hover {
+  background: var(--note-item-hover-bg, #c6c8c8);
+  padding-left: 4px;
+}
+.note-item:hover * {
+  color: var(--note-item-hover-color, #000000);
+}
+/* .note-item:hover,
+.note-item:hover * {
+  background: var(--note-item-hover-bg, #c6c8c8);
+  color: var(--note-item-hover-color, #000000);
+} */
+
+.note-item:hover .hr {
+  border-bottom-color: var(--note-item-hover-hr-color, #000000);
+}
+
+.note-holder {
+  background: none;
+  display: flex;
+  justify-content: center;
+  @media (max-width: 768px) {
+    width: fit-content;
+  }
+}
+
+.note-title {
+  background: none;
+  width: fit-content;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @media (max-width: 550px) {
+    max-width: 256px;
+  }
+}
+
+.note-name {
+  background: none;
+}
+
+.hr {
+  border: none;
+  border-bottom: 2px dashed rgba(111, 250, 30, 0.5);
+  margin: 6px 0px;
+  width: 100%;
+  background: none;
+  /* @media (max-width: 768px) {
+    display: none;
+  } */
+}
+
+.note-details {
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  width: fit-content;
+  gap: 8px;
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.note-tags {
+  text-align: right;
+  @media (min-width: 768px) and (max-width: 1279px) {
+    display: none;
+  }
+}
+
+.note-date {
+  text-align: right;
+  margin-left: 16px;
+
+  @media (max-width: 1023px) {
+    display: none;
+  }
+}
+
+.note-folder {
+  width: fit-content;
+  /* text-align: right; */
+  /* margin-left: 16px; */
+}
+
+@media (max-width: 768px) {
+  .inner-container {
+    padding: 20px;
+  }
+
+  .hr {
+    margin: 3px 0px;
+  }
+
+  .note-tag {
+    display: none;
+  }
+
+  .note-folder {
+    display: none;
+  }
+
+  .note-date {
+    display: none;
+  }
+}
