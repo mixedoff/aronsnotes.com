@@ -27,6 +27,7 @@ export const FOLDER_LABELS: { [folder: string]: string } = {
   'ux-research': 'ux researcher',
   'ui-design': 'ui designer',
   'copywriting': 'copywriter',
+  'campaigns': 'campaign manager',
   'creative-writing': 'creative writer',
   'essays': 'non-fiction writer',
   'non-fiction': 'non-fiction',

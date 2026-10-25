@@ -202,11 +202,11 @@ export class CharacterContainerComponent implements OnInit, AfterViewInit, OnDes
     return `translateY(${offset}px) rotate(${rotation}deg)`;
   }
 
-  private cardColors = new Map<string, string>();
+  private cardFolders = new Map<string, string | null>();
 
-  /** The color of the main folder most of the quest's notes are filed under */
-  getCardBackgroundColor(quest: Quest): string {
-    if (!this.cardColors.has(quest.id)) {
+  /** The main folder most of the quest's notes are filed under, if any */
+  private getCardFolder(quest: Quest): string | null {
+    if (!this.cardFolders.has(quest.id)) {
       const counts = new Map<string, number>();
       this.noteService.getNotesByQuest(quest.id, quest.name).forEach((note) =>
         note.folder
@@ -214,9 +214,21 @@ export class CharacterContainerComponent implements OnInit, AfterViewInit, OnDes
           .forEach((folder) => counts.set(folder, (counts.get(folder) ?? 0) + 1))
       );
       const [top] = Array.from(counts.entries()).sort((x, y) => y[1] - x[1]);
-      this.cardColors.set(quest.id, top ? FOLDER_COLORS[top[0]] : '#010689');
+      this.cardFolders.set(quest.id, top ? top[0] : null);
     }
-    return this.cardColors.get(quest.id)!;
+    return this.cardFolders.get(quest.id)!;
+  }
+
+  /** The color of the quest's main folder */
+  getCardBackgroundColor(quest: Quest): string {
+    const folder = this.getCardFolder(quest);
+    return folder ? FOLDER_COLORS[folder] : '#010689';
+  }
+
+  /** The chip style of the quest's main folder, as on the skill chips */
+  getCardChipClass(quest: Quest): string {
+    const folder = this.getCardFolder(quest);
+    return (folder && FOLDER_CHIP_CLASSES[folder]) || 'white-chip';
   }
 
   getCardTextColor(quest: Quest): string {

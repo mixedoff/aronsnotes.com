@@ -109,10 +109,14 @@
                       [style.color]="getCardTextColor(quest)"
                       [style.border-color]="getCardBorderColor(quest)"
                     >
-                      <h3 class="quest-back-name">{{ quest.name }}</h3>
-                      @if (quest.animationGif) {
-                        <img [src]="getStillPath(quest)" alt="" class="quest-back-gif" />
-                      }
+                      <div class="quest-back-art">
+                        @if (quest.animationGif) {
+                          <div class="quest-back-window">
+                            <img [src]="getStillPath(quest)" alt="" class="quest-back-gif" />
+                          </div>
+                        }
+                        <h3 class="quest-back-name" [ngClass]="getCardChipClass(quest)">{{ quest.name }}</h3>
+                      </div>
                       <p class="quest-back-subtitle">{{ quest.subtitle }}</p>
                     </div>
                     <span class="pixel-shine" aria-hidden="true"></span>

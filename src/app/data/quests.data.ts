@@ -17,6 +17,8 @@ export interface Quest {
   milestones?: string[];
   isFeatured?: boolean;
   featuredOrder?: number;
+  /** Keeps the quest off the quests page; its notes can still be filed under it */
+  hideCard?: boolean;
   animationGif?: string; // Path to GIF file in assets/gif/ directory (e.g., 'magic_book2.gif')
 }
 
@@ -69,5 +71,14 @@ export const QUESTS: Quest[] = [
     buttonText: 'email to pre-order!',
     startDate: '2024-06-01',
     animationGif: 'magic_book2.gif'
+  },
+  {
+    id: 'miscellaneous',
+    name: 'Miscellaneous',
+    subtitle: 'Side quests that belong nowhere else.',
+    status: 'in progress',
+    description: 'Miscellaneous collects the one-off side quests: trial tasks, experiments and ideas that are not part of a bigger quest.',
+    startDate: '2026-10-01',
+    hideCard: true
   }
 ];

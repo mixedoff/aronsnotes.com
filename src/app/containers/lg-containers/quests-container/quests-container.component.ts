@@ -60,9 +60,9 @@ export class QuestsContainerComponent
     this.flipCard(quest);
   }
 
-  // Featured quests first (in their featured order), then the rest
+  // Featured quests first (in their featured order), then the rest, minus hidden ones
   override loadFeaturedQuests() {
-    this.featuredQuests = [...QUESTS].sort(
+    this.featuredQuests = QUESTS.filter((quest) => !quest.hideCard).sort(
       (a, b) => (a.featuredOrder ?? Infinity) - (b.featuredOrder ?? Infinity)
     );
     this.featuredQuests.forEach((quest) => {

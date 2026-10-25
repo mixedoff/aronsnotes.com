@@ -39,3 +39,4 @@ export { note38 } from './note38';
 export { note39 } from './note39';
 export { note40 } from './note40';
 export { note41 } from './note41';
+export { note42 } from './note42';

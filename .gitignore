@@ -41,6 +41,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Claude Code personal settings
+.claude/settings.local.json
+
 # Generated before every build by scripts/generate.ts
 /routes.txt
 /src/seo/sitemap.xml

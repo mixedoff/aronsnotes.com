@@ -4,7 +4,7 @@ export const note38 = {
   folder: ['engineering'],
   subFolder: ['automation'],
   subSubFolder: ['workflows'],
-  quest: 'general',
+  quest: 'miscellaneous',
   title: 'job application autopilot',
   subtitle: 'One n8n workflow and one Claude skill that do the typing, so I only do the deciding',
   technologies: ['n8n', 'claude', 'gmail', 'google-sheets', 'google-drive', 'linkedin'],
