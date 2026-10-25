@@ -163,6 +163,10 @@ p {
 
 .note-body-container {
   background: none;
+  /* in a centered flex column it would grow to its widest content (e.g. a wide table) and get
+     clipped; this keeps it to the column's width so the table scrolls instead */
+  max-width: 100%;
+  min-width: 0;
 }
 
 .note-body {
