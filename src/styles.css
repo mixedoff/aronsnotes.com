@@ -501,7 +501,11 @@ table.note th {
   table.note td {
     padding: 0.4rem;
   }
+  /* a table too wide for the screen scrolls sideways in its own box instead of widening the page */
   table.note.auto-cols {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
     font-size: 0.75rem;
   }
   table.note.auto-cols th,
