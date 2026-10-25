@@ -105,8 +105,8 @@
   flex: 1;
   align-items: center;
   text-align: center;
-  padding: 24px 18px 0;
-  border-width: 4px;
+  padding: 26px 20px 2px;
+  border-width: 2px;
   background:
     repeating-linear-gradient(45deg, rgba(8, 10, 25, 0.1) 0 2px, transparent 2px 16px),
     repeating-linear-gradient(-45deg, rgba(8, 10, 25, 0.1) 0 2px, transparent 2px 16px);
@@ -145,14 +145,13 @@
   margin-top: -1rem;
 }
 
-/* the art hangs in a tall pale window, the same size on every card */
+/* the art sits in a tall box, the same size on every card (the padding stands in for the
+   window frame it used to have, so the art keeps its place) */
 .quest-back-window {
   box-sizing: border-box;
   width: 180px;
   height: 230px;
-  padding: 10px;
-  background: #f6f3ea;
-  border: 4px solid #080a19;
+  padding: 14px;
   line-height: 0;
 }
 
